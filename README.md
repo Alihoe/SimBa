@@ -48,7 +48,7 @@ e.g. ["all-mpnet-base-v2", "princeton-nlp/sup-simcse-roberta-large", "sentence-t
 
 ‘k’: top k matches to be considered for candidate selection
 
-‘no_cache’: optional, if this is chosen sentence embedding will not be stored which can be impractically for experimenting with different parameters or using the same models for re-ranking (it takes a long time to encode all queries and especially all targets)
+‘no_cache’: optional, if this is chosen sentence embedding will not be stored which can be impractical for experimenting with different parameters or using the same models for re-ranking (it takes a long time to encode all queries and especially all targets)
 
 ### 3. Re-Ranking
 Script can be found here: src/re_ranking/multi_feature_re_ranking.py\
@@ -69,7 +69,7 @@ e.g. ["all-mpnet-base-v2", "princeton-nlp/sup-simcse-roberta-large", "sentence-t
 
 ‘k’: top k matches to be considered for final ranking
 
-‘no_cache’: optional, if this is chosen sentence embedding will not be stored which can be impractically for experimenting with different parameters (it takes a long time to encode all queries and especially all targets)
+‘no_cache’: optional, if this is chosen sentence embedding will not be stored which can be impractical for experimenting with different parameters (it takes a long time to encode all queries and especially all targets)
 
 ### 4. Evaluation
 Script can be found here: evaluation/scorer/main.py\
