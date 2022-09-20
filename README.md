@@ -6,10 +6,28 @@ For Candidate Retrieval it makes use of sentence embedding models, for Re-Rankin
 There are separate scripts available for getting CLEF CheckThat! claim matching datasets,
 for candidate retrieval, for re-ranking and for evaluation.
 
-## 1. Getting CLEF CheckThat! claim matching datasets (https://sites.google.com/view/clef2022-checkthat)
+## Performance on CLEF CheckThat! claim matching datasets
+
+CLEF CheckThat! claim matching datasets
+
+| Datast  |  Map@5 |   
+|---|---|
+| 2020 2a English  | 0.9567 |   
+| 2021 2a English  | 0.9018 |     
+| 2021 2b English  | 0.4684 |   
+| 2022 2a English  | 0.9310 |     
+| 2022 2b English  | 0.5146 | 
+
+
+
+
+
+## How to use
+
+### 1. Getting CLEF CheckThat! claim matching datasets (https://sites.google.com/view/clef2022-checkthat)
 Scripts can be found here: src/get_data
 
-## 2. Candidate Retrieval
+### 2. Candidate Retrieval
 Script can be found here: src/candidate_retrieval/semantic_retrieval.py\
 
  Parameters:\
@@ -32,7 +50,7 @@ e.g. ["all-mpnet-base-v2", "princeton-nlp/sup-simcse-roberta-large", "sentence-t
 
 ‘no_cache’: optional, if this is chosen sentence embedding will not be stored which can be impractically for experimenting with different parameters or using the same models for re-ranking (it takes a long time to encode all queries and especially all targets)
 
-## 3. Re-Ranking
+### 3. Re-Ranking
 Script can be found here: src/re_ranking/multi_feature_re_ranking.py\
 
 Parameters:\
@@ -53,7 +71,7 @@ e.g. ["all-mpnet-base-v2", "princeton-nlp/sup-simcse-roberta-large", "sentence-t
 
 ‘no_cache’: optional, if this is chosen sentence embedding will not be stored which can be impractically for experimenting with different parameters (it takes a long time to encode all queries and especially all targets)
 
-## 4. Evaluation
+### 4. Evaluation
 Script can be found here: evaluation/scorer/main.py\
 
 Parameters:\
