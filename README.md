@@ -10,35 +10,51 @@ for candidate retrieval, for re-ranking and for evaluation.
 Scripts can be found here: src/get_data
 
 ## 2. Candidate Retrieval
-Script can be found here: src/candidate_retrieval/semantic_retrieval.py
-    Parameters:
+Script can be found here: src/candidate_retrieval/semantic_retrieval.py\
+
+ Parameters:\
 ‘data’: name of data set to be used, different data sets should be stored in seperate folders in the “data” directory and consist of a queries-file, a gold-qrels-file  and a corpus (either a directory of jsons or a tsv-file)
 → Look at the example datasets for more information about format,
 e.g. ‘clef_2022_checkthat_2a_english’
+
 ‘pre-processing’: optional, pre-processing scripts for the specific dataset can be stored in the “src/pre_processing” folder
+
 ‘sentence_embedding_models’: list of desired sentence embedding models to be considered, pass a list of sentence embedding models hosted by Huggingface or Tensorflow or simply pass "infersent" to use the infersent encoder (infersent model must be manually added into the infersent_encoder folder https://github.com/facebookresearch/InferSent ),
 e.g. ["all-mpnet-base-v2", "princeton-nlp/sup-simcse-roberta-large", "sentence-transformers/sentence-t5-base", "infersent", "https://tfhub.dev/google/universal-sentence-encoder/4"]
+
 ‘similarity_measure’: e.g. cosine or braycurtis (https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.cdist.html)
-‘correlation_measure’: e.g. spearmanr (https://docs.scipy.org/doc/scipy/reference/stats.html)
+
+‘correlation_measure’: e.g. spearmanr (https://docs.scipy.org/doc/scipy/reference/stats.html), is not important yet
+
 ‘union_of_top_k_per_feature’: optional, if this is chosen candidate selection is based on the union of the top k matches per feature/model, otherwise the selection is based on the mean of the features
+
 ‘k’: top k matches to be considered for candidate selection
+
 ‘no_cache’: optional, if this is chosen sentence embedding will not be stored which can be impractically for experimenting with different parameters or using the same models for re-ranking (it takes a long time to encode all queries and especially all targets)
 
 ## 3. Re-Ranking
-Script can be found here: src/re_ranking/multi_feature_re_ranking.py
-    Parameters:
+Script can be found here: src/re_ranking/multi_feature_re_ranking.py\
+
+Parameters:\
 ‘data’: name of data set to be used, different data sets should be stored in seperate folders in the “data” directory and consist of a queries-file, a gold-qrels-file  and a corpus (either a directory of jsons or a tsv-file)
 → Look at the example datasets for more information about format,
 e.g. ‘clef_2022_checkthat_2a_english’
+
 ‘sentence_embedding_models’: list of desired sentence embedding models to be considered, pass a list of sentence embedding models hosted by Huggingface or Tensorflow or simply pass "infersent" to use the infersent encoder (infersent model must be manually added into the infersent_encoder folder https://github.com/facebookresearch/InferSent ),
 e.g. ["all-mpnet-base-v2", "princeton-nlp/sup-simcse-roberta-large", "sentence-transformers/sentence-t5-base", "infersent", "https://tfhub.dev/google/universal-sentence-encoder/4"]
+
 ‘similarity_measure’: e.g. cosine or braycurtis (https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.cdist.html)
+
 ‘correlation_measure’: e.g. spearmanr (https://docs.scipy.org/doc/scipy/reference/stats.html)
+
 ‘lexical_similarity_measures’: right now only one is available ["similar_words_ratio"]
+
 ‘k’: top k matches to be considered for final ranking
+
 ‘no_cache’: optional, if this is chosen sentence embedding will not be stored which can be impractically for experimenting with different parameters (it takes a long time to encode all queries and especially all targets)
 
 ## 4. Evaluation
-Script can be found here: evaluation/scorer/main.py
-Parameters:
+Script can be found here: evaluation/scorer/main.py\
+
+Parameters:\
 pred_qrels and gold_qrels
