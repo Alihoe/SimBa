@@ -24,7 +24,6 @@ def run():
             if file.startswith('subtask'):
                 zipObj.extract(file, general_path)
     os.rename(general_path + "/subtask-2b--english/queries.tsv", queries_path)
-    delete_first_line_of_tsv(queries_path)
     shutil.rmtree(general_path + "/subtask-2b--english", ignore_errors=False, onerror=None)
     os.remove(general_path+"/data.zip")
 
