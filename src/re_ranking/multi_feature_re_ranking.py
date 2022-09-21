@@ -27,7 +27,7 @@ def run():
                         help='Pass a list of sentence embedding models hosted by Huggingface or Tensorflow or simply pass "infersent" to use the infersent encoder.')
     parser.add_argument('similarity_measure', type=str, default='cosine')
     parser.add_argument('-lexical_similarity_measures', type=str, nargs='+', default=[])
-    parser.add_argument('correlation', type=str, default='spearmanr')
+    parser.add_argument('correlation', type=str, default='braycurtis')
     parser.add_argument('k', type=int, default=50)
     parser.add_argument('--no_cache', action="store_true", help='If not selected, the pre-processed queries and the encodings of the queries and the targets will be stored as compressed pickle files in the data/cache directory.')
     args = parser.parse_args()

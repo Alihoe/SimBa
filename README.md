@@ -18,6 +18,7 @@ CLEF CheckThat! claim matching datasets
 | 2022 2a English  | 0.9310 |     
 | 2022 2b English  | 0.5133 |  
 
+
 For these results I used the sentence encoders ["all-mpnet-base-v2", "princeton-nlp/sup-simcse-roberta-large", "sentence-transformers/sentence-t5-base", "infersent", "https://tfhub.dev/google/universal-sentence-encoder/4"] and the union of the top k per feature as candidates with k=100. For re-ranking I used ["all-mpnet-base-v2", "princeton-nlp/sup-simcse-roberta-large", "sentence-transformers/sentence-t5-base", "https://tfhub.dev/google/universal-sentence-encoder/4"] and ["similar_words_ratio"] with k=50.
 
 ## How to use
@@ -79,3 +80,17 @@ Script can be found here: evaluation/scorer/main.py\
 
 Parameters:\
 pred_qrels and gold_qrels
+
+## Reproducing results of SimBa for CheckThat! Lab 2022 as presented here: http://ceur-ws.org/Vol-3180/paper-40.pdf
+
+2022 2b English supposed to be 0.4721
+
+|Dataset        | Candidate Retrieval Parameters| Re-Ranking Parameters | Results (MAP@5) |
+|---------------|-------------------------------|-----------------------|-----------------|
+|2022 2b English|                               |                       | 0.4813          |
+|SE-models      |["all-mpnet-base-v2", "princeton-nlp/sup-simcse-roberta-large", "infersent", "https://tfhub.dev/google/universal-sentence-encoder/4"]| ["all-mpnet-base-v2", "princeton-nlp/sup-simcse-roberta-large", "infersent", "https://tfhub.dev/google/universal-sentence-encoder/4"] | |
+|distance       | cosine                        | cosine               |                 |
+|k              | 50                            | 5                    |                 |
+|---------------|-------------------------------|----------------------|-----------------|
+
+

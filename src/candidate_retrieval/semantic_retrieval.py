@@ -55,7 +55,7 @@ def run():
     parser.add_argument('-sentence_embedding_models', type=str, nargs='+',
                         default= ["all-mpnet-base-v2", "princeton-nlp/sup-simcse-roberta-large", "infersent", "https://tfhub.dev/google/universal-sentence-encoder/4"],
                         help='Pass a list of sentence embedding models hosted by Huggingface or Tensorflow or simply pass "infersent" to use the infersent encoder.')
-    parser.add_argument('similarity_measure', type=str, default='cosine')
+    parser.add_argument('similarity_measure', type=str, default='braycurtis')
     parser.add_argument('correlation', type=str, default='spearmanr')
     parser.add_argument('--union_of_top_k_per_feature', action="store_true") # otherwise top k of mean of features
     parser.add_argument('k', type=int, default = 50)
