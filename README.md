@@ -15,14 +15,16 @@ CLEF CheckThat! claim matching datasets
 | 2020 2a English  | 0.9567 |   
 | 2021 2a English  | 0.9018 |     
 | 2021 2b English  | 0.4684 |   
-| 2022 2a English  | 0.9298 |     
+| 2022 2a English  | 0.9310 |     
 | 2022 2b English  | 0.5146 | 
 
-
-
-
+For these results I used the sentence encoders ["all-mpnet-base-v2", "princeton-nlp/sup-simcse-roberta-large", "sentence-transformers/sentence-t5-base", "infersent", "https://tfhub.dev/google/universal-sentence-encoder/4"] and the union of the top k per feature as candidates with k=100. For re-ranking I used ["all-mpnet-base-v2", "princeton-nlp/sup-simcse-roberta-large", "sentence-transformers/sentence-t5-base", "https://tfhub.dev/google/universal-sentence-encoder/4"] and ["similar_words_ratio"] with k=50.
 
 ## How to use
+
+### Simple way: To use the pipeline for the already downloaded CLEF CheckThat! claim matching datasets with the same settings that produced the results shown in the table, simply use the "get_ranking_for_dataset.py" script and pass the dataset's name as an argument.
+
+### Modify specific steps of the pipeline - Explanation of subscripts:
 
 ### 1. Getting CLEF CheckThat! claim matching datasets (https://sites.google.com/view/clef2022-checkthat)
 Scripts can be found here: src/get_data
