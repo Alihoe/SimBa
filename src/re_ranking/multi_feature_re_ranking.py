@@ -15,7 +15,7 @@ from src.utils import load_pickled_object, decompress_file, pickle_object, compr
  "https://tfhub.dev/google/universal-sentence-encoder/4"],
 
 # possible lexical similarity measures
-# similar_words_ratio
+# "similar_words_ratio"
 
 
 def run():
@@ -23,10 +23,10 @@ def run():
     parser = argparse.ArgumentParser()
     parser.add_argument('data', type=str, default="test")
     parser.add_argument('-sentence_embedding_models', type=str, nargs='+',
-                        default= ["all-mpnet-base-v2", "princeton-nlp/sup-simcse-roberta-large", "infersent", "https://tfhub.dev/google/universal-sentence-encoder/4"],
+                        default= ["all-mpnet-base-v2", "princeton-nlp/sup-simcse-roberta-large"],
                         help='Pass a list of sentence embedding models hosted by Huggingface or Tensorflow or simply pass "infersent" to use the infersent encoder.')
     parser.add_argument('similarity_measure', type=str, default='cosine')
-    parser.add_argument('-lexical_similarity_measures', type=str, nargs='+', default=[])
+    parser.add_argument('-lexical_similarity_measures', type=str, nargs='+', default=["similar_words_ratio"])
     parser.add_argument('correlation', type=str, default='braycurtis')
     parser.add_argument('k', type=int, default=50)
     parser.add_argument('--no_cache', action="store_true", help='If not selected, the pre-processed queries and the encodings of the queries and the targets will be stored as compressed pickle files in the data/cache directory.')

@@ -1,5 +1,7 @@
 # SimBa
 
+**++++++++++++Still under construction++++++++++++**
+
 SimBa is an unsupervised IR-pipeline designed for STS tasks. 
 For Candidate Retrieval it makes use of sentence embedding models, for Re-Ranking additionally of simple lexical overlap between query and target.
 
@@ -22,6 +24,10 @@ CLEF CheckThat! claim matching datasets
 For these results I used the sentence encoders ["all-mpnet-base-v2", "princeton-nlp/sup-simcse-roberta-large", "sentence-transformers/sentence-t5-base", "infersent", "https://tfhub.dev/google/universal-sentence-encoder/4"] and the union of the top k per feature as candidates with k=100. For re-ranking I used ["all-mpnet-base-v2", "princeton-nlp/sup-simcse-roberta-large", "sentence-transformers/sentence-t5-base", "https://tfhub.dev/google/universal-sentence-encoder/4"] and ["similar_words_ratio"] with k=50.
 
 ## How to use
+
+## If you want to use Infersent:
+Infersent[[1]](#1) was one of the first sentence encoder models and although outperformed on most baselines by more recent models, it can be of informational value on how sentence embedding models work since it relies on pre-trained word vectors.
+To download the model and the corresponding word-vectors[[2]](#2) simply use the script "src/infersent_encoder/get_infersent_model_and_data.py".
 
 ### Simple way:
 To use the pipeline for the already downloaded CLEF CheckThat! claim matching datasets with the same settings that produced the results shown in the table, simply use the "get_ranking_for_dataset.py" script and pass the dataset's name as an argument.
@@ -92,5 +98,18 @@ pred_qrels and gold_qrels
 |distance       | cosine                        | cosine               |                 |
 |k              | 50                            | 5                    |                 |
 |---------------|-------------------------------|----------------------|-----------------|
+
+2022 2a English supposed to be 0.4721
+
+0.9230
+
+## References
+<a id="1">[1]</a> 
+Conneau et al.: 
+Supervised Learning of Universal Sentence Representations from Natural Language Inference Data
+https://arxiv.org/abs/1705.02364
+
+<a id="2">[2]</a> 
+https://github.com/facebookresearch/InferSent
 
 
