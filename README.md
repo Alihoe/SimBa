@@ -10,13 +10,13 @@ for candidate retrieval, for re-ranking and for evaluation.
 
 CLEF CheckThat! claim matching datasets
 
-| Datast  |  Map@5 |   
+| Datast  | Map@5 |  
 |---|---|
-| 2020 2a English  | 0.9567 |   
-| 2021 2a English  | 0.9018 |     
-| 2021 2b English  | 0.4684 |   
-| 2022 2a English  | 0.9310 |     
-| 2022 2b English  | 0.5146 | 
+| 2020 2a English  | 0.9567 /    
+| 2021 2a English  | 0.9018 /      
+| 2021 2b English  | 0.4635 /    
+| 2022 2a English  | 0.9310 /     
+| 2022 2b English  | 0.5133 |  
 
 For these results I used the sentence encoders ["all-mpnet-base-v2", "princeton-nlp/sup-simcse-roberta-large", "sentence-transformers/sentence-t5-base", "infersent", "https://tfhub.dev/google/universal-sentence-encoder/4"] and the union of the top k per feature as candidates with k=100. For re-ranking I used ["all-mpnet-base-v2", "princeton-nlp/sup-simcse-roberta-large", "sentence-transformers/sentence-t5-base", "https://tfhub.dev/google/universal-sentence-encoder/4"] and ["similar_words_ratio"] with k=50.
 
