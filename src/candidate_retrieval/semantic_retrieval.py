@@ -53,7 +53,7 @@ def run():
     parser.add_argument('data', type=str, default="clef_2022_checkthat_2a_english")
     parser.add_argument('--pre_processing', action='store_true')
     parser.add_argument('-sentence_embedding_models', type=str, nargs='+',
-                        default= ["all-mpnet-base-v2", "princeton-nlp/sup-simcse-roberta-large", "sentence-transformers/sentence-t5-base", "infersent", "https://tfhub.dev/google/universal-sentence-encoder/4"],
+                        default= ["all-mpnet-base-v2", "princeton-nlp/sup-simcse-roberta-large", "infersent", "https://tfhub.dev/google/universal-sentence-encoder/4"],
                         help='Pass a list of sentence embedding models hosted by Huggingface or Tensorflow or simply pass "infersent" to use the infersent encoder.')
     parser.add_argument('similarity_measure', type=str, default='cosine')
     parser.add_argument('correlation', type=str, default='spearmanr')
@@ -117,15 +117,7 @@ def run():
                 pickle_object(stored_embedded_targets, embedded_targets)
                 compress_file(stored_embedded_targets + ".pickle")
                 os.remove(stored_embedded_targets + ".pickle")
-        stored_sim_scores = caching_directory + "/sim_scores_" + model_name + "_" + str(args.similarity_measure)
-        if os.path.exists(stored_sim_scores + ".pickle" + ".zip"):
-            sim_scores = load_pickled_object(decompress_file(stored_sim_scores + ".pickle" + ".zip"))
-        else:
-            sim_scores = 1 - cdist(np.stack(list(embedded_queries.values()), axis=0), np.stack(list(embedded_targets.values()), axis=0), metric=args.similarity_measure)
-            if not args.no_cache:
-                pickle_object(stored_sim_scores, sim_scores)
-                compress_file(stored_sim_scores + ".pickle")
-                os.remove(stored_sim_scores + ".pickle")
+        sim_scores = 1 - cdist(np.stack(list(embedded_queries.values()), axis=0), np.stack(list(embedded_targets.values()), axis=0), metric=args.similarity_measure)
         all_sim_scores.append(sim_scores)
 
         if args.union_of_top_k_per_feature:
@@ -166,7 +158,6 @@ def run():
     pickle_object(output_path, output)
     compress_file(output_path + ".pickle")
     os.remove(output_path + ".pickle")
-
 
 
 if __name__ == "__main__":
