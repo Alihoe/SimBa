@@ -23,10 +23,10 @@ def run():
     parser = argparse.ArgumentParser()
     parser.add_argument('data', type=str, default="test")
     parser.add_argument('-sentence_embedding_models', type=str, nargs='+',
-                        default= ["all-mpnet-base-v2", "princeton-nlp/sup-simcse-roberta-large", "sentence-transformers/sentence-t5-base", "https://tfhub.dev/google/universal-sentence-encoder/4"],
+                        default= ["all-mpnet-base-v2", "princeton-nlp/sup-simcse-roberta-large", "infersent", "https://tfhub.dev/google/universal-sentence-encoder/4"],
                         help='Pass a list of sentence embedding models hosted by Huggingface or Tensorflow or simply pass "infersent" to use the infersent encoder.')
     parser.add_argument('similarity_measure', type=str, default='cosine')
-    parser.add_argument('-lexical_similarity_measures', type=str, nargs='+', default=["similar_words_ratio"])
+    parser.add_argument('-lexical_similarity_measures', type=str, nargs='+', default=[])
     parser.add_argument('correlation', type=str, default='spearmanr')
     parser.add_argument('k', type=int, default=50)
     parser.add_argument('--no_cache', action="store_true", help='If not selected, the pre-processed queries and the encodings of the queries and the targets will be stored as compressed pickle files in the data/cache directory.')
@@ -78,10 +78,11 @@ def run():
             sim_scores = 1 - cdist(np.array([query_embedding]), np.stack(target_embeddings, axis=0), metric=args.similarity_measure)
             all_sim_scores[query_id].append(sim_scores)
 
-    lexical_similarities = get_lexical_similarity_ratio(queries, candidate_queries_and_targets)
-    for query_id, target_sim_scores in list(lexical_similarities.items()):
-        sim_scores = list(target_sim_scores.values())
-        all_sim_scores[query_id].append(sim_scores)
+    if "similar_words_ratio" in args.lexical_similarity_measures:
+        lexical_similarities = get_lexical_similarity_ratio(queries, candidate_queries_and_targets)
+        for query_id, target_sim_scores in list(lexical_similarities.items()):
+            sim_scores = list(target_sim_scores.values())
+            all_sim_scores[query_id].append(sim_scores)
 
     sim_scores_mean = {}
 
