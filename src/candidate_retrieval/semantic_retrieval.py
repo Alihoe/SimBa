@@ -53,7 +53,7 @@ def run():
     parser.add_argument('data', type=str, default="clef_2022_checkthat_2a_english")
     parser.add_argument('--pre_processing', action='store_true')
     parser.add_argument('-sentence_embedding_models', type=str, nargs='+',
-                        default= ["all-mpnet-base-v2", "princeton-nlp/sup-simcse-roberta-large", "infersent", "https://tfhub.dev/google/universal-sentence-encoder/4"],
+                        default= ["all-mpnet-base-v2", "princeton-nlp/sup-simcse-roberta-large", "sentence-transformers/sentence-t5-base", "infersent", "https://tfhub.dev/google/universal-sentence-encoder/4"],
                         help='Pass a list of sentence embedding models hosted by Huggingface or Tensorflow or simply pass "infersent" to use the infersent encoder.')
     parser.add_argument('similarity_measure', type=str, default='braycurtis')
     parser.add_argument('correlation', type=str, default='spearmanr')
