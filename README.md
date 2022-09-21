@@ -28,7 +28,7 @@ For these results I used the sentence encoders ["all-mpnet-base-v2", "princeton-
 ## If you want to use Infersent:
 Infersent[[1]](#1) was one of the first sentence encoder models and although outperformed on most baselines by more recent models, it can be of informational value on how sentence embedding models work since it relies on pre-trained word vectors.
 To download the model and the corresponding word-vectors[[2]](#2) simply use the script "src/infersent_encoder/get_infersent_model_and_data.py".
-The word-embeddings are very large though, and it takes a long time to download them.
+The word-embeddings are very large though, and it takes a VERY long time to download them.
 
 ### Simple way:
 To use the pipeline for the already downloaded CLEF CheckThat! claim matching datasets with the same settings that produced the results shown in the table, simply use the "get_ranking_for_dataset.py" script and pass the dataset's name as an argument.
