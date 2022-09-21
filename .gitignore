@@ -138,6 +138,8 @@ dmypy.json
 infersent1.pkl
 infersent2.pkl
 crawl-300d-2M.vec
+crawl-300d-2M.vec.zip
 glove.840B.300d.txt
+glove.840B.300d.zip
 
 data/cache
