@@ -22,7 +22,8 @@ For these results I used the sentence encoders ["all-mpnet-base-v2", "princeton-
 
 ## How to use
 
-### Simple way: To use the pipeline for the already downloaded CLEF CheckThat! claim matching datasets with the same settings that produced the results shown in the table, simply use the "get_ranking_for_dataset.py" script and pass the dataset's name as an argument.
+### Simple way:
+To use the pipeline for the already downloaded CLEF CheckThat! claim matching datasets with the same settings that produced the results shown in the table, simply use the "get_ranking_for_dataset.py" script and pass the dataset's name as an argument.
 
 ### Modify specific steps of the pipeline - Explanation of subscripts:
 
