@@ -167,7 +167,6 @@ def run():
     compress_file(output_path + ".pickle")
     os.remove(output_path + ".pickle")
 
-    print(output)
 
 
 if __name__ == "__main__":

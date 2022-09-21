@@ -9,6 +9,7 @@ from os.path import join, dirname, abspath
 import sys
 
 from evaluation.format_checker.main import check_format
+from evaluation.scorer import DATA_PATH
 from evaluation.scorer.utils import print_single_metric, print_thresholded_metric
 
 sys.path.append('.')
@@ -65,18 +66,13 @@ def validate_files(pred_file, gold_file):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument("--gold-file-path", "-g", required=True, type=str,
-                        help="Path to files with gold annotations.")
-    
-    parser.add_argument("--pred-file-path", "-p", required=True, type=str,
-                        help="Path to files with ranked line_numbers.")
+    parser.add_argument('data', type=str, default="clef_2022_checkthat_2a_english")
 
     args = parser.parse_args()
 
     line_separator = '=' * 120
-    pred_file = args.pred_file_path
-    gold_file = args.gold_file_path
-
+    pred_file = DATA_PATH+args.data+"/pred_qrels.tsv"
+    gold_file = DATA_PATH+args.data+"/gold.tsv"
     if validate_files(pred_file, gold_file):
         maps, mrr, precisions = evaluate(gold_file, pred_file)
         filename = os.path.basename(pred_file)

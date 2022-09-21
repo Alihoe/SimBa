@@ -15,7 +15,7 @@ CLEF CheckThat! claim matching datasets
 | 2020 2a English  | 0.9567 |   
 | 2021 2a English  | 0.9018 |     
 | 2021 2b English  | 0.4684 |   
-| 2022 2a English  | 0.9310 |     
+| 2022 2a English  | 0.9298 |     
 | 2022 2b English  | 0.5146 | 
 
 
