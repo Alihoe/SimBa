@@ -105,11 +105,31 @@ pred_qrels and gold_qrels
 
 ## Experimenting with different sentence embedding models for retrieval
 
+k = 100, union of top k features
+
 for dataset clef_2022_checkthat_2a_english
 
 |Used Models|Recall after retrieval| Map@5 after re-ranking|Recall after re-ranking|
 |-----------|----------------------|-----------------------|----------------------|
 |all models|0.9952 |0.9310|0.9809|
+|all but Infersent|0.9952|0.9310|0.9809|
+|all-mpnet-base-v2|0.9904|0.9328|0.9809|
+|princeton-nlp/sup-simcse-roberta-large|0.9617|0.9212|0.9617|
+|sentence-transformers/sentence-t5-base|0.9809|0.9310|0.9761|
+|infersent|0.4737|0.4737|0.4737|
+|https://tfhub.dev/google/universal-sentence-encoder/4|0.9330|0.9031|0.9330|
+
+for dataset clef_2022_checkthat_2b_english
+
+|Used Models|Recall after retrieval| Map@5 after re-ranking|Recall after re-ranking|
+|-----------|----------------------|-----------------------|----------------------|
+|all models|0.8554|0.5317|0.7470|
+|all but Infersent|0.8554|0.5133|0.7470|
+|all-mpnet-base-v2|0.6988|0.5448|0.6988|
+|princeton-nlp/sup-simcse-roberta-large|0.7952|0.5095|0.7711|
+|sentence-transformers/sentence-t5-base|0.7108|0.5154|0.6867
+|infersent|0.4337|0.4064|0.4337|
+|https://tfhub.dev/google/universal-sentence-encoder/4|0.6265|0.5095|0.6145|
 
 
 
