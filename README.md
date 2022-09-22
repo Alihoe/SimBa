@@ -103,6 +103,14 @@ pred_qrels and gold_qrels
 2022 2a English supposed to be 0.9175, is 0.9230
 2022 2b English supposed to be 0.4721, is 0.4813
 
+## Experimenting with different sentence embedding models for retrieval
+
+for dataset clef_2022_checkthat_2a_english
+
+|Used Models|Recall after retrieval| Map@5 after re-ranking|Recall after re-ranking|
+|-----------|----------------------|-----------------------|----------------------|
+|all models|0.9952 |0.9310|0.9809|
+
 
 
 ## References

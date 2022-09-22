@@ -77,7 +77,7 @@ def output_dict_to_pred_qrels(output_dictionary, output_data_name):
     df = df.reset_index(drop=True)
     df['qid'] = pd.Series(list_of_qids)
     df['docno'] = pd.Series(list_of_docno)
-    df['score'] = pd.Series(array_of_scores)
+    df['score'] = pd.Series(array_of_scores).astype(float)
     df['Q0'] = 'Q0'
     df['rank'] = '1'
     df['tag'] = 'SimBa'

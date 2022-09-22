@@ -46,20 +46,25 @@ from src.utils import get_queries, get_targets, pickle_object, compress_file, de
 # "spearman"
 # "mean_squared_errors"
 
+# ["all-mpnet-base-v2", "princeton-nlp/sup-simcse-roberta-large", "sentence-transformers/sentence-t5-base", "infersent", "https://tfhub.dev/google/universal-sentence-encoder/4"],
+#
 
 def run():
 
     parser = argparse.ArgumentParser()
     parser.add_argument('data', type=str, default="clef_2022_checkthat_2a_english")
     parser.add_argument('--pre_processing', action='store_true')
-    parser.add_argument('-sentence_embedding_models', type=str, nargs='+',
-                        default= ["all-mpnet-base-v2", "princeton-nlp/sup-simcse-roberta-large", "sentence-transformers/sentence-t5-base", "infersent", "https://tfhub.dev/google/universal-sentence-encoder/4"],
-                        help='Pass a list of sentence embedding models hosted by Huggingface or Tensorflow or simply pass "infersent" to use the infersent encoder.')
     parser.add_argument('similarity_measure', type=str, default='braycurtis')
     parser.add_argument('correlation', type=str, default='spearmanr')
     parser.add_argument('--union_of_top_k_per_feature', action="store_true") # otherwise top k of mean of features
     parser.add_argument('k', type=int, default = 50)
     parser.add_argument('--no_cache', action="store_true", help='If not selected, the pre-processed queries and the encodings of the queries and the targets will be stored as compressed pickle files in the data/cache directory.')
+    parser.add_argument('-sentence_embedding_models', type=str, nargs='+',
+                    default=["all-mpnet-base-v2", "princeton-nlp/sup-simcse-roberta-large",
+                             "sentence-transformers/sentence-t5-base", "infersent",
+                             "https://tfhub.dev/google/universal-sentence-encoder/4"],
+                    help='Pass a list of sentence embedding models hosted by Huggingface or Tensorflow or simply pass "infersent" to use the infersent encoder.')
+
     args = parser.parse_args()
 
     query_path = DATA_PATH+args.data+"/queries.tsv"
@@ -135,7 +140,7 @@ def run():
                 else:
                     union_of_top_k_per_feature[query_id] = this_model_top_k[query_id]
 
-    analyse_correlation(np.array(all_sim_scores), args.correlation)
+    #analyse_correlation(np.array(all_sim_scores), args.correlation)
 
     if not args.union_of_top_k_per_feature:
         sim_scores_mean = np.mean(np.array(all_sim_scores), axis=0)

@@ -43,8 +43,8 @@ def evaluate(gold_fpath, pred_fpath, thresholds=None):
     rel_ret = results.get_relevant_retrieved_documents()
     recall = rel_ret/rel
 
-    print(rel)
-    print(rel_ret)
+    print('Number of relevant documents:' + str(rel))
+    print('Number of retrieved relevant documents:' + str(rel_ret))
 
     return recall
 
@@ -91,5 +91,6 @@ if __name__ == '__main__':
     if validate_files(pred_file, gold_file):
         results = evaluate(gold_file, pred_file)
         print_single_metric('RECALL:', results)
-    os.remove(DATA_PATH+args.data+"/candidates.tsv")
+    if os.path.exists(DATA_PATH+args.data+"/candidates.tsv"):
+        os.remove(DATA_PATH+args.data+"/candidates.tsv")
 
