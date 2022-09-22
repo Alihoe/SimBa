@@ -111,26 +111,73 @@ for dataset clef_2022_checkthat_2a_english
 
 |Used Models|Recall after retrieval| Map@5 after re-ranking|Recall after re-ranking|
 |-----------|----------------------|-----------------------|----------------------|
-|all models|0.9952 |0.9310|0.9809|
-|all but Infersent|0.9952|0.9310|0.9809|
-|all-mpnet-base-v2|0.9904|0.9328|0.9809|
+|all models|**0.9952** |0.9310|0.9809|
+|all but Infersent|**0.9952**|0.9310|0.9809|
+|all-mpnet-base-v2|0.9904|**0.9328**|0.9809|
 |princeton-nlp/sup-simcse-roberta-large|0.9617|0.9212|0.9617|
 |sentence-transformers/sentence-t5-base|0.9809|0.9310|0.9761|
 |infersent|0.4737|0.4737|0.4737|
 |https://tfhub.dev/google/universal-sentence-encoder/4|0.9330|0.9031|0.9330|
+--> Infersent not needed here
+--> only using all-mpnet-base-v2 works best?
+
+Correlation of sentence embedding models:
+
+[[1.         0.52674273 0.56817182 0.2171586  0.46328655]
+ [0.52674273 1.         0.56741003 0.27996202 0.42223214]
+ [0.56817182 0.56741003 1.         0.3267913  0.4808523 ]
+ [0.2171586  0.27996202 0.3267913  1.         0.403431  ]
+ [0.46328655 0.42223214 0.4808523  0.403431   1.        ]]
 
 for dataset clef_2022_checkthat_2b_english
 
 |Used Models|Recall after retrieval| Map@5 after re-ranking|Recall after re-ranking|
 |-----------|----------------------|-----------------------|----------------------|
-|all models|0.8554|0.5317|0.7470|
-|all but Infersent|0.8554|0.5133|0.7470|
-|all-mpnet-base-v2|0.6988|0.5448|0.6988|
+|all models|**0.8554**|0.5317|0.7470|
+|all but Infersent|**0.8554**|0.5133|0.7470|
+|all-mpnet-base-v2|0.6988|**0.5448**|0.6988|
 |princeton-nlp/sup-simcse-roberta-large|0.7952|0.5095|0.7711|
 |sentence-transformers/sentence-t5-base|0.7108|0.5154|0.6867
 |infersent|0.4337|0.4064|0.4337|
 |https://tfhub.dev/google/universal-sentence-encoder/4|0.6265|0.5095|0.6145|
 
+--> only using all-mpnet-base-v2 works best?
+
+k=200 --> gets worse
+
+for dataset clef_2022_checkthat_2a_english
+
+|Used Models|Recall after retrieval| Map@5 after re-ranking|Recall after re-ranking|
+|-----------|----------------------|-----------------------|----------------------|
+|all models|**0.9952** |0.9310|0.9761|
+|all but Infersent|**0.9952**|0.9310|0.9761|
+|all-mpnet-base-v2|**0.9952**|**0.9328**|0.9856
+
+for dataset clef_2022_checkthat_2b_english
+
+|Used Models|Recall after retrieval| Map@5 after re-ranking|Recall after re-ranking|
+|-----------|----------------------|-----------------------|----------------------|
+|all models|**0.8675**|0.5133|0.7470|
+|all but Infersent|**0.8675**|0.5133|0.7470
+|all-mpnet-base-v2|0.7349|**0.5172**|0.7229
+
+k=50 --> 
+
+for dataset clef_2022_checkthat_2a_english
+
+|Used Models|Recall after retrieval| Map@5 after re-ranking|Recall after re-ranking|
+|-----------|----------------------|-----------------------|----------------------|
+|all models|0.9809|0.9310|0.9761|
+|all but Infersent|0.9809|0.9310| 0.9761
+|all-mpnet-base-v2|0.9761|0.9337|0.9761|
+
+for dataset clef_2022_checkthat_2b_english
+
+|Used Models|Recall after retrieval| Map@5 after re-ranking|Recall after re-ranking|
+|-----------|----------------------|-----------------------|----------------------|
+|all models|0.8072|0.5133|0.7229|
+|all but Infersent|0.7952|0.5133|0.7108 
+|all-mpnet-base-v2|0.6386|0.5282|0.6386
 
 
 ## References

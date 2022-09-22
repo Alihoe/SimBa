@@ -1,5 +1,6 @@
 import argparse
 import subprocess
+import random
 
 
 def run():
@@ -11,6 +12,15 @@ def run():
     corpus_size_1 = 1000
     corpus_size_2 = 5000
     corpus_size_3 = 10000
+
+    random.seed(2)
+
+    corpus_path = "data/" + args.data + "/corpus"
+    targets = get_targets(corpus_path)
+
+    for i in range(4):
+        some_dict.pop(random.choice(some_dict.keys()))
+
 
     subprocess.call(["python", "src/candidate_retrieval/semantic_retrieval.py", args.data, "braycurtis", "--union_of_top_k_per_feature", "spearman", "100"])
     subprocess.call(["python", "src/re_ranking/multi_feature_re_ranking.py", args.data, "braycurtis", "spearman", "50"])
