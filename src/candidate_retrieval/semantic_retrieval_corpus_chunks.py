@@ -1,5 +1,8 @@
 import argparse
 import os
+from pathlib import Path
+import random
+
 import torch
 from scipy.spatial.distance import braycurtis, cdist
 import numpy as np
@@ -53,47 +56,43 @@ def run():
 
     parser = argparse.ArgumentParser()
     parser.add_argument('data', type=str, default="clef_2022_checkthat_2a_english")
+    parser.add_argument('corpus_size', type=int, default=1000)
     parser.add_argument('--pre_processing', action='store_true')
     parser.add_argument('similarity_measure', type=str, default='braycurtis')
     parser.add_argument('correlation', type=str, default='spearmanr')
     parser.add_argument('--union_of_top_k_per_feature', action="store_true") # otherwise top k of mean of features
     parser.add_argument('k', type=int, default = 50)
-    parser.add_argument('--no_cache', action="store_true", help='If not selected, the pre-processed queries and the encodings of the queries and the targets will be stored as compressed pickle files in the data/cache directory.')
     parser.add_argument('-sentence_embedding_models', type=str, nargs='+',
-                    default=["all-mpnet-base-v2", "princeton-nlp/sup-simcse-roberta-large",
-                             "sentence-transformers/sentence-t5-base", "infersent",
-                             "https://tfhub.dev/google/universal-sentence-encoder/4"],
+                    default=["all-mpnet-base-v2"],
+                             # "sentence-transformers/sentence-t5-base", "infersent",
+                             # "https://tfhub.dev/google/universal-sentence-encoder/4"],
                     help='Pass a list of sentence embedding models hosted by Huggingface or Tensorflow or simply pass "infersent" to use the infersent encoder.')
 
     args = parser.parse_args()
+
+    corpus_chunks_path = DATA_PATH + "corpus_chunks/" + args.data
+    Path(corpus_chunks_path).mkdir(parents=True, exist_ok=True)
 
     query_path = DATA_PATH+args.data+"/queries.tsv"
     corpus_path = DATA_PATH+args.data+"/corpus"
     queries = get_queries(query_path) # queries dictionary
     targets = get_targets(corpus_path) # targets dictionary
     query_ids = list(queries.keys())
+
+    org_corp_size = len(list(targets.keys()))
+    print(org_corp_size)
+    pop_nr = org_corp_size - args.corpus_size
+    print(pop_nr)
+
+    random.seed(2)
+    for i in range(pop_nr):
+        targets.pop(random.choice(list(targets.keys())))
+
+    print(len(list(targets.keys())))
     target_ids = list(targets.keys())
 
-    caching_directory = DATA_PATH + "cache/" + args.data
-
-    if not args.no_cache:
-        if not os.path.isdir(caching_directory):
-            os.makedirs(caching_directory)
-
     if args.pre_processing:
-        if not args.no_cache:
-            stored_pp_queries = caching_directory + "/pre_processed_queries"
-            stored_pp_targets = caching_directory + "/pre_processed_targets"
-        if os.path.exists(stored_pp_queries+".pickle"+".zip") and os.path.exists(stored_pp_targets+".pickle"+".zip"):
-            queries = load_pickled_object(decompress_file(stored_pp_queries+".pickle"+".zip"))
-            targets = load_pickled_object(decompress_file(stored_pp_targets+".pickle"+".zip"))
-        else:
             queries, targets = pre_process(queries, targets)
-        if not args.no_cache:
-            pickle_object(stored_pp_queries, queries)
-            compress_file(stored_pp_queries+".pickle")
-            pickle_object(stored_pp_targets, targets)
-            compress_file(stored_pp_targets+"pickle")
 
     all_sim_scores = []
 
@@ -105,24 +104,23 @@ def run():
             model_name = str(model).replace("/", "_").replace(":", "_").replace(".", "_")
         else:
             model_name = str(model)
-        stored_embedded_queries = caching_directory + "/embedded_queries_" + model_name
-        stored_embedded_targets = caching_directory + "/embedded_targets_" + model_name
+        stored_embedded_queries = corpus_chunks_path + "/embedded_queries_" + model_name
+        stored_embedded_targets = corpus_chunks_path + "/embedded_targets_" + model_name
         if os.path.exists(stored_embedded_queries + ".pickle" + ".zip"):
             embedded_queries = load_pickled_object(decompress_file(stored_embedded_queries+".pickle"+".zip"))
         else:
             embedded_queries = encode_queries(queries, model)
-            if not args.no_cache:
-                pickle_object(stored_embedded_queries, embedded_queries)
-                compress_file(stored_embedded_queries + ".pickle")
-                os.remove(stored_embedded_queries + ".pickle")
+            pickle_object(stored_embedded_queries, embedded_queries)
+            compress_file(stored_embedded_queries + ".pickle")
+            os.remove(stored_embedded_queries + ".pickle")
         if os.path.exists(stored_embedded_targets + ".pickle" + ".zip"):
             embedded_targets = load_pickled_object(decompress_file(stored_embedded_targets+".pickle"+".zip"))
         else:
+            print(len(targets.keys()))
             embedded_targets = encode_targets(targets, model)
-            if not args.no_cache:
-                pickle_object(stored_embedded_targets, embedded_targets)
-                compress_file(stored_embedded_targets + ".pickle")
-                os.remove(stored_embedded_targets + ".pickle")
+            pickle_object(stored_embedded_targets, embedded_targets)
+            compress_file(stored_embedded_targets + ".pickle")
+            os.remove(stored_embedded_targets + ".pickle")
         sim_scores = 1 - cdist(np.stack(list(embedded_queries.values()), axis=0), np.stack(list(embedded_targets.values()), axis=0), metric=args.similarity_measure)
         all_sim_scores.append(sim_scores)
 
@@ -159,7 +157,7 @@ def run():
             union_of_top_k_per_feature_dict[query_id] = dict(sorted(union_of_top_k_per_feature[query_id].items(), key=lambda item:item[1], reverse=True))
         output = union_of_top_k_per_feature_dict
 
-    output_path = DATA_PATH+args.data+"/candidates"
+    output_path = corpus_chunks_path+"/candidates"
 
     pickle_object(output_path, output)
     compress_file(output_path + ".pickle")

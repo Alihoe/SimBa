@@ -1,6 +1,7 @@
 import argparse
+import shutil
 import subprocess
-import random
+import time
 
 
 def run():
@@ -9,28 +10,19 @@ def run():
     parser.add_argument('data', type=str, default="clef_2020_checkthat_2a_english", help="Pass name of dataset stored in the data folder.")
     args = parser.parse_args()
 
-    corpus_size_1 = 1000
-    corpus_size_2 = 5000
-    corpus_size_3 = 10000
+    sizes = [1000, 5000, 10000]
 
-    random.seed(2)
-
-    corpus_path = "data/" + args.data + "/corpus"
-    targets = get_targets(corpus_path)
-
-    for i in range(4):
-        some_dict.pop(random.choice(some_dict.keys()))
-
-
-    subprocess.call(["python", "src/candidate_retrieval/semantic_retrieval.py", args.data, "braycurtis", "--union_of_top_k_per_feature", "spearman", "100"])
-    subprocess.call(["python", "src/re_ranking/multi_feature_re_ranking.py", args.data, "braycurtis", "spearman", "50"])
-
-
-    subprocess.call(["python", "evaluation/scorer/main.py", args.data])
-
-    # subprocess.call(["python", "src/candidate_retrieval/semantic_retrieval.py", args.data, "cosine", "--union_of_top_k_per_feature", "spearman", "50"])
-    # subprocess.call(["python", "src/re_ranking/multi_feature_re_ranking.py", args.data, "cosine", "spearman", "5"])
-    # subprocess.call(["python", "evaluation/scorer/main.py", args.data])
+    for corpus_size in sizes:
+        print("Measuring time for corpus size of "+str(corpus_size))
+        start_time = time.time() # Measure time for retrieval and re-ranking
+        subprocess.call(["python", "src/candidate_retrieval/semantic_retrieval_corpus_chunks.py", args.data, str(corpus_size), "braycurtis", "--union_of_top_k_per_feature", "spearman", "100"])
+        subprocess.call(["python", "src/re_ranking/multi_feature_re_ranking_corpus_chunks.py", args.data, "braycurtis", "spearman", "50"])
+        print("--- %s seconds ---" % (time.time() - start_time))
+        # Check if output file was created correctly by evaluating with standard evaluation script
+        # Don't measure exceution time for that
+        subprocess.call(["python", "evaluation/scorer/main.py", args.data, "--use_corpus_chunk_data"])
+        # Delete produced files
+        shutil.rmtree("data/corpus_cunks/"+args.data, ignore_errors=False, onerror=None)
 
 
 if __name__ == "__main__":

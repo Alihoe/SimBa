@@ -103,7 +103,7 @@ pred_qrels and gold_qrels
 2022 2a English supposed to be 0.9175, is 0.9230
 2022 2b English supposed to be 0.4721, is 0.4813
 
-## Experimenting with different sentence embedding models for retrieval
+## Experimenting with retrieval parameters
 
 k = 100, union of top k features
 
@@ -161,23 +161,43 @@ for dataset clef_2022_checkthat_2b_english
 |all but Infersent|**0.8675**|0.5133|0.7470
 |all-mpnet-base-v2|0.7349|**0.5172**|0.7229
 
-k=50 --> 
+k=50 --> Seems to be the optimal value
 
 for dataset clef_2022_checkthat_2a_english
 
 |Used Models|Recall after retrieval| Map@5 after re-ranking|Recall after re-ranking|
 |-----------|----------------------|-----------------------|----------------------|
-|all models|0.9809|0.9310|0.9761|
-|all but Infersent|0.9809|0.9310| 0.9761
-|all-mpnet-base-v2|0.9761|0.9337|0.9761|
+|all models|**0.9809**|0.9310|0.9761|
+|all but Infersent|**0.9809**|0.9310| 0.9761
+|all-mpnet-base-v2|0.9761|**0.9337**|0.9761|
 
 for dataset clef_2022_checkthat_2b_english
 
 |Used Models|Recall after retrieval| Map@5 after re-ranking|Recall after re-ranking|
 |-----------|----------------------|-----------------------|----------------------|
-|all models|0.8072|0.5133|0.7229|
+|all models|**0.8072**|0.5133|0.7229|
 |all but Infersent|0.7952|0.5133|0.7108 
-|all-mpnet-base-v2|0.6386|0.5282|0.6386
+|all-mpnet-base-v2|0.6386|**0.5282**|0.6386
+
+k=20 --> Seems to be the optimal value
+
+for dataset clef_2022_checkthat_2a_english
+
+|Used Models|Recall after retrieval| Map@5 after re-ranking|Recall after re-ranking|
+|-----------|----------------------|-----------------------|----------------------|
+|all models|
+|all but Infersent|
+|all-mpnet-base-v2|
+
+for dataset clef_2022_checkthat_2b_english
+
+|Used Models|Recall after retrieval| Map@5 after re-ranking|Recall after re-ranking|
+|-----------|----------------------|-----------------------|----------------------|
+|all models|
+|all but Infersent|
+|all-mpnet-base-v2|
+
+## Experimenting with re-ranking parameters
 
 
 ## References
