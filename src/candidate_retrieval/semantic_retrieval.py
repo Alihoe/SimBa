@@ -60,9 +60,7 @@ def run():
     parser.add_argument('k', type=int, default = 50)
     parser.add_argument('--no_cache', action="store_true", help='If not selected, the pre-processed queries and the encodings of the queries and the targets will be stored as compressed pickle files in the data/cache directory.')
     parser.add_argument('-sentence_embedding_models', type=str, nargs='+',
-                    default=["all-mpnet-base-v2", "princeton-nlp/sup-simcse-roberta-large",
-                             "sentence-transformers/sentence-t5-base", "infersent",
-                             "https://tfhub.dev/google/universal-sentence-encoder/4"],
+                    default=["all-mpnet-base-v2"],
                     help='Pass a list of sentence embedding models hosted by Huggingface or Tensorflow or simply pass "infersent" to use the infersent encoder.')
 
     args = parser.parse_args()

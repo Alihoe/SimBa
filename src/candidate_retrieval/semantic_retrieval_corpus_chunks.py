@@ -55,7 +55,7 @@ from src.utils import get_queries, get_targets, pickle_object, compress_file, de
 def run():
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('data', type=str, default="clef_2022_checkthat_2a_english")
+    parser.add_argument('data', type=str, default="clef_2020_checkthat_2_english")
     parser.add_argument('corpus_size', type=int, default=1000)
     parser.add_argument('--pre_processing', action='store_true')
     parser.add_argument('similarity_measure', type=str, default='braycurtis')
@@ -80,15 +80,11 @@ def run():
     query_ids = list(queries.keys())
 
     org_corp_size = len(list(targets.keys()))
-    print(org_corp_size)
     pop_nr = org_corp_size - args.corpus_size
-    print(pop_nr)
-
     random.seed(2)
     for i in range(pop_nr):
         targets.pop(random.choice(list(targets.keys())))
 
-    print(len(list(targets.keys())))
     target_ids = list(targets.keys())
 
     if args.pre_processing:

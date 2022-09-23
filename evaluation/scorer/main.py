@@ -74,7 +74,7 @@ if __name__ == '__main__':
     line_separator = '=' * 120
     pred_file = DATA_PATH+args.data+"/pred_qrels.tsv"
     if args.use_corpus_chunk_data:
-        pred_file = DATA_PATH + "corpus_chunks/" + args.data+"pred-qrels.tsv"
+        pred_file = DATA_PATH + "corpus_chunks/" + args.data+"/pred_qrels.tsv"
     gold_file = DATA_PATH+args.data+"/gold.tsv"
     if validate_files(pred_file, gold_file):
         maps, mrr, precisions = evaluate(gold_file, pred_file)

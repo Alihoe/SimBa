@@ -10,15 +10,15 @@ for candidate retrieval, for re-ranking and for evaluation.
 
 ## Performance on CLEF CheckThat! claim matching datasets
 
-CLEF CheckThat! claim matching datasets
+CLEF CheckThat! claim matching datasets 
 
 | Datast  | Map@5 |  
 |---|---|
-| 2020 2a English  | 0.9567 |    
-| 2021 2a English  | 0.9018 |      
-| 2021 2b English  | 0.4635 |   
-| 2022 2a English  | 0.9310 |     
-| 2022 2b English  | 0.5133 |  
+| 2020 2a English  | 0.9525 |    
+| 2021 2a English  | 0.9035 |      
+| 2021 2b English  | 0.4662 |  
+| 2022 2a English  | 0.9337 |    
+| 2022 2b English  | 0.5282 | 
 
 
 For these results I used the sentence encoders ["all-mpnet-base-v2", "princeton-nlp/sup-simcse-roberta-large", "sentence-transformers/sentence-t5-base", "infersent", "https://tfhub.dev/google/universal-sentence-encoder/4"] and the union of the top k per feature as candidates with k=100. For re-ranking I used ["all-mpnet-base-v2", "princeton-nlp/sup-simcse-roberta-large", "sentence-transformers/sentence-t5-base", "https://tfhub.dev/google/universal-sentence-encoder/4"] and ["similar_words_ratio"] with k=50.
@@ -179,26 +179,90 @@ for dataset clef_2022_checkthat_2b_english
 |all but Infersent|0.7952|0.5133|0.7108 
 |all-mpnet-base-v2|0.6386|**0.5282**|0.6386
 
-k=20 --> Seems to be the optimal value
+k=20 
 
 for dataset clef_2022_checkthat_2a_english
 
 |Used Models|Recall after retrieval| Map@5 after re-ranking|Recall after re-ranking|
 |-----------|----------------------|-----------------------|----------------------|
-|all models|
-|all but Infersent|
-|all-mpnet-base-v2|
+|all models|0.9761|0.9310|0.9761|
+|all but Infersent|0.9761|0.9310|0.9761|
+|all-mpnet-base-v2|0.9617|0.9268|0.9617|
 
 for dataset clef_2022_checkthat_2b_english
 
 |Used Models|Recall after retrieval| Map@5 after re-ranking|Recall after re-ranking|
 |-----------|----------------------|-----------------------|----------------------|
-|all models|
-|all but Infersent|
-|all-mpnet-base-v2|
+|all models|0.7108|0.5133|0.7108|
+|all but Infersent|0.7108|0.5133|0.7108|
+|all-mpnet-base-v2|0.5663|0.4923|0.5663|
 
-## Experimenting with re-ranking parameters
+### Best parameters for retrieval
 
+k = 50\
+use only all-mpnet-base-v2
+
+## Experimenting with different models for re-ranking 
+
+for dataset clef_2022_checkthat_2a_english
+
+|used models| MAP@5|
+|-----------|------|
+|all models|0.9130|
+|all but Infersent|**0.9337**|
+|all-mpnet-base-v2|0.9148|
+|princeton-nlp/sup-simcse-roberta-large|0.8969|
+|sentence-transformers/sentence-t5-base|0.8774|
+|infersent|0.7066|
+|https://tfhub.dev/google/universal-sentence-encoder/4|0.8537|
+|all-mpnet-base-v2, ..sentence-t5-base, ..simcse..|*0.9312*|
+|all-mpnet-base-v2, ..sentence-t5-base|0.9254|
+|all-mpnet-base-v2, ..simcse..|0.9258|
+|..sentence-t5-base, ..simcse..|0.9091|
+
+for dataset clef_2022_checkthat_2b_english
+
+|used models| MAP@5|
+|-----------|------|
+|all models|**0.5454**|
+|all but Infersent|0.5282|
+|all-mpnet-base-v2|0.5244|
+|princeton-nlp/sup-simcse-roberta-large|0.5179|
+|sentence-transformers/sentence-t5-base|0.5288|
+|infersent|0.4936|
+|https://tfhub.dev/google/universal-sentence-encoder/4|0.5295|
+|all-mpnet-base-v2, ..sentence-t5-base, ..simcse..|0.5269|
+|all-mpnet-base-v2, ..sentence-t5-base|*0.5423*|
+|all-mpnet-base-v2, ..simcse..|0.5295|
+|..sentence-t5-base, ..simcse..|0.5321|
+
+for dataset clef_2022_checkthat_2a_english
+
+without lexical information
+
+|used models without lexical information| MAP@5|
+|-----------|------|
+|all models|0.8980|
+|all but Infersent|0.9190|
+|all-mpnet-base-v2|0.8861|
+|all-mpnet-base-v2, ..sentence-t5-base, ..simcse..|0.9206|
+|all-mpnet-base-v2, ..sentence-t5-base|0.9075|
+|
+
+for dataset clef_2022_checkthat_2b_english
+
+|used models without lexical information| MAP@5|
+|-----------|------|
+|all models|0.5077|
+|all but Infersent|0.4885|
+|all-mpnet-base-v2|0.3803|
+|all-mpnet-base-v2, ..sentence-t5-base, ..simcse..|0.4477|
+|all-mpnet-base-v2, ..sentence-t5-base|0.4336|
+
+### Best Parameters for Re-Ranking
+
+use all models but Infersent
+use lexical information
 
 ## References
 <a id="1">[1]</a> 

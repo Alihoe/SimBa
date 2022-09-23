@@ -11,8 +11,7 @@ from src.sentence_encoder import encode_queries, encode_targets
 from src.utils import load_pickled_object, decompress_file, pickle_object, compress_file, get_queries, output_dict_to_pred_qrels
 
 # possible sentence mebedding models
-["all-mpnet-base-v2", "princeton-nlp/sup-simcse-roberta-large", "sentence-transformers/sentence-t5-base", "infersent",
- "https://tfhub.dev/google/universal-sentence-encoder/4"],
+["all-mpnet-base-v2", "princeton-nlp/sup-simcse-roberta-large", "sentence-transformers/sentence-t5-base", "infersent", "https://tfhub.dev/google/universal-sentence-encoder/4"],
 
 # possible lexical similarity measures
 # "similar_words_ratio"
@@ -23,8 +22,8 @@ def run():
     parser = argparse.ArgumentParser()
     parser.add_argument('data', type=str, default="test")
     parser.add_argument('-sentence_embedding_models', type=str, nargs='+',
-                        default= ["all-mpnet-base-v2", "princeton-nlp/sup-simcse-roberta-large", "sentence-transformers/sentence-t5-base",
- "https://tfhub.dev/google/universal-sentence-encoder/4"],
+                        default= ["all-mpnet-base-v2", "princeton-nlp/sup-simcse-roberta-large", "sentence-transformers/sentence-t5-base", "https://tfhub.dev/google/universal-sentence-encoder/4"],
+ #  "all-mpnet-base-v2", "princeton-nlp/sup-simcse-roberta-large", "sentence-transformers/sentence-t5-base"
                         help='Pass a list of sentence embedding models hosted by Huggingface or Tensorflow or simply pass "infersent" to use the infersent encoder.')
     parser.add_argument('similarity_measure', type=str, default='cosine')
     parser.add_argument('-lexical_similarity_measures', type=str, nargs='+', default=["similar_words_ratio"])

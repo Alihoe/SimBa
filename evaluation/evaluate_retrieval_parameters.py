@@ -11,7 +11,7 @@ def run():
     parser.add_argument('data', type=str, default="clef_2022_checkthat_2a_english", help="Pass name of dataset stored in the data folder.")
     args = parser.parse_args()
 
-    subprocess.call(["python", "../src/candidate_retrieval/semantic_retrieval.py", args.data, "braycurtis", "--union_of_top_k_per_feature", "spearmanr", "50", "-sentence_embedding_models", "all-mpnet-base-v2", "princeton-nlp/sup-simcse-roberta-large", "sentence-transformers/sentence-t5-base", "https://tfhub.dev/google/universal-sentence-encoder/4"])
+    subprocess.call(["python", "../src/candidate_retrieval/semantic_retrieval.py", args.data, "braycurtis", "--union_of_top_k_per_feature", "spearmanr", "20", "-sentence_embedding_models", "all-mpnet-base-v2"])
     subprocess.call(["python", "../evaluation/scorer/recall_evaluator.py", args.data])
 
     subprocess.call(["python", "../src/re_ranking/multi_feature_re_ranking.py", args.data, "braycurtis", "spearmanr", "50"])
