@@ -28,7 +28,7 @@ def run():
     parser.add_argument('similarity_measure', type=str, default='cosine')
     parser.add_argument('-lexical_similarity_measures', type=str, nargs='+', default=["similar_words_ratio"])
     parser.add_argument('correlation', type=str, default='braycurtis')
-    parser.add_argument('k', type=int, default=50)
+    parser.add_argument('k', type=int, default=5)
     parser.add_argument('--no_cache', action="store_true", help='If not selected, the pre-processed queries and the encodings of the queries and the targets will be stored as compressed pickle files in the data/cache directory.')
     args = parser.parse_args()
 

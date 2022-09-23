@@ -112,7 +112,6 @@ def run():
         if os.path.exists(stored_embedded_targets + ".pickle" + ".zip"):
             embedded_targets = load_pickled_object(decompress_file(stored_embedded_targets+".pickle"+".zip"))
         else:
-            print(len(targets.keys()))
             embedded_targets = encode_targets(targets, model)
             pickle_object(stored_embedded_targets, embedded_targets)
             compress_file(stored_embedded_targets + ".pickle")

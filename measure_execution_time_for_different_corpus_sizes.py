@@ -13,7 +13,7 @@ def run():
     sizes = [1000, 5000, 10000]
 
     for corpus_size in sizes:
-        # print("Measuring time for corpus size of "+str(corpus_size))
+        print("Measuring time for corpus size of "+str(corpus_size))
         start_time = time.time() # Measure time for retrieval and re-ranking
         subprocess.call(["python", "src/candidate_retrieval/semantic_retrieval_corpus_chunks.py", args.data, str(corpus_size), "braycurtis", "--union_of_top_k_per_feature", "spearman", "50"])
         subprocess.call(["python", "src/re_ranking/multi_feature_re_ranking_corpus_chunks.py", args.data, "braycurtis", "spearman", "50"])
