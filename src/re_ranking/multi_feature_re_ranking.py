@@ -8,7 +8,8 @@ from src.candidate_retrieval import DATA_PATH
 from src.re_ranking.lexical_similarity import get_lexical_similarity_ratio
 from src.re_ranking.ranking_utils import get_queries_and_targets_from_candidates, get_all_relevant_targets
 from src.sentence_encoder import encode_queries, encode_targets
-from src.utils import load_pickled_object, decompress_file, pickle_object, compress_file, get_queries, output_dict_to_pred_qrels
+from src.utils import load_pickled_object, decompress_file, pickle_object, compress_file, get_queries, \
+    output_dict_to_pred_qrels, get_targets
 
 # possible sentence mebedding models
 ["all-mpnet-base-v2", "princeton-nlp/sup-simcse-roberta-large", "sentence-transformers/sentence-t5-base", "infersent", "https://tfhub.dev/google/universal-sentence-encoder/4"],
@@ -21,6 +22,7 @@ def run():
 
     parser = argparse.ArgumentParser()
     parser.add_argument('data', type=str, default="test")
+    parser.add_argument('--pre_processing', action='store_true')
     parser.add_argument('-sentence_embedding_models', type=str, nargs='+',
                         default= ["all-mpnet-base-v2", "princeton-nlp/sup-simcse-roberta-large", "sentence-transformers/sentence-t5-base", "https://tfhub.dev/google/universal-sentence-encoder/4"],
  #  "all-mpnet-base-v2", "princeton-nlp/sup-simcse-roberta-large", "sentence-transformers/sentence-t5-base"
@@ -29,18 +31,29 @@ def run():
     parser.add_argument('-lexical_similarity_measures', type=str, nargs='+', default=["similar_words_ratio"])
     parser.add_argument('correlation', type=str, default='braycurtis')
     parser.add_argument('k', type=int, default=5)
-    parser.add_argument('--no_cache', action="store_true", help='If not selected, the pre-processed queries and the encodings of the queries and the targets will be stored as compressed pickle files in the data/cache directory.')
+    parser.add_argument('--no_cache', action="store_true", help='If not selected, the encodings of the queries and the targets will be stored as compressed pickle files in the data/cache directory.')
     args = parser.parse_args()
 
-    caching_directory = DATA_PATH + "cache/" + args.data
+    if args.pre_processing:
+        caching_directory = DATA_PATH + "pre_processed_data/cache/" + args.data
+    else:
+        caching_directory = DATA_PATH + "cache/" + args.data
 
-    query_path = DATA_PATH+args.data+"/queries.tsv"
-    corpus_path = DATA_PATH+args.data+"/corpus"
-    queries = get_queries(query_path) # queries dictionary
+    if args.pre_processing:
+        pre_process_data_path = DATA_PATH + "pre_processed_data/" + args.data
+        queries = load_pickled_object(decompress_file(pre_process_data_path + "/pp_queries" + ".pickle" + ".zip"))
+        targets = load_pickled_object(decompress_file(pre_process_data_path + "/pp_targets" + ".pickle" + ".zip"))
+        candidates_path = DATA_PATH + "pre_processed_data/" + args.data + "/candidates"
+    else:
+        query_path = DATA_PATH+args.data+"/queries.tsv"
+        queries = get_queries(query_path)  # queries dictionary
+        corpus_path = DATA_PATH + args.data + "/corpus"
+        targets = get_targets(corpus_path)
+        candidates_path = DATA_PATH + args.data + "/candidates"
+
     query_ids = list(queries.keys())
-    candidates_path = DATA_PATH + args.data + "/candidates"
     candidates = load_pickled_object(decompress_file(candidates_path + ".pickle" + ".zip"))
-    candidate_queries_and_targets = get_queries_and_targets_from_candidates(candidates, corpus_path)
+    candidate_queries_and_targets = get_queries_and_targets_from_candidates(candidates, targets)
     candidate_targets = get_all_relevant_targets(candidate_queries_and_targets)
 
     all_sim_scores = {}
@@ -98,9 +111,12 @@ def run():
         targets_and_sim_scores = {x: targets_and_sim_scores[x] for x in list(targets_and_sim_scores)[:args.k]}
         output[query_id] = targets_and_sim_scores
 
-    output_path = DATA_PATH+args.data+"/pred_qrels.tsv"
-    output_dict_to_pred_qrels(output, output_path)
+    if args.pre_processing:
+        output_path = DATA_PATH + "pre_processed_data/" + args.data +"/pred_qrels.tsv"
+    else:
+        output_path = DATA_PATH+args.data+"/pred_qrels.tsv"
 
+    output_dict_to_pred_qrels(output, output_path)
 
 
 if __name__ == "__main__":

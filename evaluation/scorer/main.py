@@ -67,12 +67,16 @@ def validate_files(pred_file, gold_file):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('data', type=str, default="clef_2022_checkthat_2a_english")
+    parser.add_argument('--pre_processing', action='store_true')
     parser.add_argument('--use_corpus_chunk_data', action="store_true")
 
     args = parser.parse_args()
 
     line_separator = '=' * 120
-    pred_file = DATA_PATH+args.data+"/pred_qrels.tsv"
+    if args.pre_processing:
+        pred_file = DATA_PATH + "pre_processed_data/" + args.data +"/pred_qrels.tsv"
+    else:
+        pred_file = DATA_PATH+args.data+"/pred_qrels.tsv"
     if args.use_corpus_chunk_data:
         pred_file = DATA_PATH + "corpus_chunks/" + args.data+"/pred_qrels.tsv"
     gold_file = DATA_PATH+args.data+"/gold.tsv"

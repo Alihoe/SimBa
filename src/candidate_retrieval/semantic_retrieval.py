@@ -58,7 +58,7 @@ def run():
     parser.add_argument('correlation', type=str, default='spearmanr')
     parser.add_argument('--union_of_top_k_per_feature', action="store_true") # otherwise top k of mean of features
     parser.add_argument('k', type=int, default = 50)
-    parser.add_argument('--no_cache', action="store_true", help='If not selected, the pre-processed queries and the encodings of the queries and the targets will be stored as compressed pickle files in the data/cache directory.')
+    parser.add_argument('--no_cache', action="store_true", help='If not selected, the queries and the targets will be stored as compressed pickle files in the data/cache directory.')
     parser.add_argument('-sentence_embedding_models', type=str, nargs='+',
                     default=["all-mpnet-base-v2"],
                     help='Pass a list of sentence embedding models hosted by Huggingface or Tensorflow or simply pass "infersent" to use the infersent encoder.')
@@ -72,26 +72,26 @@ def run():
     query_ids = list(queries.keys())
     target_ids = list(targets.keys())
 
-    caching_directory = DATA_PATH + "cache/" + args.data
+    if args.pre_processing:
+        caching_directory = DATA_PATH + "pre_processed_data/cache/" + args.data
+    else:
+        caching_directory = DATA_PATH + "cache/" + args.data
 
     if not args.no_cache:
         if not os.path.isdir(caching_directory):
             os.makedirs(caching_directory)
 
     if args.pre_processing:
-        if not args.no_cache:
-            stored_pp_queries = caching_directory + "/pre_processed_queries"
-            stored_pp_targets = caching_directory + "/pre_processed_targets"
-        if os.path.exists(stored_pp_queries+".pickle"+".zip") and os.path.exists(stored_pp_targets+".pickle"+".zip"):
-            queries = load_pickled_object(decompress_file(stored_pp_queries+".pickle"+".zip"))
-            targets = load_pickled_object(decompress_file(stored_pp_targets+".pickle"+".zip"))
-        else:
-            queries, targets = pre_process(queries, targets)
-        if not args.no_cache:
-            pickle_object(stored_pp_queries, queries)
-            compress_file(stored_pp_queries+".pickle")
-            pickle_object(stored_pp_targets, targets)
-            compress_file(stored_pp_targets+"pickle")
+        pre_process_data_path = DATA_PATH + "pre_processed_data/" + args.data
+        queries, targets = pre_process(queries, targets, args.data)
+        if not os.path.isdir(pre_process_data_path):
+            os.makedirs(pre_process_data_path)
+        pickle_object(pre_process_data_path + "/pp_queries", queries)
+        compress_file(pre_process_data_path + "/pp_queries" + ".pickle")
+        os.remove(pre_process_data_path + "/pp_queries" + ".pickle")
+        pickle_object(pre_process_data_path + "/pp_targets", targets)
+        compress_file(pre_process_data_path + "/pp_targets" + ".pickle")
+        os.remove(pre_process_data_path + "/pp_targets" + ".pickle")
 
     all_sim_scores = []
 
@@ -157,7 +157,10 @@ def run():
             union_of_top_k_per_feature_dict[query_id] = dict(sorted(union_of_top_k_per_feature[query_id].items(), key=lambda item:item[1], reverse=True))
         output = union_of_top_k_per_feature_dict
 
-    output_path = DATA_PATH+args.data+"/candidates"
+    if args.pre_processing:
+        output_path = DATA_PATH + "pre_processed_data/" + args.data + "/candidates"
+    else:
+        output_path = DATA_PATH+args.data+"/candidates"
 
     pickle_object(output_path, output)
     compress_file(output_path + ".pickle")

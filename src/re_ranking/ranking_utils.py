@@ -6,10 +6,9 @@ from src.utils import get_targets
 characters = ["",'']
 
 
-def get_queries_and_targets_from_candidates(candidate_dictionary, corpus_of_targets_filename):
+def get_queries_and_targets_from_candidates(candidate_dictionary, targets):
     candidates_per_query = {}
     query_ids = list(candidate_dictionary.keys())
-    targets = get_targets(corpus_of_targets_filename)
     for query_id in query_ids:
         candidates_ids_and_texts_per_query = {}
         candidate_targets = candidate_dictionary[query_id]
