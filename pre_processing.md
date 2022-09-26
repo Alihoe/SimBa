@@ -25,22 +25,37 @@
 
 ###Evaluation for dataset clef_2022_checkthat_2a_english
 
+|URLs|@|Emojis|Twitter Handle|Map@5|
+|----|---|---|---|---|
+|1A|2A|3A|4A|0.9337|
+|**1B**|2A|3A|4A|**0.9342**|
+|**1C**|2A|3A|4A|0.9310|
+|1A|**2B**|3A|4A|0.9336|
+|1A|2A|**3B**|4A|0.9337|
+|1A|2A|**3C**|4A|**0.9361**|
+|1A|2A|3A|**4B**|0.9162|
+|1A|2A|3A|**4C**|0.9272|
+|1A|2A|3A|**4D**|0.9208|
+|**1B**|2A|**3C**|4A|**0.9366**|
 
+--> remove URLs and replace Emojis with descriptions
+
+###Evaluation for dataset clef_2021_checkthat_2a_english
 
 |URLs|@|Emojis|Twitter Handle|Map@5|
 |----|---|---|---|---|
-|**1A**|2A|3A|4A|0.9337|
-|**1B**|2A|3A|4A| |
-|**1C**|2A|3A|4A| |
-|1A|**2A**|3A|4A| |
-|1A|**2B**|3A|4A| |
-|1A|2A|**3A**|4A| |
-|1A|2A|**3B**|4A| |
-|1A|2A|**3C**|4A| |
-|1A|2A|3A|**4A**| |
-|1A|2A|3A|**4B**| |
-|1A|2A|3A|**4C**| |
-|1A|2A|3A|**4D**| |
+|1A|2A|3A|4A|0.9035
+|**1B**|2A|3A|4A|**0.9064**|
+|**1C**|2A|3A|4A|
+|1A|**2B**|3A|4A|
+|1A|2A|**3B**|4A|
+|1A|2A|**3C**|4A|
+|1A|2A|3A|**4B**|
+|1A|2A|3A|**4C**|
+|1A|2A|3A|**4D**|
+|**1B**|2A|**3C**|4A|**0.9105**|
+
+--> remove URLs and replace Emojis with descriptions
 
 
 
