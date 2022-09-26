@@ -8,11 +8,6 @@ def remove_urls(tweet):
     return tweet
 
 
-def remove_pic_urls(tweet):
-    tweet = re.sub("([^ ]*\pic.twitter)\S*", "", tweet)
-    return tweet
-
-
 def replace_urls(tweet):
     tweet = re.sub("([^ ]*\pic.twitter)\S*", "[picture]", tweet)
     tweet = re.sub("([^ ]*\.com[/A-Za-z0-9]*)", "[url]", tweet)
@@ -36,17 +31,6 @@ def replace_emojis(tweet):
     dem = demoji.findall(tweet)
     for key, value in dem.items():
         tweet = tweet.replace(key, value+" ")
-    return tweet
-
-
-def remove_handle(tweet):
-    hyphen_positions = []
-    for i in range(len(tweet)):
-        if tweet[i] == '—':
-            hyphen_positions.append(i)
-    if hyphen_positions:
-        last_hyphen = hyphen_positions[len(hyphen_positions) - 1]
-        tweet = tweet[:last_hyphen]
     return tweet
 
 

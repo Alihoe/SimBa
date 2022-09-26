@@ -46,16 +46,21 @@
 |----|---|---|---|---|
 |1A|2A|3A|4A|0.9035
 |**1B**|2A|3A|4A|**0.9064**|
-|**1C**|2A|3A|4A|
-|1A|**2B**|3A|4A|
-|1A|2A|**3B**|4A|
-|1A|2A|**3C**|4A|
-|1A|2A|3A|**4B**|
-|1A|2A|3A|**4C**|
-|1A|2A|3A|**4D**|
+|1A|2A|**3C**|4A|**0.9068**|
 |**1B**|2A|**3C**|4A|**0.9105**|
 
 --> remove URLs and replace Emojis with descriptions
+
+###Evaluation for dataset clef_2020_checkthat_2_english
+
+|URLs|@|Emojis|Twitter Handle|Map@5|
+|----|---|---|---|---|
+|1A|2A|3A|4A|0.9525|
+|**1B**|2A|3A|4A|**0.9537**|
+|1A|2A|**3C**|4A|0.9525|
+|**1B**|2A|**3C**|4A|**0.9537**|
+
+--> remove URLS
 
 
 
