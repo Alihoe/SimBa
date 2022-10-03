@@ -7,6 +7,7 @@ from scipy.spatial.distance import cdist
 from src.candidate_retrieval import DATA_PATH
 from src.re_ranking.lexical_similarity import get_lexical_similarity_ratio
 from src.re_ranking.ranking_utils import get_queries_and_targets_from_candidates, get_all_relevant_targets
+from src.re_ranking.supervised_reranking_methods.utils import prepare_binary_dataset
 from src.sentence_encoder import encode_queries, encode_targets
 from src.utils import load_pickled_object, decompress_file, pickle_object, compress_file, get_queries, \
     output_dict_to_pred_qrels, get_targets
@@ -102,9 +103,12 @@ def run():
     for query_id, sim_scores in list(all_sim_scores.items()):
         sim_scores_mean[query_id] = np.mean(sim_scores, axis=0)
 
+    all_target_ids = {}
+
     output = {}
     for query_id, sim_scores in list(sim_scores_mean.items()):
         target_ids = list(candidate_queries_and_targets[query_id].keys())
+        all_target_ids[query_id] = target_ids
         sim_scores_per_query = sim_scores.tolist()[0]
         targets_and_sim_scores = dict(zip(target_ids, sim_scores_per_query))
         targets_and_sim_scores = dict(sorted(targets_and_sim_scores.items(), key=lambda item: item[1], reverse=True))
@@ -117,6 +121,8 @@ def run():
         output_path = DATA_PATH+args.data+"/pred_qrels.tsv"
 
     output_dict_to_pred_qrels(output, output_path)
+
+    prepare_binary_dataset(all_sim_scores, all_target_ids, DATA_PATH+args.data+"/gold.tsv")
 
 
 if __name__ == "__main__":
