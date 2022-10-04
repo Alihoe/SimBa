@@ -3,10 +3,29 @@
 **++++++++++++Still under construction++++++++++++**
 
 SimBa is an unsupervised IR-pipeline designed for STS tasks. 
-For Candidate Retrieval it makes use of sentence embedding models, for Re-Ranking additionally of simple lexical overlap between query and target.
+For Candidate Retrieval it makes use of sentence embedding models,
+for Re-Ranking additionally of simple lexical overlap between query and target.
 
 There are separate scripts available for getting CLEF CheckThat! claim matching datasets,
 for candidate retrieval, for re-ranking and for evaluation.
+
+SimBa is an unsupervised IR-pipeline designed for Semantic Textual Similarity(STS) tasks.
+Its original version was presented in REF and slightly edited afterwards, concentrating
+on the best working features for the unsupervised approach.
+For Candidate Retrieval it encodes queries and targets using sentence embedding models
+and retrieves the closest target for every query based on their embeddings' spatial distances.
+The candidates are selected based on the union of the k closest targets for every model per query.
+Re-Ranking is also based on sentence embedding distances, as well as
+simple lexical overlap between query and target. 
+Therefore the spatial distance scores and the ratio of lexical overlap are simply averaged. 
+Any number of sentence embeddings models, as well as any spatial distance measure can be used
+for both retrieval and re-ranking.
+The results presented in this paper were created using the sentence encoders "all-mpnet-base-v2"
+to retrieve the k=50 closest candidate-targets for every input query according to braycurtis distance.
+For re-ranking we used "all-mpnet-base-v2", "princeton-nlp/sup-simcse-roberta-large",
+"sentence-transformers/sentence-t5-base",
+"https://tfhub.dev/google/universal-sentence-encoder/4"] and the ratio of similar words as features.
+
 
 ## Performance on CLEF CheckThat! claim matching datasets
 
@@ -19,6 +38,11 @@ CLEF CheckThat! claim matching datasets
 | 2021 2b English  | 0.4662 |  
 | 2022 2a English  | 0.9337 |    
 | 2022 2b English  | 0.5282 | 
+
+All MAP scores on threshold from [1, 3, 5, 10, 20, 50, 1000]. [0.3076923076923077, 0.35256410256410253, 0.36102564102564105, 0.3694200244200244, 0.37178688832534984, 0.3731780700878844, 0.374520842851623]
+INFO : MRR score 0.3833437594326711
+INFO : All P scores on threshold from [1, 3, 5, 10, 20, 50, 1000]. [0.3230769230769231, 0.15384615384615383, 0.09846153846153845, 0.05846153846153847, 0.03076923076923077, 0.013230769230769232, 0.0009692307692307692]
+
 
 
 For these results I used the sentence encoders "all-mpnet-base-v2" to retrieve the k=50 closest(braycurtis distance)candidate-targets for every input query. For re-ranking I used ["all-mpnet-base-v2", "princeton-nlp/sup-simcse-roberta-large", "sentence-transformers/sentence-t5-base", "https://tfhub.dev/google/universal-sentence-encoder/4"] and ["similar_words_ratio"] with k=5.

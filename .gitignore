@@ -148,3 +148,5 @@ data/pre_processed_data
 
 elasticsearch_baseline.py
 
+subtask_2a_elastic_baseline_english_gold.tsv
+

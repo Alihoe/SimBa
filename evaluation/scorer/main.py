@@ -73,13 +73,21 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     line_separator = '=' * 120
-    if args.pre_processing:
+    if args.data == "baseline_2a":
+        pred_file = DATA_PATH + "baselines/data/subtask_2a_elastic_baseline_english_gold.tsv"
+    elif args.data == "baseline_2b":
+        pred_file = DATA_PATH + "baselines/data/subtask_2b_elastic_baseline_english_gold.tsv"
+    elif args.pre_processing:
         pred_file = DATA_PATH + "pre_processed_data/" + args.data +"/pred_qrels.tsv"
     else:
         pred_file = DATA_PATH+args.data+"/pred_qrels.tsv"
     if args.use_corpus_chunk_data:
         pred_file = DATA_PATH + "corpus_chunks/" + args.data+"/pred_qrels.tsv"
     gold_file = DATA_PATH+args.data+"/gold.tsv"
+    if args.data == "baseline_2a":
+        gold_file = DATA_PATH+"clef_2022_checkthat_2a_english"+"/gold.tsv"
+    elif args.data == "baseline_2b":
+        gold_file = DATA_PATH+"clef_2022_checkthat_2b_english"+"/gold.tsv"
     if validate_files(pred_file, gold_file):
         maps, mrr, precisions = evaluate(gold_file, pred_file)
         filename = os.path.basename(pred_file)

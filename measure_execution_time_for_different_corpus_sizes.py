@@ -10,7 +10,7 @@ def run():
     # parser.add_argument('data', type=str, default="clef_2020_checkthat_2_english", help="Pass name of dataset stored in the data folder.")
     # args = parser.parse_args()
 
-    data = "clef_2021_checkthat_2a_english"
+    data = "clef_2020_checkthat_2_english"
 
     sizes = [1000, 5000, 10000]
 
