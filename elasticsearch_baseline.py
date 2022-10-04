@@ -122,7 +122,8 @@ def run_baselines(args):
     logging.info(f'MRR score {mrr}')
     logging.info(f'All P scores on threshold from [1, 3, 5, 10, 20, 50, 1000]. {precisions}')
 
-#
+2022 2a
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()

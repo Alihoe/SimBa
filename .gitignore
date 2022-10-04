@@ -145,3 +145,6 @@ glove.840B.300d.zip
 data/cache
 data/corpus_chunks
 data/pre_processed_data
+
+elasticsearch_baseline.py
+

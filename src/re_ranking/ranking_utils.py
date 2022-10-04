@@ -6,7 +6,8 @@ from src.utils import get_targets
 characters = ["",'']
 
 
-def get_queries_and_targets_from_candidates(candidate_dictionary, targets):
+def get_queries_and_targets_from_candidates(candidate_dictionary, corpus_path):
+    targets = get_targets(corpus_path)
     candidates_per_query = {}
     query_ids = list(candidate_dictionary.keys())
     for query_id in query_ids:
