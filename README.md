@@ -9,18 +9,7 @@ for Re-Ranking additionally of simple lexical overlap between query and target.
 There are separate scripts available for getting CLEF CheckThat! claim matching datasets,
 for candidate retrieval, for re-ranking and for evaluation.
 
-SimBa is an unsupervised IR-pipeline designed for Semantic Textual Similarity(STS) tasks.
-Its original version was presented in REF and slightly edited afterwards, concentrating
-on the best working features for the unsupervised approach.
-For Candidate Retrieval it encodes queries and targets using sentence embedding models
-and retrieves the closest target for every query based on their embeddings' spatial distances.
-The candidates are selected based on the union of the k closest targets for every model per query.
-Re-Ranking is also based on sentence embedding distances, as well as
-simple lexical overlap between query and target. 
-Therefore the spatial distance scores and the ratio of lexical overlap are simply averaged. 
-Any number of sentence embeddings models, as well as any spatial distance measure can be used
-for both retrieval and re-ranking.
-The results presented in this paper were created using the sentence encoders "all-mpnet-base-v2"
+The results presented here were created using the sentence encoders "all-mpnet-base-v2"
 to retrieve the k=50 closest candidate-targets for every input query according to braycurtis distance.
 For re-ranking we used "all-mpnet-base-v2", "princeton-nlp/sup-simcse-roberta-large",
 "sentence-transformers/sentence-t5-base",
