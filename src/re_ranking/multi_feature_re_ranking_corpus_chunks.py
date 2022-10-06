@@ -63,19 +63,28 @@ def run():
             pickle_object(stored_embedded_queries, embedded_queries)
             compress_file(stored_embedded_queries + ".pickle")
             os.remove(stored_embedded_queries + ".pickle")
+        target_ids = list(candidate_queries_and_targets[query_id].keys())
         if os.path.exists(stored_embedded_targets + ".pickle" + ".zip"):
-            relevant_embedded_targets = load_pickled_object(decompress_file(stored_embedded_targets+".pickle"+".zip"))
+            stored_embedded_targets = load_pickled_object(decompress_file(stored_embedded_targets+".pickle"+".zip"))
+            relevant_embedded_targets = {}
+            for id in target_ids:
+                relevant_embedded_targets[id] = stored_embedded_targets[id]
+            for query_id in query_ids:
+                query_embedding = embedded_queries[query_id]
+                target_embeddings = [relevant_embedded_targets[x] for x in target_ids]
+                sim_scores = 1 - cdist(np.array([query_embedding]), np.stack(target_embeddings, axis=0),
+                                       metric=args.similarity_measure)
+                all_sim_scores[query_id].append(sim_scores)
         else:
             relevant_embedded_targets = encode_targets(candidate_targets, model)
             pickle_object(stored_embedded_targets+"_only_candidates", relevant_embedded_targets)
             compress_file(stored_embedded_targets + "_only_candidates.pickle")
             os.remove(stored_embedded_targets + "_only_candidates.pickle")
-        for query_id in query_ids:
-            query_embedding = embedded_queries[query_id]
-            target_ids = list(candidate_queries_and_targets[query_id].keys())
-            target_embeddings = [relevant_embedded_targets[x] for x in target_ids]
-            sim_scores = 1 - cdist(np.array([query_embedding]), np.stack(target_embeddings, axis=0), metric=args.similarity_measure)
-            all_sim_scores[query_id].append(sim_scores)
+            for query_id in query_ids:
+                query_embedding = embedded_queries[query_id]
+                target_embeddings = [relevant_embedded_targets[x] for x in target_ids]
+                sim_scores = 1 - cdist(np.array([query_embedding]), np.stack(target_embeddings, axis=0), metric=args.similarity_measure)
+                all_sim_scores[query_id].append(sim_scores)
 
     if "similar_words_ratio" in args.lexical_similarity_measures:
         lexical_similarities = get_lexical_similarity_ratio(queries, candidate_queries_and_targets)
