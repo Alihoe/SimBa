@@ -76,19 +76,10 @@ def run():
     query_path = DATA_PATH+args.data+"/queries.tsv"
     corpus_path = DATA_PATH+args.data+"/corpus"
     queries = get_queries(query_path) # queries dictionary
-    targets = get_targets(corpus_path) # targets dictionary
     query_ids = list(queries.keys())
 
-    org_corp_size = len(list(targets.keys()))
-    pop_nr = org_corp_size - args.corpus_size
-    random.seed(2)
-    for i in range(pop_nr):
-        targets.pop(random.choice(list(targets.keys())))
-
-    target_ids = list(targets.keys())
-
-    if args.pre_processing:
-            queries, targets = pre_process(queries, targets)
+    stored_target_ids = corpus_chunks_path + "/target_ids"
+    target_ids = load_pickled_object(decompress_file(stored_target_ids + ".pickle" + ".zip"))
 
     all_sim_scores = []
 
@@ -109,13 +100,7 @@ def run():
             pickle_object(stored_embedded_queries, embedded_queries)
             compress_file(stored_embedded_queries + ".pickle")
             os.remove(stored_embedded_queries + ".pickle")
-        if os.path.exists(stored_embedded_targets + ".pickle" + ".zip"):
-            embedded_targets = load_pickled_object(decompress_file(stored_embedded_targets+".pickle"+".zip"))
-        else:
-            embedded_targets = encode_targets(targets, model)
-            pickle_object(stored_embedded_targets, embedded_targets)
-            compress_file(stored_embedded_targets + ".pickle")
-            os.remove(stored_embedded_targets + ".pickle")
+        embedded_targets = load_pickled_object(decompress_file(stored_embedded_targets+".pickle"+".zip"))
         sim_scores = 1 - cdist(np.stack(list(embedded_queries.values()), axis=0), np.stack(list(embedded_targets.values()), axis=0), metric=args.similarity_measure)
         all_sim_scores.append(sim_scores)
 

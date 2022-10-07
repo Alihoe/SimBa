@@ -13,6 +13,7 @@ def run():
     # args = parser.parse_args()
 
     data = "clef_2020_checkthat_2_english"
+    #data = "clef_2021_checkthat_2a_english"
     Path("data/corpus_chunks/"+data).mkdir(parents=True, exist_ok=True)
 
     sizes = [1000, 5000, 10000]
@@ -20,8 +21,8 @@ def run():
     for corpus_size in sizes:
         # get the verified claims embeddings
         shutil.rmtree("data/corpus_chunks/" + data, ignore_errors=False, onerror=None)
-        subprocess.call(["python", "src/candidate_retrieval/semantic_retrieval_corpus_chunks.py", data, str(corpus_size),
-             "braycurtis", "--union_of_top_k_per_feature", "spearman", "50", "-sentence_embedding_models", "all-mpnet-base-v2", "princeton-nlp/sup-simcse-roberta-large", "sentence-transformers/sentence-t5-base", "https://tfhub.dev/google/universal-sentence-encoder/4"])
+        subprocess.call(["python", "src/candidate_retrieval/semantic_retrieval_corpus_chunks_only_vclaims.py", data, str(corpus_size),
+             "braycurtis", "--union_of_top_k_per_feature", "spearman", "50", "-sentence_embedding_models", "all-mpnet-base-v2","princeton-nlp/sup-simcse-roberta-large", "sentence-transformers/sentence-t5-base", "https://tfhub.dev/google/universal-sentence-encoder/4"])
         # for fname in os.listdir("data/corpus_chunks/"+ data):
         #     if fname.startswith("embedded_queries"):
         #         os.remove(os.path.join("data/corpus_chunks/"+ data, fname))
