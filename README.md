@@ -28,11 +28,6 @@ CLEF CheckThat! claim matching datasets
 | 2022 2a English  | 0.9337 |    
 | 2022 2b English  | 0.5282 | 
 
-All MAP scores on threshold from [1, 3, 5, 10, 20, 50, 1000]. [0.3076923076923077, 0.35256410256410253, 0.36102564102564105, 0.3694200244200244, 0.37178688832534984, 0.3731780700878844, 0.374520842851623]
-INFO : MRR score 0.3833437594326711
-INFO : All P scores on threshold from [1, 3, 5, 10, 20, 50, 1000]. [0.3230769230769231, 0.15384615384615383, 0.09846153846153845, 0.05846153846153847, 0.03076923076923077, 0.013230769230769232, 0.0009692307692307692]
-
-
 
 For these results I used the sentence encoders "all-mpnet-base-v2" to retrieve the k=50 closest(braycurtis distance)candidate-targets for every input query. For re-ranking I used ["all-mpnet-base-v2", "princeton-nlp/sup-simcse-roberta-large", "sentence-transformers/sentence-t5-base", "https://tfhub.dev/google/universal-sentence-encoder/4"] and ["similar_words_ratio"] with k=5.
 
@@ -260,7 +255,6 @@ without lexical information
 |all-mpnet-base-v2|0.8861|
 |all-mpnet-base-v2, ..sentence-t5-base, ..simcse..|0.9206|
 |all-mpnet-base-v2, ..sentence-t5-base|0.9075|
-|
 
 for dataset clef_2022_checkthat_2b_english
 
