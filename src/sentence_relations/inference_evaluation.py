@@ -11,44 +11,6 @@ from src.sentence_encoder import encode_queries, encode_targets
 from src.utils import get_queries, get_targets, pickle_object, compress_file, decompress_file, load_pickled_object, \
     make_top_k_dictionary
 
-# parameters
-# clef_2021_checkthat_2a_english braycurtis spearman 50
-
-
-# possible data names:
-# "clef_2022_checkthat_2a_english"
-# "clef_2022_checkthat_2b_english"
-# "clef_2020_checkthat_2_english"
-# "clef_2021_checkthat_2a_english"
-
-# example sentence embedding models
-# ["all-mpnet-base-v2",
-# "princeton-nlp/sup-simcse-roberta-large",
-# "sentence-transformers/sentence-t5-base",
-# "infersent",
-# "https://tfhub.dev/google/universal-sentence-encoder/4"]
-
-# possible similarity measures:
-# "braycurtis"
-# "canberra"
-# "chebyshev"
-# "cityblock"
-# "correlation"
-# "cosine"
-# "euclidean"
-# "jensenshannon"
-# "mahalanobis"
-# "minkowski"
-# "seuclidean"
-# "sqeuclidean"
-
-# possible correlation measures:
-# "spearman"
-# "mean_squared_errors"
-
-# ["all-mpnet-base-v2", "princeton-nlp/sup-simcse-roberta-large", "sentence-transformers/sentence-t5-base", "infersent", "https://tfhub.dev/google/universal-sentence-encoder/4"],
-#
-
 def run():
 
     parser = argparse.ArgumentParser()
@@ -59,7 +21,6 @@ def run():
     parser.add_argument('--union_of_top_k_per_feature', action="store_true") # otherwise top k of mean of features
     parser.add_argument('k', type=int, default = 50)
     parser.add_argument('--no_cache', action="store_true", help='If not selected, the queries and the targets will be stored as compressed pickle files in the data/cache directory.')
-    parser.add_argument('-fields', type=str, nargs='+', default='all')
     parser.add_argument('-sentence_embedding_models', type=str, nargs='+',
                     default=["all-mpnet-base-v2"],
                     help='Pass a list of sentence embedding models hosted by Huggingface or Tensorflow or simply pass "infersent" to use the infersent encoder.')
@@ -69,10 +30,9 @@ def run():
     query_path = DATA_PATH+args.data+"/queries.tsv"
     corpus_path = DATA_PATH+args.data+"/corpus"
     queries = get_queries(query_path) # queries dictionary
-    targets = get_targets(corpus_path, args.fields) # targets dictionary
+    targets = get_targets(corpus_path) # targets dictionary
     query_ids = list(queries.keys())
     target_ids = list(targets.keys())
-
 
     if args.pre_processing:
         caching_directory = DATA_PATH + "pre_processed_data/cache/" + args.data

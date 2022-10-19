@@ -37,7 +37,7 @@ def get_queries(query_path):
     return df.set_index('id')['query'].to_dict()
 
 
-def get_targets(corpus_of_targets_filename):
+def get_targets(corpus_of_targets_filename, fields):
     if os.path.isdir(corpus_of_targets_filename):
         targets = {}
         for json_file in os.listdir(corpus_of_targets_filename):
@@ -47,7 +47,9 @@ def get_targets(corpus_of_targets_filename):
             targets[v_claim['vclaim_id']] = v_claim['vclaim']
     else:
         df = pd.read_csv(corpus_of_targets_filename, sep='\t', dtype=str)
-        targets = dict(zip(df.iloc[:, 0], df.iloc[:, 1]))
+        column_length = len(df.columns)
+        column_values = list(map(' '.join, df.iloc[:, 1:column_length].astype(str).values.tolist()))
+        targets = dict(zip(df.iloc[:, 0], column_values))
 
     return targets
 
@@ -92,8 +94,10 @@ def delete_first_line_of_tsv(csv_file_name):
 
 def prepare_corpus_tsv(corpus_path):
     df = pd.read_csv(corpus_path, sep='\t', dtype=str)
-    df.drop('title', axis = 1)
-    df.to_csv(corpus_path, index=False, header=False, sep='\t')
+    df.rename(columns={df.columns[0]: "id"}, inplace=True)
+    df.to_csv(corpus_path, index=False, header=True, sep='\t')
+
+
 
 
 

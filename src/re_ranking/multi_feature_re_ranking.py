@@ -24,6 +24,7 @@ def run():
     parser = argparse.ArgumentParser()
     parser.add_argument('data', type=str, default="test")
     parser.add_argument('--pre_processing', action='store_true')
+    parser.add_argument('-fields', type=str, nargs='+', default='all')
     parser.add_argument('-sentence_embedding_models', type=str, nargs='+',
                         default= ["all-mpnet-base-v2", "princeton-nlp/sup-simcse-roberta-large", "sentence-transformers/sentence-t5-base", "https://tfhub.dev/google/universal-sentence-encoder/4"],
  #  "all-mpnet-base-v2", "princeton-nlp/sup-simcse-roberta-large", "sentence-transformers/sentence-t5-base"
@@ -49,12 +50,12 @@ def run():
         query_path = DATA_PATH+args.data+"/queries.tsv"
         queries = get_queries(query_path)  # queries dictionary
         corpus_path = DATA_PATH + args.data + "/corpus"
-        targets = get_targets(corpus_path)
+        targets = get_targets(corpus_path, args.fields)
         candidates_path = DATA_PATH + args.data + "/candidates"
 
     query_ids = list(queries.keys())
     candidates = load_pickled_object(decompress_file(candidates_path + ".pickle" + ".zip"))
-    candidate_queries_and_targets = get_queries_and_targets_from_candidates(candidates, targets)
+    candidate_queries_and_targets = get_queries_and_targets_from_candidates(candidates, corpus_path, args.fields)
     candidate_targets = get_all_relevant_targets(candidate_queries_and_targets)
 
     all_sim_scores = {}

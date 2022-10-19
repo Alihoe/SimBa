@@ -9,7 +9,7 @@ def run():
     args = parser.parse_args()
 
     subprocess.call(["python", "src/candidate_retrieval/semantic_retrieval.py", args.data, "braycurtis", "--union_of_top_k_per_feature", "spearmanr", "50"])
-    subprocess.call(["python", "src/re_ranking/multi_feature_re_ranking.py", args.data, "braycurtis", "spearmanr", "5"])
+    subprocess.call(["python", "src/re_ranking/multi_feature_re_ranking.py", args.data, "braycurtis", "spearmanr", "10"])
     subprocess.call(["python", "evaluation/scorer/main.py", args.data])
 
 
