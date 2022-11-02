@@ -73,11 +73,14 @@ def run():
     query_ids = list(queries.keys())
     target_ids = list(targets.keys())
 
-
     if args.pre_processing:
         caching_directory = DATA_PATH + "pre_processed_data/cache/" + args.data
     else:
         caching_directory = DATA_PATH + "cache/" + args.data
+
+    if args.fields != 'all':
+        fields = '_'.join(args.fields)
+        caching_directory = caching_directory + '_' + fields
 
     if not args.no_cache:
         if not os.path.isdir(caching_directory):
@@ -85,6 +88,8 @@ def run():
 
     if args.pre_processing:
         pre_process_data_path = DATA_PATH + "pre_processed_data/" + args.data
+        if args.fields != 'all':
+            pre_process_data_path = pre_process_data_path + '_' + fields
         queries, targets = pre_process(queries, targets, args.data)
         if not os.path.isdir(pre_process_data_path):
             os.makedirs(pre_process_data_path)
@@ -96,11 +101,13 @@ def run():
         os.remove(pre_process_data_path + "/pp_targets" + ".pickle")
 
     all_sim_scores = []
+    all_features = []
 
     if args.union_of_top_k_per_feature:
         union_of_top_k_per_feature = {}
 
     for model in args.sentence_embedding_models:
+        all_features.append(model)
         if "/" or ":" or "." in str(model):
             model_name = str(model).replace("/", "_").replace(":", "_").replace(".", "_")
         else:
@@ -141,7 +148,7 @@ def run():
                 else:
                     union_of_top_k_per_feature[query_id] = this_model_top_k[query_id]
 
-    #analyse_correlation(np.array(all_sim_scores), args.correlation)
+    analyse_correlation(all_features, np.array(all_sim_scores), args.correlation, args.data)
 
     if not args.union_of_top_k_per_feature:
         sim_scores_mean = np.mean(np.array(all_sim_scores), axis=0)
@@ -162,11 +169,16 @@ def run():
     if args.pre_processing:
         output_path = DATA_PATH + "pre_processed_data/" + args.data + "/candidates"
     else:
-        output_path = DATA_PATH+args.data+"/candidates"
+        output_path = DATA_PATH + args.data+"/candidates"
+
+    if args.fields != 'all':
+        output_path = output_path + '_' + fields
 
     pickle_object(output_path, output)
     compress_file(output_path + ".pickle")
     os.remove(output_path + ".pickle")
+
+    print(targets)
 
 
 if __name__ == "__main__":

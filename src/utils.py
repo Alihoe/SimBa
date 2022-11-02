@@ -47,10 +47,11 @@ def get_targets(corpus_of_targets_filename, fields):
             targets[v_claim['vclaim_id']] = v_claim['vclaim']
     else:
         df = pd.read_csv(corpus_of_targets_filename, sep='\t', dtype=str)
+        if fields != "all":
+            df = df[['id'].extend(fields)]
         column_length = len(df.columns)
         column_values = list(map(' '.join, df.iloc[:, 1:column_length].astype(str).values.tolist()))
         targets = dict(zip(df.iloc[:, 0], column_values))
-
     return targets
 
 

@@ -5,6 +5,7 @@ import numpy as np
 from scipy.spatial.distance import cdist
 
 from src.candidate_retrieval import DATA_PATH
+from src.correlation_analysis import analyse_correlation
 from src.re_ranking.lexical_similarity import get_lexical_similarity_ratio
 from src.re_ranking.ranking_utils import get_queries_and_targets_from_candidates, get_all_relevant_targets
 from src.re_ranking.supervised_reranking_methods.utils import prepare_binary_dataset
@@ -41,30 +42,40 @@ def run():
     else:
         caching_directory = DATA_PATH + "cache/" + args.data
 
+    if args.fields != 'all':
+        fields = '_'.join(args.fields)
+        caching_directory = caching_directory + '_' + fields
+
     if args.pre_processing:
         pre_process_data_path = DATA_PATH + "pre_processed_data/" + args.data
+        if args.fields != 'all':
+            pre_process_data_path = pre_process_data_path + '_' + fields
         queries = load_pickled_object(decompress_file(pre_process_data_path + "/pp_queries" + ".pickle" + ".zip"))
-        targets = load_pickled_object(decompress_file(pre_process_data_path + "/pp_targets" + ".pickle" + ".zip"))
         candidates_path = DATA_PATH + "pre_processed_data/" + args.data + "/candidates"
     else:
         query_path = DATA_PATH+args.data+"/queries.tsv"
         queries = get_queries(query_path)  # queries dictionary
         corpus_path = DATA_PATH + args.data + "/corpus"
-        targets = get_targets(corpus_path, args.fields)
         candidates_path = DATA_PATH + args.data + "/candidates"
 
+    if args.fields != 'all':
+        candidates_path = candidates_path + '_' + fields
+
     query_ids = list(queries.keys())
-    print(query_ids)
     candidates = load_pickled_object(decompress_file(candidates_path + ".pickle" + ".zip"))
     candidate_queries_and_targets = get_queries_and_targets_from_candidates(candidates, corpus_path, args.fields)
     candidate_targets = get_all_relevant_targets(candidate_queries_and_targets)
 
+    print(candidate_targets)
+
     all_sim_scores = {}
+    all_features = []
 
     for query_id in query_ids:
         all_sim_scores[query_id] = []
 
     for model in args.sentence_embedding_models:
+        all_features.append(model)
         if "/" or ":" or "." in str(model):
             model_name = str(model).replace("/", "_").replace(":", "_").replace(".", "_")
         else:
@@ -96,10 +107,13 @@ def run():
             all_sim_scores[query_id].append(sim_scores)
 
     if "similar_words_ratio" in args.lexical_similarity_measures:
+        all_features.append("similar_words_ratio")
         lexical_similarities = get_lexical_similarity_ratio(queries, candidate_queries_and_targets)
         for query_id, target_sim_scores in list(lexical_similarities.items()):
             sim_scores = list(target_sim_scores.values())
             all_sim_scores[query_id].append(sim_scores)
+
+    analyse_correlation(all_features, np.array(all_sim_scores), args.correlation, args.data)
 
     sim_scores_mean = {}
 
@@ -122,6 +136,9 @@ def run():
         output_path = DATA_PATH + "pre_processed_data/" + args.data +"/pred_qrels.tsv"
     else:
         output_path = DATA_PATH+args.data+"/pred_qrels.tsv"
+
+    if args.fields != 'all':
+        output_path = output_path + '_' + fields
 
     output_dict_to_pred_qrels(output, output_path)
 
