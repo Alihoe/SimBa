@@ -4,10 +4,8 @@ twitter_data = ["clef_2020_checkthat_2_english", "clef_2021_checkthat_2a_english
 
 
 def pre_process_twitter_data(queries):
-    print(queries)
     for key,value in queries.items():
         queries[key] = replace_emojis(remove_urls(value))
-    print(queries)
     return queries
 
 

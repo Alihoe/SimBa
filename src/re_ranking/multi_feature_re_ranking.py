@@ -54,6 +54,7 @@ def run():
         candidates_path = DATA_PATH + args.data + "/candidates"
 
     query_ids = list(queries.keys())
+    print(query_ids)
     candidates = load_pickled_object(decompress_file(candidates_path + ".pickle" + ".zip"))
     candidate_queries_and_targets = get_queries_and_targets_from_candidates(candidates, corpus_path, args.fields)
     candidate_targets = get_all_relevant_targets(candidate_queries_and_targets)
@@ -87,6 +88,7 @@ def run():
                 compress_file(stored_embedded_targets + "_only_candidates.pickle")
                 os.remove(stored_embedded_targets + "_only_candidates.pickle")
         for query_id in query_ids:
+            print(query_id)
             query_embedding = embedded_queries[query_id]
             target_ids = list(candidate_queries_and_targets[query_id].keys())
             target_embeddings = [relevant_embedded_targets[x] for x in target_ids]
