@@ -148,7 +148,7 @@ def run():
                 else:
                     union_of_top_k_per_feature[query_id] = this_model_top_k[query_id]
 
-    analyse_correlation(all_features, np.array(all_sim_scores), args.correlation, args.data)
+    #analyse_correlation(all_features, np.array(all_sim_scores), args.correlation, args.data)
 
     if not args.union_of_top_k_per_feature:
         sim_scores_mean = np.mean(np.array(all_sim_scores), axis=0)
@@ -177,8 +177,6 @@ def run():
     pickle_object(output_path, output)
     compress_file(output_path + ".pickle")
     os.remove(output_path + ".pickle")
-
-    print(targets)
 
 
 if __name__ == "__main__":

@@ -21,8 +21,12 @@ all data: 124 queries, 191 qrels
 
 #### All variable fields
 
-|Set Up Retrieval|Set Up Re-Ranking|MAP@10 Val Data|MAP@10 Train Data|MAP@10|
-|----------------|-----------------|----------------|-----------------|------|
-|"all-mpnet-base-v2", braycurtis distance|"all-mpnet-base-v2", "princeton-nlp/sup-simcse-roberta-large", "sentence-transformers/sentence-t5-base", "https://tfhub.dev/google/universal-sentence-encoder/4"], ratio of similar words||||
+|Set Up Retrieval|Set Up Re-Ranking|MAP@10|
+|----------------|-----------------|------|
+|"all-mpnet-base-v2", braycurtis distance|"all-mpnet-base-v2", "princeton-nlp/sup-simcse-roberta-large", "sentence-transformers/sentence-t5-base", "https://tfhub.dev/google/universal-sentence-encoder/4"], ratio of similar words|0.1166|
 
+#### Certain Variable Fields
 
+|Variable Fields|MAP@10|
+|---------------|------|
+|question text  |0.0770|

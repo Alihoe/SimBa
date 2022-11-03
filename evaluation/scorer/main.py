@@ -69,6 +69,7 @@ if __name__ == '__main__':
     parser.add_argument('data', type=str, default="clef_2022_checkthat_2a_english")
     parser.add_argument('--pre_processing', action='store_true')
     parser.add_argument('--use_corpus_chunk_data', action="store_true")
+    parser.add_argument('-fields', type=str, nargs='+', default='all')
 
     args = parser.parse_args()
 
@@ -87,6 +88,11 @@ if __name__ == '__main__':
         pred_file = DATA_PATH+args.data+"/pred_qrels.tsv"
     if args.use_corpus_chunk_data:
         pred_file = DATA_PATH + "corpus_chunks/" + args.data+"/pred_qrels.tsv"
+
+    if args.fields != 'all':
+        fields = '_'.join(args.fields)
+        pred_file = pred_file + '_' + fields
+
     gold_file = DATA_PATH+args.data+"/gold.tsv"
     if args.data == "baseline_2a":
         #gold_file = DATA_PATH+"clef_2021_checkthat_2a_english"+"/gold.tsv"

@@ -66,8 +66,6 @@ def run():
     candidate_queries_and_targets = get_queries_and_targets_from_candidates(candidates, corpus_path, args.fields)
     candidate_targets = get_all_relevant_targets(candidate_queries_and_targets)
 
-    print(candidate_targets)
-
     all_sim_scores = {}
     all_features = []
 
@@ -99,7 +97,6 @@ def run():
                 compress_file(stored_embedded_targets + "_only_candidates.pickle")
                 os.remove(stored_embedded_targets + "_only_candidates.pickle")
         for query_id in query_ids:
-            print(query_id)
             query_embedding = embedded_queries[query_id]
             target_ids = list(candidate_queries_and_targets[query_id].keys())
             target_embeddings = [relevant_embedded_targets[x] for x in target_ids]
@@ -113,7 +110,7 @@ def run():
             sim_scores = list(target_sim_scores.values())
             all_sim_scores[query_id].append(sim_scores)
 
-    analyse_correlation(all_features, np.array(all_sim_scores), args.correlation, args.data)
+    #analyse_correlation(all_features, np.array(all_sim_scores), args.correlation, args.data)
 
     sim_scores_mean = {}
 
