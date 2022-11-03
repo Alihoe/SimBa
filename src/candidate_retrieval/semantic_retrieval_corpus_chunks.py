@@ -8,7 +8,7 @@ from scipy.spatial.distance import braycurtis, cdist
 import numpy as np
 
 from src.candidate_retrieval import DATA_PATH
-from src.correlation_analysis import analyse_correlation
+from src.analysis.correlation_analysis import analyse_correlation
 from src.pre_processing.pre_process import pre_process
 from src.sentence_encoder import encode_queries, encode_targets
 from src.utils import get_queries, get_targets, pickle_object, compress_file, decompress_file, load_pickled_object, \

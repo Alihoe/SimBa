@@ -5,7 +5,7 @@ import numpy as np
 from scipy.spatial.distance import cdist
 
 from src.candidate_retrieval import DATA_PATH
-from src.correlation_analysis import analyse_correlation
+from src.analysis.correlation_analysis import analyse_correlation
 from src.re_ranking.lexical_similarity import get_lexical_similarity_ratio
 from src.re_ranking.ranking_utils import get_queries_and_targets_from_candidates, get_all_relevant_targets
 from src.re_ranking.supervised_reranking_methods.utils import prepare_binary_dataset

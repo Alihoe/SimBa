@@ -37,6 +37,11 @@ def get_queries(query_path):
     return df.set_index('id')['query'].to_dict()
 
 
+def get_correct_targets(query_path):
+    df = pd.read_csv(query_path, sep = '\t', names=['query', '0', 'target', '1'], dtype = str)
+    return df.set_index('query')['target'].to_dict()
+
+
 def get_targets(corpus_of_targets_filename, fields):
     if os.path.isdir(corpus_of_targets_filename):
         targets = {}
