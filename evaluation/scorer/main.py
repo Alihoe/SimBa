@@ -70,6 +70,8 @@ if __name__ == '__main__':
     parser.add_argument('--pre_processing', action='store_true')
     parser.add_argument('--use_corpus_chunk_data', action="store_true")
     parser.add_argument('-fields', type=str, nargs='+', default='all')
+    parser.add_argument('-pred_file')
+    parser.add_argument('-gold_file')
 
     args = parser.parse_args()
 
@@ -84,6 +86,8 @@ if __name__ == '__main__':
         pred_file = DATA_PATH + "pre_processed_data/" + args.data +"/pred_qrels.tsv"
     elif args.data == "baseline_2020":
         pred_file = DATA_PATH + "baselines/predict_2020_2_eng.tsv"
+    elif args.data == 'unknown':
+        pred_file = args.pred_file
     else:
         pred_file = DATA_PATH+args.data+"/pred_qrels.tsv"
     if args.use_corpus_chunk_data:
@@ -103,6 +107,8 @@ if __name__ == '__main__':
         gold_file = DATA_PATH + "clef_2022_checkthat_arabic" + "/gold.tsv"
     elif args.data == "baseline_2020":
         gold_file = DATA_PATH + "clef_2020_checkthat_2_english/gold.tsv"
+    elif args.data == 'unknown':
+        gold_file = args.gold_file
     if validate_files(pred_file, gold_file):
         maps, mrr, precisions = evaluate(gold_file, pred_file)
         filename = os.path.basename(pred_file)

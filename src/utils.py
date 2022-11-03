@@ -108,6 +108,24 @@ def prepare_corpus_tsv(corpus_path):
     df.to_csv(corpus_path, index=False, header=True, sep='\t')
 
 
+def append_documents(doc_1, doc_2, output_doc, header):
+    if header:
+        df1 = pd.read_csv(doc_1, sep='\t', header=True, dtype=str)
+        df2 = pd.read_csv(doc_2, sep='\t', dtype=str)
+    else:
+        df1 = pd.read_csv(doc_1, sep='\t', dtype=str)
+        df2 = pd.read_csv(doc_2, sep='\t', dtype=str)
+    df3 = df1.append(df2, ignore_index=True)
+    if header:
+        df3.to_csv(output_doc, index=False, header=True, sep='\t')
+    else:
+        df3.to_csv(output_doc, index=False, header=False, sep='\t')
+
+
+
+
+
+
 
 
 

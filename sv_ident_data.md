@@ -1,6 +1,16 @@
 
 # SV IDENT Variable Disambiguation
 
+**1. Reproduce paper results** (https://aclanthology.org/2022.sdp-1.30/)
+
+**2. Incorporate multilingual sentence embedding models**
+
+**3. Analyse Data in Detail**
+
+**4. Data Augmentation**
+
+## 
+
 ## Trial Data
 
 ### English only
