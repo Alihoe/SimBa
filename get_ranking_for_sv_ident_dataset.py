@@ -11,10 +11,10 @@ def run():
     german_data = 'sv_ident_de_train_and_val'
 
     subprocess.call(["python", "src/candidate_retrieval/semantic_retrieval.py", english_data, "cosine", "--union_of_top_k_per_feature", "spearmanr", "50", '-sentence_embedding_models', 'sentence-transformers/sentence-t5-base', '-fields', 'variable_label', 'topic_en', 'question_text', 'question_text_en'])
-    subprocess.call(["python", "src/re_ranking/multi_feature_re_ranking.py", english_data, "cosine", "spearmanr", "10", '-sentence_embedding_models', 'sentence-transformers/sentence-t5-base', '-fields', 'variable_label', 'topic_en', 'question_text', 'question_text_en'])
+    subprocess.call(["python", "src/re_ranking/multi_feature_re_ranking.py", english_data, "cosine", "spearmanr", "10", '-sentence_embedding_models', 'sentence-transformers/sentence-t5-base', '-fields', 'variable_label', 'topic_en', 'question_text', 'question_text_en', '-lexical_similarity_measures=False'])
 
     subprocess.call(["python", "src/candidate_retrieval/semantic_retrieval.py", german_data, "cosine", "--union_of_top_k_per_feature", "spearmanr", "50", '-sentence_embedding_models', 'Sahajtomar/German-semantic', '-fields', 'study_title', 'variable_label', 'variable_name', 'answer_categories', 'topic', 'question_text', 'sub_question', 'item_categories'])
-    subprocess.call(["python", "src/re_ranking/multi_feature_re_ranking.py", german_data, "cosine", "spearmanr", "10", '-sentence_embedding_models', 'Sahajtomar/German-semantic','-fields', 'study_title', 'variable_label', 'variable_name', 'answer_categories', 'topic', 'question_text', 'sub_question', 'item_categories'])
+    subprocess.call(["python", "src/re_ranking/multi_feature_re_ranking.py", german_data, "cosine", "spearmanr", "10", '-sentence_embedding_models', 'Sahajtomar/German-semantic','-fields', 'study_title', 'variable_label', 'variable_name', 'answer_categories', 'topic', 'question_text', 'sub_question', 'item_categories', '-lexical_similarity_measures=False'])
 
     pred_qrels_english = DATA_PATH + english_data + "/pred_qrels.tsv"
     pred_qrels_german = DATA_PATH + german_data + "/pred_qrels.tsv"
