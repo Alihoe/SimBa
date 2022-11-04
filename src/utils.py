@@ -37,6 +37,11 @@ def get_queries(query_path):
     return df.set_index('id')['query'].to_dict()
 
 
+def get_predicted_targets(query_path):
+    df = pd.read_csv(query_path, sep = '\t', names=['query', 'Q0', 'target', '1', 'tag'], dtype = str)
+    return df.set_index('query')['target'].to_dict()
+
+
 def get_correct_targets(query_path):
     df = pd.read_csv(query_path, sep = '\t', names=['query', '0', 'target', '1'], dtype = str)
     return df.set_index('query')['target'].to_dict()

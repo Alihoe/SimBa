@@ -41,3 +41,13 @@ all data: 124 queries, 191 qrels
 |---------------|------|
 |question text  |0.0770|
 |variable_label_topic_en_question_text_question_text_en|0.1279|
+
+## English and German
+
+
+Set Up Retrieval and Re-Ranking|Variable Fields|MAP@10|
+|------------------------------|---------------|------|
+|eng: Sentence T5              |eng: variable_label_topic_en_question_text_question_text_en|  |
+|de: Sahajtomar/German-semantic|de: all but English                |  |
+|multilingual: distiluse-base-multilingual-cased-v1|all||
+
