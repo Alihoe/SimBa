@@ -148,6 +148,8 @@ data/pre_processed_data
 data/baselines
 data/test
 
+*corpus_dic
+
 data/sv_ident_en_train_and_val/corpus_dic
 
 elasticsearch_baseline.py

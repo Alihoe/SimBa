@@ -40,3 +40,4 @@ all data: 124 queries, 191 qrels
 |Variable Fields|MAP@10|
 |---------------|------|
 |question text  |0.0770|
+|variable_label_topic_en_question_text_question_text_en|0.1279|
