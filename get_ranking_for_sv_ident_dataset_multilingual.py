@@ -1,8 +1,4 @@
-import argparse
 import subprocess
-
-from src import DATA_PATH
-from src.utils import append_documents
 
 
 def run():

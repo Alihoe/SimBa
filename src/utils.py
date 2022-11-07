@@ -37,9 +37,9 @@ def get_queries(query_path):
     return df.set_index('id')['query'].to_dict()
 
 
-def get_predicted_targets(query_path):
+def get_predicted_queries_and_targets_df(query_path):
     df = pd.read_csv(query_path, sep = '\t', names=['query', 'Q0', 'target', '1', 'tag'], dtype = str)
-    return df.set_index('query')['target'].to_dict()
+    return df
 
 
 def get_correct_targets(query_path):
@@ -57,11 +57,9 @@ def get_targets(corpus_of_targets_filename, fields):
             targets[v_claim['vclaim_id']] = v_claim['vclaim']
     else:
         df = pd.read_csv(corpus_of_targets_filename, sep='\t', dtype=str)
-        print(fields)
         if fields != "all":
             columns = ['id']
             columns.extend(fields)
-            print(columns)
             df = df[columns]
         column_length = len(df.columns)
         column_values = list(map(' '.join, df.iloc[:, 1:column_length].astype(str).values.tolist()))
@@ -113,14 +111,14 @@ def prepare_corpus_tsv(corpus_path):
     df.to_csv(corpus_path, index=False, header=True, sep='\t')
 
 
-def append_documents(doc_1, doc_2, output_doc, header):
+def append_qrels_documents(doc_1, doc_2, output_doc, header):
     if header:
         df1 = pd.read_csv(doc_1, sep='\t', header=True, dtype=str)
         df2 = pd.read_csv(doc_2, sep='\t', dtype=str)
     else:
-        df1 = pd.read_csv(doc_1, sep='\t', dtype=str)
-        df2 = pd.read_csv(doc_2, sep='\t', dtype=str)
-    df3 = df1.append(df2, ignore_index=True)
+        df1 = pd.read_csv(doc_1, sep='\t', dtype=str, names= ['qid', 'Q0', 'docno', 'rank', 'score', 'tag'])
+        df2 = pd.read_csv(doc_2, sep='\t', dtype=str, names = ['qid', 'Q0', 'docno', 'rank', 'score', 'tag'])
+    df3 = pd.concat([df2, df1], axis=0, keys = ['qid', 'Q0', 'docno', 'rank', 'score', 'tag'])
     if header:
         df3.to_csv(output_doc, index=False, header=True, sep='\t')
     else:

@@ -46,7 +46,7 @@ def run():
     df = pd.concat([df_val, df_train])
     df = df.loc[df['is_variable'] != 0]
 
-    queries_df =  pd.DataFrame(columns=['uuid', 'text'])
+    queries_df = pd.DataFrame(columns=['uuid', 'text'])
     qrels_df = pd.DataFrame(columns=['uuid', '0', 'variable', '1'])
 
     research_data = []
@@ -60,10 +60,10 @@ def run():
             research_data.extend(current_research_data)
         for variable in variables:
             if variable != "unk":
-                qrels_df = pd.DataFrame([[uuid, 0, variable, 1]], columns=['uuid', '0', 'variable', '1'])
-                qrels_df = pd.concat([qrels_df, qrels_df])
-                queries_df = pd.DataFrame([[uuid, sentence]], columns=['uuid', 'text'])
-                queries_df = pd.concat([queries_df, queries_df])
+                qrels_df_row = pd.DataFrame([[uuid, 0, variable, 1]], columns=['uuid', '0', 'variable', '1'])
+                qrels_df = pd.concat([qrels_df, qrels_df_row])
+                queries_df_row = pd.DataFrame([[uuid, sentence]], columns=['uuid', 'text'])
+                queries_df = pd.concat([queries_df, queries_df_row])
 
     queries_df = queries_df.drop_duplicates()
 
