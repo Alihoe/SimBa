@@ -49,5 +49,5 @@ Set Up Retrieval and Re-Ranking|Variable Fields|MAP@10|
 |------------------------------|---------------|------|
 |eng: Sentence T5              |eng: variable_label_topic_en_question_text_question_text_en|  |
 |de: Sahajtomar/German-semantic|de: all but English                |0.0545|
-|multilingual: distiluse-base-multilingual-cased-v1|all||
+|multilingual: distiluse-base-multilingual-cased-v1|all|0.0379|
 

@@ -38,7 +38,7 @@ def get_queries(query_path):
 
 
 def get_predicted_queries_and_targets_df(query_path):
-    df = pd.read_csv(query_path, sep = '\t', names=['query', 'Q0', 'target', '1', 'tag'], dtype = str)
+    df = pd.read_csv(query_path, sep = '\t', names=['query', 'Q0', 'target', '1', 'score', 'tag'], dtype = str, index_col=False)
     return df
 
 
