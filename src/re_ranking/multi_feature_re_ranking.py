@@ -8,6 +8,7 @@ from src.candidate_retrieval import DATA_PATH
 from src.analysis.correlation_analysis import analyse_correlation
 from src.re_ranking.lexical_similarity import get_lexical_similarity_ratio
 from src.re_ranking.ranking_utils import get_queries_and_targets_from_candidates, get_all_relevant_targets
+from src.re_ranking.referential_similarity import get_ne_similarity, get_synonym_similarity
 from src.re_ranking.string_similarity import get_sequence_matching_similarity, get_levenshtein_similarity, \
     get_jacquard_similarity
 from src.re_ranking.supervised_reranking_methods.utils import prepare_binary_dataset
@@ -35,6 +36,8 @@ def run():
     parser.add_argument('similarity_measure', type=str, default='cosine')
     parser.add_argument('-lexical_similarity_measures', type=str, nargs='+', default=["similar_words_ratio"])
     parser.add_argument('-string_similarity_measures', type=str, nargs='+', default=["sequence_matching_similarity", "levenshtein_similarity", "jacquard_similarity"])
+    parser.add_argument('-referential_similarity_measures', type=str, nargs='+',
+                        default=["ne_similarity", "synonym_similarity"])
     parser.add_argument('correlation', type=str, default='braycurtis')
     parser.add_argument('k', type=int, default=5)
     parser.add_argument('--no_cache', action="store_true", help='If not selected, the encodings of the queries and the targets will be stored as compressed pickle files in the data/cache directory.')
@@ -113,7 +116,6 @@ def run():
             sim_scores = list(target_sim_scores.values())
             all_sim_scores[query_id].append(sim_scores)
 
-
     if "sequence_matching_similarity" in args.string_similarity_measures:
         all_features.append("sequence_matching_similarity")
         sequence_matching_similarities = get_sequence_matching_similarity(queries, candidate_queries_and_targets)
@@ -132,6 +134,20 @@ def run():
         all_features.append("jacquard_similarity")
         jacquard_similarities = get_jacquard_similarity(queries, candidate_queries_and_targets)
         for query_id, target_sim_scores in list(jacquard_similarities.items()):
+            sim_scores = list(target_sim_scores.values())
+            all_sim_scores[query_id].append(sim_scores)
+
+    if "ne_similarity" in args.referential_similarity_measures:
+        all_features.append("ne_similarity")
+        ne_similarities = get_ne_similarity(queries, candidate_queries_and_targets)
+        for query_id, target_sim_scores in list(ne_similarities.items()):
+            sim_scores = list(target_sim_scores.values())
+            all_sim_scores[query_id].append(sim_scores)
+
+    if "synonym_similarity" in args.referential_similarity_measures:
+        all_features.append("synonym_similarity")
+        synonym_similarities = get_synonym_similarity(queries, candidate_queries_and_targets)
+        for query_id, target_sim_scores in list(synonym_similarities.items()):
             sim_scores = list(target_sim_scores.values())
             all_sim_scores[query_id].append(sim_scores)
 
