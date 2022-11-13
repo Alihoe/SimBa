@@ -18,11 +18,8 @@ def analyse_correlation(all_features, embeddings, correlation_method, data_name)
 
 def analyse_feature_correlation(all_features, feature_scores, correlation_method, data_name):
     all_feature_names = '_'.join(all_features)
-    print(feature_scores)
-    print(feature_scores.shape)
     if correlation_method == "spearmanr":
         correlation, p_value = spearmanr(feature_scores, nan_policy='propagate')
-        print(correlation)
     with open('../data/evaluation/' + all_feature_names + '_' + data_name + '_correlation.txt', 'w') as f:
-        print(all_feature_names)
+        print(all_features, file=f)
         print(correlation, file=f)

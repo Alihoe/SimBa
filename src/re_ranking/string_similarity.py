@@ -1,23 +1,43 @@
+from difflib import SequenceMatcher
+from nltk import word_tokenize
+from Levenshtein import ratio
 
-# def get_sequence_similarity(queries, candidate_queries_and_targets):
-#     sequence_similarities = {}
-#     for query_id, target_dict in candidate_queries_and_targets.items():
-#         query_text = queries[query_id]
-#         query_words = set(tokenize_and_filter_out_stop_words(query_text))
-#         query_word_number = len(query_words)
-#         target_sims = {}
-#         for target_id, target_text in target_dict.items():
-#             target_words = set(tokenize_and_filter_out_stop_words(target_text))
-#             target_words_number = len(target_words)
-#             pair_length = query_word_number + target_words_number
-#             common_words = set.intersection(set(query_words), set(target_words))
-#             common_words_number = len(common_words)
-#             if common_words_number > 0:
-#                 target_sims[target_id] = (1/pair_length)*2*common_words_number
-#             else:
-#                 target_sims[target_id] = 0
-#         sequence_similarities[query_id] = target_sims
-#     return sequence_similarities
-#
-#     sequence_comp = SequenceMatcher(a=string_1[0], b=string_2)
-#     return sequence_comp.ratio()
+
+def get_sequence_matching_similarity(queries, candidate_queries_and_targets):
+    sequence_similarities = {}
+    for query_id, target_dict in candidate_queries_and_targets.items():
+        query_text = queries[query_id]
+        target_sims = {}
+        for target_id, target_text in target_dict.items():
+            target_sims[target_id] = SequenceMatcher(a=query_text, b=target_text)*100
+        sequence_similarities[query_id] = target_sims
+    print(sequence_similarities)
+    return sequence_similarities
+
+
+def get_levenshtein_similarity(queries, candidate_queries_and_targets):
+    levenshtein_similarities = {}
+    for query_id, target_dict in candidate_queries_and_targets.items():
+        query_text = queries[query_id]
+        target_sims = {}
+        for target_id, target_text in target_dict.items():
+            target_sims[target_id] = ratio(a=query_text, b=target_text)*100
+        levenshtein_similarities[query_id] = target_sims
+    print(levenshtein_similarities)
+    return levenshtein_similarities
+
+
+def get_jacquard_similarity(queries, candidate_queries_and_targets):
+    jacquard_similarities = {}
+    for query_id, target_dict in candidate_queries_and_targets.items():
+        query_text = queries[query_id]
+        target_sims = {}
+        for target_id, target_text in target_dict.items():
+            a = set(word_tokenize(query_text))
+            b = set(word_tokenize(target_text))
+            target_sims[target_id] = (float(len(a.intersection(b))) / len(a.union(b)))*100
+        jacquard_similarities[query_id] = target_sims
+    print(jacquard_similarities)
+    return jacquard_similarities
+
+

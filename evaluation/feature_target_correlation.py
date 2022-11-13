@@ -74,9 +74,21 @@ def create_feature_target_correlation_file(data, sentence_embedding_models, simi
     old_query_id = ''
 
     corr_analysis = []
+    correct_predicted = False
+
+    target_idx = 0
+    old_query_id = pred_query_ids_not_unique[0]
 
     for idx, query_id in enumerate(pred_query_ids_not_unique):
         if query_id != old_query_id:
+            if not correct_predicted:
+                if type(correct_target) != list:
+                    correct_target = [correct_target]
+                for c_target in correct_target:
+                    c_target_text = targets[c_target]
+                    this_row_df = pd.DataFrame([['not predicted', c_target, '-', c_target_text, correct_pair]], columns=columns)
+                    text_data_analysis_df = pd.concat([text_data_analysis_df, this_row_df])
+            correct_predicted = False
             target_idx = 0
             old_query_id = query_id
         query = queries[query_id]
@@ -91,6 +103,7 @@ def create_feature_target_correlation_file(data, sentence_embedding_models, simi
         else:
             if correct_target == target_id:
                 correct_pair = True
+                correct_predicted = True
             else:
                 correct_pair = False
         this_row_df = pd.DataFrame([[query_id, target_id, query, target, correct_pair]], columns=columns)
@@ -105,12 +118,18 @@ def create_feature_target_correlation_file(data, sentence_embedding_models, simi
 
     text_data_analysis_df.to_csv(text_data_analysis_path, index=False, header=True, sep='\t')
 
-
-create_feature_target_correlation_file('sv_ident_trial_en',
-                                       ["all-mpnet-base-v2"],#, "princeton-nlp/sup-simcse-roberta-large", "sentence-transformers/sentence-t5-base", 'Sahajtomar/German-semantic', 'distiluse-base-multilingual-cased-v1'],
-                                        'cosine',
+create_feature_target_correlation_file('sv_ident_train_and_val',
+                                       ["all-mpnet-base-v2"], #"princeton-nlp/sup-simcse-roberta-large", "sentence-transformers/sentence-t5-base", 'Sahajtomar/German-semantic', 'distiluse-base-multilingual-cased-v1'],
+                                        'braycurtis',
                                        "similar_words_ratio",
                                         "all")
+
+#
+# create_feature_target_correlation_file('sv_ident_trial_en',
+#                                        ["all-mpnet-base-v2"],#, "princeton-nlp/sup-simcse-roberta-large", "sentence-transformers/sentence-t5-base", 'Sahajtomar/German-semantic', 'distiluse-base-multilingual-cased-v1'],
+#                                         'cosine',
+#                                        "similar_words_ratio",
+#                                         "all")
 
 
 

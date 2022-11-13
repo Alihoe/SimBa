@@ -1,4 +1,4 @@
-from src.re_ranking.ranking_utils import tokenize, tokenize_and_filter_out_stop_words
+from src.re_ranking.ranking_utils import tokenize_and_filter_out_stop_words
 
 
 def get_lexical_similarity_ratio(queries, candidate_queries_and_targets):

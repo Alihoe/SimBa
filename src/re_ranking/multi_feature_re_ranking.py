@@ -8,6 +8,8 @@ from src.candidate_retrieval import DATA_PATH
 from src.analysis.correlation_analysis import analyse_correlation
 from src.re_ranking.lexical_similarity import get_lexical_similarity_ratio
 from src.re_ranking.ranking_utils import get_queries_and_targets_from_candidates, get_all_relevant_targets
+from src.re_ranking.string_similarity import get_sequence_matching_similarity, get_levenshtein_similarity, \
+    get_jacquard_similarity
 from src.re_ranking.supervised_reranking_methods.utils import prepare_binary_dataset
 from src.sentence_encoder import encode_queries, encode_targets
 from src.utils import load_pickled_object, decompress_file, pickle_object, compress_file, get_queries, \
@@ -32,6 +34,7 @@ def run():
                         help='Pass a list of sentence embedding models hosted by Huggingface or Tensorflow or simply pass "infersent" to use the infersent encoder.')
     parser.add_argument('similarity_measure', type=str, default='cosine')
     parser.add_argument('-lexical_similarity_measures', type=str, nargs='+', default=["similar_words_ratio"])
+    parser.add_argument('-string_similarity_measures', type=str, nargs='+', default=["sequence_matching_similarity", "levenshtein_similarity", "jacquard_similarity"])
     parser.add_argument('correlation', type=str, default='braycurtis')
     parser.add_argument('k', type=int, default=5)
     parser.add_argument('--no_cache', action="store_true", help='If not selected, the encodings of the queries and the targets will be stored as compressed pickle files in the data/cache directory.')
@@ -107,6 +110,28 @@ def run():
         all_features.append("similar_words_ratio")
         lexical_similarities = get_lexical_similarity_ratio(queries, candidate_queries_and_targets)
         for query_id, target_sim_scores in list(lexical_similarities.items()):
+            sim_scores = list(target_sim_scores.values())
+            all_sim_scores[query_id].append(sim_scores)
+
+
+    if "sequence_matching_similarity" in args.string_similarity_measures:
+        all_features.append("sequence_matching_similarity")
+        sequence_matching_similarities = get_sequence_matching_similarity(queries, candidate_queries_and_targets)
+        for query_id, target_sim_scores in list(sequence_matching_similarities.items()):
+            sim_scores = list(target_sim_scores.values())
+            all_sim_scores[query_id].append(sim_scores)
+
+    if "levenshtein_similarity" in args.string_similarity_measures:
+        all_features.append("levenshtein_similarity")
+        levenshtein_similarities = get_levenshtein_similarity(queries, candidate_queries_and_targets)
+        for query_id, target_sim_scores in list(levenshtein_similarities.items()):
+            sim_scores = list(target_sim_scores.values())
+            all_sim_scores[query_id].append(sim_scores)
+
+    if "jacquard_similarity" in args.string_similarity_measures:
+        all_features.append("jacquard_similarity")
+        jacquard_similarities = get_jacquard_similarity(queries, candidate_queries_and_targets)
+        for query_id, target_sim_scores in list(jacquard_similarities.items()):
             sim_scores = list(target_sim_scores.values())
             all_sim_scores[query_id].append(sim_scores)
 
