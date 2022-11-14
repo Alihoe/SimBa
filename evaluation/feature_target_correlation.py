@@ -2,13 +2,16 @@ from scipy.spatial.distance import cdist
 from evaluation import DATA_PATH
 from src.analysis.correlation_analysis import analyse_feature_correlation
 from src.re_ranking.lexical_similarity import get_lexical_similarity_ratio
+from src.re_ranking.referential_similarity import get_synonym_similarity, get_ne_similarity
+from src.re_ranking.string_similarity import get_jacquard_similarity, get_sequence_matching_similarity, \
+    get_levenshtein_similarity
 from src.sentence_encoder import encode_queries, encode_targets
 from src.utils import get_queries, get_targets, get_correct_targets, get_predicted_queries_and_targets_df
 import pandas as pd
 import numpy as np
 
 
-def create_feature_target_correlation_file(data, sentence_embedding_models, similarity_measure, lexical_similarity_measures, fields):
+def create_feature_target_correlation_file(data, sentence_embedding_models, similarity_measure, lexical_similarity_measures, string_similarity_measures, referential_similarity_measures, fields):
     pred_path = DATA_PATH + data+ "/pred_qrels.tsv"
     gold_path = DATA_PATH + data+ "/gold.tsv"
     query_path = DATA_PATH + data +"/queries.tsv"
@@ -43,6 +46,48 @@ def create_feature_target_correlation_file(data, sentence_embedding_models, simi
     for query_id in pred_query_ids:
         all_sim_scores[query_id] = []
 
+    if "similar_words_ratio" in lexical_similarity_measures:
+        all_features.append("similar_words_ratio")
+        lexical_similarities = get_lexical_similarity_ratio(queries, candidate_queries_and_targets)
+        for query_id, target_sim_scores in list(lexical_similarities.items()):
+            sim_scores = list(target_sim_scores.values())
+            all_sim_scores[query_id].append(sim_scores)
+
+    if "sequence_matching_similarity" in string_similarity_measures:
+        all_features.append("sequence_matching_similarity")
+        sequence_matching_similarities = get_sequence_matching_similarity(queries, candidate_queries_and_targets)
+        for query_id, target_sim_scores in list(sequence_matching_similarities.items()):
+            sim_scores = list(target_sim_scores.values())
+            all_sim_scores[query_id].append(sim_scores)
+
+    if "levenshtein_similarity" in string_similarity_measures:
+        all_features.append("levenshtein_similarity")
+        levenshtein_similarities = get_levenshtein_similarity(queries, candidate_queries_and_targets)
+        for query_id, target_sim_scores in list(levenshtein_similarities.items()):
+            sim_scores = list(target_sim_scores.values())
+            all_sim_scores[query_id].append(sim_scores)
+
+    if "jacquard_similarity" in string_similarity_measures:
+        all_features.append("jacquard_similarity")
+        jacquard_similarities = get_jacquard_similarity(queries, candidate_queries_and_targets)
+        for query_id, target_sim_scores in list(jacquard_similarities.items()):
+            sim_scores = list(target_sim_scores.values())
+            all_sim_scores[query_id].append(sim_scores)
+
+    if "synonym_similarity" in referential_similarity_measures:
+        all_features.append("synonym_similarity")
+        synonym_similarities = get_synonym_similarity(queries, candidate_queries_and_targets)
+        for query_id, target_sim_scores in list(synonym_similarities.items()):
+            sim_scores = list(target_sim_scores.values())
+            all_sim_scores[query_id].append(sim_scores)
+
+    if "ne_similarity" in referential_similarity_measures:
+        all_features.append("ne_similarity")
+        ne_similarities = get_ne_similarity(queries, candidate_queries_and_targets)
+        for query_id, target_sim_scores in list(ne_similarities.items()):
+            sim_scores = list(target_sim_scores.values())
+            all_sim_scores[query_id].append(sim_scores)
+
     for model in sentence_embedding_models:
         all_features.append(model)
 
@@ -56,13 +101,6 @@ def create_feature_target_correlation_file(data, sentence_embedding_models, simi
             sim_scores = 1 - cdist(np.array([query_embedding]), np.stack(target_embeddings, axis=0), metric=similarity_measure)
             all_sim_scores[query_id].append(sim_scores[0])
 
-    if "similar_words_ratio" in lexical_similarity_measures:
-        all_features.append("similar_words_ratio")
-        lexical_similarities = get_lexical_similarity_ratio(queries, candidate_queries_and_targets)
-        for query_id, target_sim_scores in list(lexical_similarities.items()):
-            sim_scores = list(target_sim_scores.values())
-            all_sim_scores[query_id].append(sim_scores)
-
     columns = ['query_id', 'target_id', 'query', 'target', 'correct_pair']
     columns2 = ['correct_pair']
 
@@ -70,8 +108,6 @@ def create_feature_target_correlation_file(data, sentence_embedding_models, simi
         columns2.append(feature)
 
     text_data_analysis_df = pd.DataFrame(columns=columns)
-
-    old_query_id = ''
 
     corr_analysis = []
     correct_predicted = False
@@ -119,9 +155,11 @@ def create_feature_target_correlation_file(data, sentence_embedding_models, simi
     text_data_analysis_df.to_csv(text_data_analysis_path, index=False, header=True, sep='\t')
 
 create_feature_target_correlation_file('sv_ident_train_and_val',
-                                       ["all-mpnet-base-v2"], #"princeton-nlp/sup-simcse-roberta-large", "sentence-transformers/sentence-t5-base", 'Sahajtomar/German-semantic', 'distiluse-base-multilingual-cased-v1'],
+                                       ["all-mpnet-base-v2",'Sahajtomar/German-semantic', 'distiluse-base-multilingual-cased-v1'],
                                         'braycurtis',
                                        "similar_words_ratio",
+                                       ["sequence_matching_similarity", "levenshtein_similarity", "jacquard_similarity"],
+                                       ["ne_similarity", "synonym_similarity"],
                                         "all")
 
 #

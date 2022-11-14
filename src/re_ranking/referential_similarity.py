@@ -1,6 +1,6 @@
 from nerd import nerd_client
-from wordnet import synsets
 from nltk import word_tokenize
+from nltk.corpus import wordnet as wn
 
 
 def add_flatten_lists(the_lists):
@@ -64,9 +64,9 @@ def get_ne_similarity(queries, candidate_queries_and_targets):
         for target_id, target_text in target_dict.items():
             query_nes = get_named_entities_of_sentence(query_text, entity_fisher)
             target_nes = get_named_entities_of_sentence(target_text, entity_fisher)
-            target_sims[target_id] = comp_ratio(query_nes, target_nes)*100
+            target_sims[target_id] = comp_ratio(query_nes, target_nes)
         ne_similarities[query_id] = target_sims
-    print(ne_similarities)
+    print(list(ne_similarities.items())[0])
     return ne_similarities
 
 
@@ -76,7 +76,7 @@ def get_synonym_ratio(query, target):
     synsets_query = []
     synsets_target = []
     for word in a:
-        synsets = synsets(word)
+        synsets = wn.synsets(word)
         if synsets:
             for synset in synsets:
                 synset_name = synset.name()
@@ -90,7 +90,7 @@ def get_synonym_ratio(query, target):
         else:
             synsets_query.append(word[0])
     for word in b:
-        synsets = synsets(word)
+        synsets = wn.synsets(word)
         if synsets:
             for synset in synsets:
                 synset_name = synset.name()
@@ -114,7 +114,7 @@ def get_synonym_similarity(queries, candidate_queries_and_targets):
         for target_id, target_text in target_dict.items():
             target_sims[target_id] = get_synonym_ratio(query_text, target_text)
         synonym_similarities[query_id] = target_sims
-    print(synonym_similarities)
+    print(print(list(synonym_similarities.items())[0]))
     return synonym_similarities
 
 
