@@ -1,5 +1,6 @@
 from scipy.spatial.distance import cdist
 from evaluation import DATA_PATH
+from evaluation.utils import get_sim_score
 from src.analysis.correlation_analysis import analyse_feature_correlation
 from src.re_ranking.lexical_similarity import get_lexical_similarity_ratio
 from src.re_ranking.referential_similarity import get_synonym_similarity, get_ne_similarity
@@ -89,7 +90,6 @@ def create_feature_target_correlation_file(data, sentence_embedding_models, simi
             all_sim_scores[query_id].append(sim_scores)
 
     for model in sentence_embedding_models:
-        all_features.append(model)
 
         embedded_queries = encode_queries(queries, model) # dictionary
         relevant_embedded_targets = encode_targets(candidate_targets, model)
@@ -105,6 +105,7 @@ def create_feature_target_correlation_file(data, sentence_embedding_models, simi
     columns2 = ['correct_pair']
 
     for feature in all_features:
+        columns.append(feature)
         columns2.append(feature)
 
     text_data_analysis_df = pd.DataFrame(columns=columns)
@@ -122,11 +123,20 @@ def create_feature_target_correlation_file(data, sentence_embedding_models, simi
                     correct_target = [correct_target]
                 for c_target in correct_target:
                     c_target_text = targets[c_target]
-                    this_row_df = pd.DataFrame([['not predicted', c_target, '-', c_target_text, correct_pair]], columns=columns)
+                    query_text = queries[old_query_id]
+                    this_row_scores = ['NOT PREDICTED_'+str(old_query_id), c_target, query_text, c_target_text, correct_pair]
+                    for feature in all_features:
+                        this_row_scores.append(get_sim_score(feature, query_text, c_target_text, similarity_measure))
+                    this_row_df = pd.DataFrame([this_row_scores], columns=columns)
                     text_data_analysis_df = pd.concat([text_data_analysis_df, this_row_df])
             correct_predicted = False
             target_idx = 0
             old_query_id = query_id
+            ending_line = ['_', '_', '_', '_', '_']
+            for _ in all_features:
+                ending_line.append('-')
+            ending_line_df = pd.DataFrame([ending_line], columns=columns)
+            text_data_analysis_df = pd.concat([text_data_analysis_df, ending_line_df])
         query = queries[query_id]
         target_id = pred_target_ids[idx]
         target = targets[target_id]
@@ -142,19 +152,21 @@ def create_feature_target_correlation_file(data, sentence_embedding_models, simi
                 correct_predicted = True
             else:
                 correct_pair = False
-        this_row_df = pd.DataFrame([[query_id, target_id, query, target, correct_pair]], columns=columns)
-        text_data_analysis_df = pd.concat([text_data_analysis_df, this_row_df])
         this_row_correlation = [int(correct_pair)]
+        this_row_scores = [query_id, target_id, query, target, correct_pair]
         for sim_score in sim_scores:
             this_row_correlation.append(sim_score)
+            this_row_scores.append(sim_score)
         corr_analysis.append(this_row_correlation)
+        this_row_df = pd.DataFrame([this_row_scores], columns=columns)
+        text_data_analysis_df = pd.concat([text_data_analysis_df, this_row_df])
         target_idx = target_idx + 1
 
     analyse_feature_correlation(columns2, np.array(corr_analysis), 'spearmanr', data)
 
     text_data_analysis_df.to_csv(text_data_analysis_path, index=False, header=True, sep='\t')
 
-create_feature_target_correlation_file('sv_ident_train_and_val',
+create_feature_target_correlation_file('sv_ident_trial',
                                        ["all-mpnet-base-v2",'Sahajtomar/German-semantic', 'distiluse-base-multilingual-cased-v1'],
                                         'braycurtis',
                                        "similar_words_ratio",
@@ -162,11 +174,29 @@ create_feature_target_correlation_file('sv_ident_train_and_val',
                                        ["ne_similarity", "synonym_similarity"],
                                         "all")
 
+# create_feature_target_correlation_file('sv_ident_train_and_val',
+#                                        ["all-mpnet-base-v2",'Sahajtomar/German-semantic', 'distiluse-base-multilingual-cased-v1'],
+#                                         'braycurtis',
+#                                        "similar_words_ratio",
+#                                        ["sequence_matching_similarity", "levenshtein_similarity", "jacquard_similarity"],
+#                                        ["ne_similarity", "synonym_similarity"],
+#                                         "all")
+
+# create_feature_target_correlation_file('sv_ident_trial_en',
+#                                        ["all-mpnet-base-v2",'Sahajtomar/German-semantic', 'distiluse-base-multilingual-cased-v1'],
+#                                         'braycurtis',
+#                                        "similar_words_ratio",
+#                                        ["sequence_matching_similarity", "levenshtein_similarity", "jacquard_similarity"],
+#                                        ["ne_similarity", "synonym_similarity"],
+#                                         "all")
+
 #
 # create_feature_target_correlation_file('sv_ident_trial_en',
 #                                        ["all-mpnet-base-v2"],#, "princeton-nlp/sup-simcse-roberta-large", "sentence-transformers/sentence-t5-base", 'Sahajtomar/German-semantic', 'distiluse-base-multilingual-cased-v1'],
 #                                         'cosine',
 #                                        "similar_words_ratio",
+#                                        [],
+#                                        [],
 #                                         "all")
 
 

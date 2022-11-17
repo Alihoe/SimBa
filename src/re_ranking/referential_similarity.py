@@ -55,6 +55,13 @@ def get_named_entities_of_sentence(sentence, entity_fisher):
     return entity_list
 
 
+def ne_sim(query_text, target_text):
+    entity_fisher = nerd_client.NerdClient()
+    query_nes = get_named_entities_of_sentence(query_text, entity_fisher)
+    target_nes = get_named_entities_of_sentence(target_text, entity_fisher)
+    return comp_ratio(query_nes, target_nes)
+
+
 def get_ne_similarity(queries, candidate_queries_and_targets):
     entity_fisher = nerd_client.NerdClient()
     ne_similarities = {}
