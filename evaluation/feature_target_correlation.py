@@ -90,7 +90,7 @@ def create_feature_target_correlation_file(data, sentence_embedding_models, simi
             all_sim_scores[query_id].append(sim_scores)
 
     for model in sentence_embedding_models:
-
+        all_features.append(model)
         embedded_queries = encode_queries(queries, model) # dictionary
         relevant_embedded_targets = encode_targets(candidate_targets, model)
 

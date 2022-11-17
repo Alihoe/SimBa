@@ -21,7 +21,7 @@ def analyse_feature_correlation(all_features, feature_scores, correlation_method
     for feature in all_features:
         if "/" or ":" or "." in str(feature):
             feature = str(feature).replace("/", "_").replace(":", "_").replace(".", "_")
-        all_feature_names.append(feature)
+        all_feature_names = all_feature_names + feature + "_"
     if correlation_method == "spearmanr":
         correlation, p_value = spearmanr(feature_scores, nan_policy='propagate')
     with open('../data/evaluation/' + all_feature_names + '_' + data_name + '_correlation.txt', 'w') as f:
