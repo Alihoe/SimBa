@@ -107,6 +107,7 @@ def run():
             target_ids = list(candidate_queries_and_targets[query_id].keys())
             target_embeddings = [relevant_embedded_targets[x] for x in target_ids]
             sim_scores = 1 - cdist(np.array([query_embedding]), np.stack(target_embeddings, axis=0), metric=args.similarity_measure)
+            print(sim_scores[0])
             all_sim_scores[query_id].append(sim_scores)
 
     if "similar_words_ratio" in args.lexical_similarity_measures:

@@ -131,7 +131,9 @@ def run():
                 compress_file(stored_embedded_targets + ".pickle")
                 os.remove(stored_embedded_targets + ".pickle")
         sim_scores = 1 - cdist(np.stack(list(embedded_queries.values()), axis=0), np.stack(list(embedded_targets.values()), axis=0), metric=args.similarity_measure)
+        print(sim_scores[0])
         all_sim_scores.append(sim_scores)
+
 
         if args.union_of_top_k_per_feature:
 

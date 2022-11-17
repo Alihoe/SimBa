@@ -30,7 +30,30 @@ def comp_ratio(list_of_entities_1, list_of_entities_2):
     if len(union) == 0:
         sim = 0
     else:
-        sim = (100 / len(union)) * len(conj) * 2
+        sim = ((100 / len(union)) * len(conj) * 2)
+    return sim
+
+def comp_ratio_synonyms(list_of_entities_1, list_of_entities_2):
+    list_of_entities_1 = list(list_of_entities_1)
+    list_of_entities_2 = list(list_of_entities_2)
+    flatten_1 = add_flatten_lists(list_of_entities_1)
+    flatten_2 = add_flatten_lists(list_of_entities_2)
+    if flatten_1 and isinstance(flatten_1[0], list):
+        flatten_1 = add_flatten_lists(flatten_1)
+    if flatten_2 and isinstance(flatten_2[0], list):
+        flatten_2 = add_flatten_lists(flatten_2)
+    a_set = set(flatten_1)
+    if 'not available' in a_set:
+        a_set.remove('not available')
+    b_set = set(flatten_2)
+    if 'not available' in b_set:
+        b_set.remove('not available')
+    union = a_set | b_set
+    conj = a_set & b_set
+    if len(union) == 0:
+        sim = 0
+    else:
+        sim = ((100 / len(union)) * len(conj) * 2)/10
     return sim
 
 
@@ -110,7 +133,7 @@ def get_synonym_ratio(query, target):
                     synsets_target.append(synset_name)
         else:
             synsets_target.append(word[0])
-    return comp_ratio(synsets_query, synsets_target)
+    return comp_ratio_synonyms(synsets_query, synsets_target)
 
 
 def get_synonym_similarity(queries, candidate_queries_and_targets):

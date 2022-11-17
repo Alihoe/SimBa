@@ -98,7 +98,7 @@ def create_feature_target_correlation_file(data, sentence_embedding_models, simi
             query_embedding = embedded_queries[query_id]
             target_ids = list(candidate_queries_and_targets[query_id].keys())
             target_embeddings = [relevant_embedded_targets[x] for x in target_ids]
-            sim_scores = 1 - cdist(np.array([query_embedding]), np.stack(target_embeddings, axis=0), metric=similarity_measure)
+            sim_scores = (1 - cdist(np.array([query_embedding]), np.stack(target_embeddings, axis=0), metric=similarity_measure))*100
             all_sim_scores[query_id].append(sim_scores[0])
 
     columns = ['query_id', 'target_id', 'query', 'target', 'correct_pair']
@@ -166,21 +166,21 @@ def create_feature_target_correlation_file(data, sentence_embedding_models, simi
 
     text_data_analysis_df.to_csv(text_data_analysis_path, index=False, header=True, sep='\t')
 
-create_feature_target_correlation_file('sv_ident_trial_en',
-                                       ["all-mpnet-base-v2",'Sahajtomar/German-semantic', 'distiluse-base-multilingual-cased-v1'],
-                                        'braycurtis',
-                                       "similar_words_ratio",
-                                       ["sequence_matching_similarity", "levenshtein_similarity", "jacquard_similarity"],
-                                       ["ne_similarity", "synonym_similarity"],
-                                        "all")
-
-# create_feature_target_correlation_file('sv_ident_train_and_val',
+# create_feature_target_correlation_file('sv_ident_trial_en',
 #                                        ["all-mpnet-base-v2",'Sahajtomar/German-semantic', 'distiluse-base-multilingual-cased-v1'],
 #                                         'braycurtis',
 #                                        "similar_words_ratio",
 #                                        ["sequence_matching_similarity", "levenshtein_similarity", "jacquard_similarity"],
 #                                        ["ne_similarity", "synonym_similarity"],
 #                                         "all")
+
+create_feature_target_correlation_file('sv_ident_train_and_val',
+                                       ["all-mpnet-base-v2",'Sahajtomar/German-semantic', 'distiluse-base-multilingual-cased-v1'],
+                                        'braycurtis',
+                                       "similar_words_ratio",
+                                       ["sequence_matching_similarity", "levenshtein_similarity", "jacquard_similarity"],
+                                       ["ne_similarity", "synonym_similarity"],
+                                        "all")
 
 # create_feature_target_correlation_file('sv_ident_trial_en',
 #                                        ["all-mpnet-base-v2",'Sahajtomar/German-semantic', 'distiluse-base-multilingual-cased-v1'],

@@ -17,7 +17,7 @@ def get_sim_score(feature, query_text, target_text, similarity_measure):
         common_words = set.intersection(set(query_words), set(target_words))
         common_words_number = len(common_words)
         if common_words_number > 0:
-            sim_score = (1 / pair_length) * 2 * common_words_number
+            sim_score = ((1 / pair_length) * 2 * common_words_number)*100
         else:
             sim_score = 0
 
@@ -41,7 +41,7 @@ def get_sim_score(feature, query_text, target_text, similarity_measure):
         embedded_targets = encode_targets({'target':target_text}, feature)
         query_embedding = embedded_queries['query']
         target_embedding = embedded_targets['target']
-        sim_score = 1 - cdist(np.array([query_embedding]), np.array([target_embedding]),
-                                   metric=similarity_measure)[0][0]
+        sim_score = (1 - cdist(np.array([query_embedding]), np.array([target_embedding]),
+                                   metric=similarity_measure)[0][0])*100
 
     return sim_score

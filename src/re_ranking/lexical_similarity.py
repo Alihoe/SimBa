@@ -15,7 +15,7 @@ def get_lexical_similarity_ratio(queries, candidate_queries_and_targets):
             common_words = set.intersection(set(query_words), set(target_words))
             common_words_number = len(common_words)
             if common_words_number > 0:
-                target_sims[target_id] = (1/pair_length)*2*common_words_number
+                target_sims[target_id] = ((1/pair_length)*2*common_words_number)*100
             else:
                 target_sims[target_id] = 0
         lexical_similarities[query_id] = target_sims
