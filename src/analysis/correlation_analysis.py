@@ -17,13 +17,8 @@ def analyse_correlation(all_features, embeddings, correlation_method, data_name)
 
 
 def analyse_feature_correlation(all_features, feature_scores, correlation_method, data_name):
-    all_feature_names = ''
-    for feature in all_features:
-        if "/" or ":" or "." in str(feature):
-            feature = str(feature).replace("/", "_").replace(":", "_").replace(".", "_")
-        all_feature_names = all_feature_names + feature + "_"
     if correlation_method == "spearmanr":
         correlation, p_value = spearmanr(feature_scores, nan_policy='propagate')
-    with open('../data/evaluation/' + all_feature_names + '_' + data_name + '_correlation.txt', 'w') as f:
+    with open('../data/evaluation/' + data_name + '_correlation.txt', 'w') as f:
         print(all_features, file=f)
         print(correlation, file=f)

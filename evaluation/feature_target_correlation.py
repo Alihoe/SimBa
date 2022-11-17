@@ -124,7 +124,7 @@ def create_feature_target_correlation_file(data, sentence_embedding_models, simi
                 for c_target in correct_target:
                     c_target_text = targets[c_target]
                     query_text = queries[old_query_id]
-                    this_row_scores = ['NOT PREDICTED_'+str(old_query_id), c_target, query_text, c_target_text, correct_pair]
+                    this_row_scores = ['NOT PREDICTED_'+str(old_query_id), c_target, query_text, c_target_text, True]
                     for feature in all_features:
                         this_row_scores.append(get_sim_score(feature, query_text, c_target_text, similarity_measure))
                     this_row_df = pd.DataFrame([this_row_scores], columns=columns)
@@ -166,7 +166,7 @@ def create_feature_target_correlation_file(data, sentence_embedding_models, simi
 
     text_data_analysis_df.to_csv(text_data_analysis_path, index=False, header=True, sep='\t')
 
-create_feature_target_correlation_file('sv_ident_trial',
+create_feature_target_correlation_file('sv_ident_trial_en',
                                        ["all-mpnet-base-v2",'Sahajtomar/German-semantic', 'distiluse-base-multilingual-cased-v1'],
                                         'braycurtis',
                                        "similar_words_ratio",

@@ -42,6 +42,6 @@ def get_sim_score(feature, query_text, target_text, similarity_measure):
         query_embedding = embedded_queries['query']
         target_embedding = embedded_targets['target']
         sim_score = 1 - cdist(np.array([query_embedding]), np.array([target_embedding]),
-                                   metric=similarity_measure)[0]
+                                   metric=similarity_measure)[0][0]
 
     return sim_score

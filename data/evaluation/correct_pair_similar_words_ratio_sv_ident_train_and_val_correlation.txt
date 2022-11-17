@@ -1,2 +1,0 @@
-['correct_pair', 'similar_words_ratio']
-0.05483110426599896
