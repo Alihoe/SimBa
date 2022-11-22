@@ -35,9 +35,9 @@ def run():
                         help='Pass a list of sentence embedding models hosted by Huggingface or Tensorflow or simply pass "infersent" to use the infersent encoder.')
     parser.add_argument('similarity_measure', type=str, default='cosine')
     parser.add_argument('-lexical_similarity_measures', type=str, nargs='+', default=["similar_words_ratio"])
-    parser.add_argument('-string_similarity_measures', type=str, nargs='+', default=["sequence_matching_similarity", "levenshtein_similarity", "jacquard_similarity"])
+    parser.add_argument('-string_similarity_measures', type=str, nargs='+', default=["levenshtein_similarity"])
     parser.add_argument('-referential_similarity_measures', type=str, nargs='+',
-                        default=["ne_similarity", "synonym_similarity"])
+                        default=["ne_similarity"])
     parser.add_argument('correlation', type=str, default='braycurtis')
     parser.add_argument('k', type=int, default=5)
     parser.add_argument('--no_cache', action="store_true", help='If not selected, the encodings of the queries and the targets will be stored as compressed pickle files in the data/cache directory.')
@@ -151,6 +151,8 @@ def run():
         for query_id, target_sim_scores in list(synonym_similarities.items()):
             sim_scores = list(target_sim_scores.values())
             all_sim_scores[query_id].append(sim_scores)
+
+    print(sim_scores[0])
 
     #analyse_correlation(all_features, np.array(all_sim_scores), args.correlation, args.data)
 

@@ -116,7 +116,7 @@ def create_feature_target_correlation_file(data, sentence_embedding_models, simi
     target_idx = 0
     old_query_id = pred_query_ids_not_unique[0]
 
-    for idx, query_id in enumerate(pred_query_ids_not_unique):
+    for idx, query_id in enumerate(pred_query_ids_not_unique[:300]):
         if query_id != old_query_id:
             if not correct_predicted:
                 if type(correct_target) != list:
