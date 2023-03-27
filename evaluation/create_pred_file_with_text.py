@@ -30,54 +30,8 @@ def create_pred_file_with_text(data_name_orig, data_name, data_name_targets, sco
 
 
 
-# data_name_queries = '11235_pp'
-# data_name_targets = '11235_fields_3'
-# data_name = '11235_pp_queries_fields_3_no_retrieval'
+data_name_queries = '35529/35529_pp'
+data_name_targets = 'gesis_unsup_text'
+data_name = '35529/35529_ne_spacy_count'
+create_pred_file_with_text(data_name_queries, data_name, data_name_targets, score_threshold=2)
 
-# data_name_queries = '11235_pp'
-# data_name_targets = '11235_fields_6'
-# data_name = '11235_pp_queries_fields_6_no_retrieval'
-
-# data_name_queries = '11235_pp'
-# data_name_targets = '11235_fields_6'
-# data_name = '11235_pp_fields_6_no_retrieval'
-#
-#
-# create_pred_file_with_text(data_name_queries, data_name, data_name_targets)
-#
-# data_name_queries = '11658'
-# data_name_targets = '11658_fields_3'
-# data_name = '11658_pp_queries_fields_3_no_retrieval'
-
-
-#create_pred_file_with_text(data_name_queries, data_name, data_name_targets)
-
-
-# data_name_queries = '11235_pp'
-# data_name_targets = '11235_fields_6'
-# data_name = '11235_pp_fields_6_no_retrieval_only_semantic'
-#
-# create_pred_file_with_text(data_name_queries, data_name, data_name_targets, score_threshold=50)
-#
-# data_name_queries = '11658_pp_queries'
-# data_name_targets = '11658_fields_3'
-# data_name = '11658_pp_queries_fields_3_no_retrieval_only_referential'
-#
-# create_pred_file_with_text(data_name_queries, data_name, data_name_targets, score_threshold=3)
-
-data_name_queries = '11155/11155_pp'
-data_name_targets = 'gesis_unsup_labels'
-data_name = '11155/11155_spacy_ne'
-create_pred_file_with_text(data_name_queries, data_name, data_name_targets, score_threshold=3)
-
-# data_name_queries = '11658_pp_queries'
-# data_name_targets = '11658_fields_3'
-# data_name = '11658_pp_queries_fields_3_no_retrieval_only_string'
-#
-# create_pred_file_with_text(data_name_queries, data_name, data_name_targets, score_threshold=8)
-
-# data_name_queries = '11658_pp_queries'
-# data_name_targets = '11658_fields_3'
-# data_name = '11658_pp_queries_fields_3_no_retrieval_all_features'
-#
-# create_pred_file_with_text(data_name_queries, data_name, data_name_targets, score_threshold=14)

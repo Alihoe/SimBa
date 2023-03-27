@@ -95,7 +95,7 @@ def create_queries_and_targets_for_document(document_n, queries_pp=False):
 def create_queries_for_document(document_n, queries_pp=False):
 
     queries_df = pd.DataFrame(columns=['uuid', 'text'])
-    with open(DATA_PATH + "gesis_unsup/sentence_extractions/"+str(document_n)+".json") as f:
+    with open(DATA_PATH + "gesis_unsup/sentence_extractions/"+str(document_n)+".json", encoding='utf-8') as f:
         document = json.load(f)
 
     if queries_pp:
@@ -115,7 +115,7 @@ def create_queries_for_document(document_n, queries_pp=False):
         load_classifier_and_predict_variables(queries_data_path)
 
 
-#create_queries_for_document("19524")#, queries_pp=True)
+create_queries_for_document("78850", queries_pp=True)
 
 def get_all_queries():
 
@@ -218,7 +218,7 @@ def prepare_all_targets():
     targets_data_path = DATA_PATH + "gesis_unsup/corpus_all"
     corpus_df.to_csv(targets_data_path, sep='\t', header=True, index=False)
 
-prepare_all_targets()
+#prepare_all_targets()
 
 
 

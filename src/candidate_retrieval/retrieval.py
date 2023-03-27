@@ -211,8 +211,6 @@ def run():
                         len_intersection = len(query_entities.intersection(target_entities))
                         ratio = (100/(len_query_entities+len_target_entities))*len_intersection
                         sim_scores[idx] = ratio
-                else:
-                    sim_scores[idx] = 0
                 all_sim_scores[query_id].append(sim_scores)
                 sim_scores_to_store[query_id] = sim_scores
             pickle_object(stored_sim_scores, sim_scores_to_store)
@@ -308,11 +306,12 @@ def run():
     2.3. Calculate all similarity scores for one query and its *candidate targets* or load from cache -> value between 0 and 100 and cache
     """
     for discrete_feature in args.discrete_similarity_measures:
-        print(discrete_feature)
-        all_features.append(discrete_feature)
+        print(discrete_feature + "_count")
+        all_features.append(discrete_feature + "_count")
         stored_entities_queries = caching_directory + "/queries_" + str(discrete_feature)
         stored_entities_targets = caching_directory_targets + "/targets_" + str(discrete_feature)
-        stored_sim_scores = caching_directory + "/sim_scores_" + discrete_feature + "_discrete"
+        discrete_feature = discrete_feature + "_count"
+        stored_sim_scores = caching_directory + "/sim_scores_" + discrete_feature + "_count"
         if os.path.exists(stored_sim_scores + ".pickle" + ".zip"):
             sim_scores_to_store = load_pickled_object(decompress_file(stored_sim_scores+".pickle"+".zip"))
             print("loaded sim scores")
@@ -352,8 +351,6 @@ def run():
                         target_entities = set(entities_targets[target_id])
                         len_intersection = len(query_entities.intersection(target_entities))
                         sim_scores[idx] = len_intersection
-                else:
-                    sim_scores[idx] = 0
                 all_sim_scores[query_id].append(sim_scores)
                 sim_scores_to_store[query_id] = sim_scores
             pickle_object(stored_sim_scores, sim_scores_to_store)

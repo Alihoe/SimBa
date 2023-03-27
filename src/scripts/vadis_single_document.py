@@ -17,26 +17,18 @@ import subprocess
 
 def run():
 
-    data_name_queries = '11155_pp'
-    data_name_targets = 'gesis_unsup'
-    new_data_name_targets = 'gesis_unsup_labels'
-    data_name = '11155'
 
-    data_name_targets = 'gesis_unsup'
-    new_data_name_targets = 'gesis_unsup_text'
-
-    subprocess.call(["python",
-                     "../../src/pre_processing/pre_processing_targets.py",
-                     "../../data/"+data_name_targets+"/corpus_all",
-                     new_data_name_targets,
-                     '-fields', 'variable_label', 'variable_label_en', 'title', 'title_en', 'question_text', 'question_text_en'])
+    # subprocess.call(["python",
+    #                  "../../src/pre_processing/pre_processing_targets.py",
+    #                  "../../data/"+data_name_targets+"/corpus_all",
+    #                  new_data_name_targets,
+    #                  '-fields', 'variable_label', 'variable_label_en', 'title', 'title_en', 'question_text', 'question_text_en'])
 
 
-    data_name_queries = '35529/35529_pp'
-    data_name_cache = '35529_text'
+    data_name_queries = '78850/78850_pp'
+    data_name_cache = '78850_text'
     data_name_targets = 'gesis_unsup_text'
-    data_name = '35529_text'
-
+    data_name = '78850/78850_ne_spacy_count'
 
     subprocess.call(["python",
                      "../../src/candidate_retrieval/retrieval.py",
@@ -49,15 +41,11 @@ def run():
                      "--union_of_top_k_per_feature",
                      "--gesis_unsup",
                      '-sentence_embedding_models', "sentence-transformers/sentence-t5-base", "all-mpnet-base-v2", "princeton-nlp/sup-simcse-roberta-large",
-                     '-referential_similarity_measures', "synonym_similarity", "ne_similarity",
+                     '-referential_similarity_measures', "synonym_similarity", "ne_similarity", "spacy_ne_similarity",
                      '-lexical_similarity_measures', "similar_words_ratio", "similar_words_ratio_length",
-                     '-string_similarity_measures', "sequence_matching", "levenshtein"])
-    #
-    # # data_name_queries = '11155/11155_pp'
-    # # data_name_targets = 'gesis_unsup_labels'
-    # # data_name_cache = '11155'
-    # # data_name = '11155/11155_spacy_ne'
-    #
+                     '-string_similarity_measures', "sequence_matching", "levenshtein",
+                     '-discrete_similarity_measures', "ne_similarity", "spacy_ne_similarity"])
+
     subprocess.call(["python",
                      "../../src/re_ranking/re_ranking.py",
                      "../../data/"+data_name_queries+"/queries.tsv",
