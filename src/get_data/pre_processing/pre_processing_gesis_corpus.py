@@ -115,7 +115,23 @@ def create_queries_for_document(document_n, queries_pp=False):
         load_classifier_and_predict_variables(queries_data_path)
 
 
-create_queries_for_document("78850", queries_pp=True)
+create_queries_for_document("74901", queries_pp=True)
+create_queries_for_document("79409", queries_pp=True)
+create_queries_for_document("76005", queries_pp=True)
+create_queries_for_document("79636", queries_pp=True)
+create_queries_for_document("75199", queries_pp=True)
+create_queries_for_document("77659", queries_pp=True)
+create_queries_for_document("75302", queries_pp=True)
+create_queries_for_document("76981", queries_pp=True)
+create_queries_for_document("74465", queries_pp=True)
+create_queries_for_document("72164", queries_pp=True)
+create_queries_for_document("73518", queries_pp=True)
+create_queries_for_document("44346", queries_pp=True)
+create_queries_for_document("79197", queries_pp=True)
+create_queries_for_document("75202", queries_pp=True)
+create_queries_for_document("79639", queries_pp=True)
+create_queries_for_document("33888", queries_pp=True)
+
 
 def get_all_queries():
 

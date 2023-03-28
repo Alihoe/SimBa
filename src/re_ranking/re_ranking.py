@@ -380,11 +380,11 @@ def run():
        5.3. Calculate all similarity scores for one query and its *candidate targets* or load from cache -> value between 0 and 100 and cache
      """
     for discrete_feature in args.discrete_similarity_measures:
-        print(discrete_feature)
-        all_features.append(discrete_feature)
+        print(discrete_feature + "_count")
+        all_features.append(discrete_feature + "_count")
         stored_entities_queries = caching_directory + "/queries_" + str(discrete_feature)
         stored_entities_targets = caching_directory_targets + "/targets_" + str(discrete_feature)
-        stored_sim_scores = caching_directory + "/sim_scores_" + discrete_feature + "_discrete"
+        stored_sim_scores = caching_directory + "/sim_scores_" + discrete_feature + "_count"
         sim_scores_to_store = {}
         if os.path.exists(stored_sim_scores + ".pickle" + ".zip"):
             sim_scores_to_store = load_pickled_object(decompress_file(stored_sim_scores + ".pickle" + ".zip"))
@@ -450,7 +450,15 @@ def run():
         sim_scores = all_sim_scores_df[feature].to_numpy()
         sim_scores = np.hstack(sim_scores)
         sim_scores_mean = np.mean(sim_scores, axis=0)
-        print(sim_scores_mean)
+        print(round(sim_scores_mean, 3))
+        if feature.endswith("_count"):
+            sim_scores_positives = sim_scores[sim_scores > 0]
+            sim_scores_positives_mean = np.mean(sim_scores_positives, axis=0)
+            sim_scores_positives_std = np.std(sim_scores_positives, axis=0)
+            print(round(sim_scores_positives_mean, 3))
+            print(round(sim_scores_positives_std, 3))
+            print(round(sim_scores_positives_mean + sim_scores_positives_std, 3))
+
     """
     6. get top k targets per query:
     6.1. either supervised using the model trained above
