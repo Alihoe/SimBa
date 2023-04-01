@@ -19,6 +19,8 @@ def run():
 
     for data_name in data_names:
 
+        print(data_name)
+
         repo_path = parents_parent_dir_of_file
         dataset_path = repo_path + "/data/" + data_name
         data_name_queries = dataset_path + "/queries.tsv"

@@ -159,6 +159,6 @@ data/training/sv_ident_val_fields_1
 src/get_data/test_data/sv_ident_trial_en.py
 src/get_data/test_data/sv_ident_val.py
 
-src/get_data/pre_processing
+src/get_data/pre_processing/pre_processing_gesis_corpus.py
 
 data
