@@ -29,20 +29,24 @@ def create_pred_file_with_text(data_name_orig, data_name, data_name_targets, sco
     output_df.to_csv(output_path, index=False, header=True, sep='\t')
 
 
-numbers = ["11155", "33888", "35529", "44346", "74901", "79409", "76005", "79636", "75199", "77659", "75302", "76981",
-           "74465", "72164", "73518", "44346", "79197", "75202", "79639"]
+numbers = ["11155", "44346", "79409", "75302", "79639"]
 
 for number in numbers:
 
     data_name_queries = number + "/" + number + "_pp"
-    data_name_cache = number + "_text"
-    data_name_targets = 'gesis_unsup_text'
-    data_name = number + "/" + number + "_ne_count"
+    data_name_cache = number + "_labels"
+    data_name_targets = 'gesis_unsup_labels'
+    data_name = number + "/" + number + "_spacy_ne_count_no_nr_text"
 
     create_pred_file_with_text(data_name_queries, data_name, data_name_targets, score_threshold=1)
     create_pred_file_with_text(data_name_queries, data_name, data_name_targets, score_threshold=2)
     create_pred_file_with_text(data_name_queries, data_name, data_name_targets, score_threshold=3)
-
-
+    create_pred_file_with_text(data_name_queries, data_name, data_name_targets, score_threshold=4)
+    create_pred_file_with_text(data_name_queries, data_name, data_name_targets, score_threshold=5)
+    create_pred_file_with_text(data_name_queries, data_name, data_name_targets, score_threshold=6)
+    create_pred_file_with_text(data_name_queries, data_name, data_name_targets, score_threshold=7)
+    create_pred_file_with_text(data_name_queries, data_name, data_name_targets, score_threshold=8)
+    create_pred_file_with_text(data_name_queries, data_name, data_name_targets, score_threshold=9)
+    create_pred_file_with_text(data_name_queries, data_name, data_name_targets, score_threshold=10)
 
 

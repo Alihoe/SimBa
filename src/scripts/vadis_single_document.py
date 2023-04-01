@@ -23,8 +23,10 @@ def run():
     #                  new_data_name_targets,
     #                  '-fields', 'variable_label', 'variable_label_en', 'title', 'title_en', 'question_text', 'question_text_en'])
 
-    numbers = ["11155", "33888", "35529", "44346", "74901", "79409","76005","79636", "75199", "77659","75302", "76981","74465","72164","73518", "44346","79197","75202","79639"]
+    #numbers = ["11155", "33888", "35529", "44346", "74901", "79409","76005","79636", "75199", "77659","75302", "76981","74465","72164","73518", "44346","79197","75202","79639"]
     #numbers = ["11155"]
+    numbers = ["11155", "44346", "79409", "75302", "79639"]
+
     for number in numbers:
         print("Evaluating document number ")
         print(number)
@@ -35,25 +37,25 @@ def run():
         # data_name = '79628/79628_ne_spacy_count'
 
         data_name_queries = number+"/"+number+"_pp"
-        data_name_cache = number+"_text"
-        data_name_targets = 'gesis_unsup_text'
-        data_name = number+"/"+number+"_ne_count"
+        data_name_cache = number+"_labels"
+        data_name_targets = 'gesis_unsup_labels'
+        data_name = number+"/"+number+"_spacy_ne_count_no_nr"
 
-        # subprocess.call(["python",
-        #                  "../../src/candidate_retrieval/retrieval.py",
-        #                  "../../data/"+data_name_queries+"/queries.tsv",
-        #                  "../../data/"+data_name_targets+"/corpus",
-        #                  data_name_cache,
-        #                  data_name,
-        #                  "braycurtis",
-        #                  "10",
-        #                  "--union_of_top_k_per_feature",
-        #                  "--gesis_unsup",
-        #                  '-sentence_embedding_models', "sentence-transformers/sentence-t5-base", "all-mpnet-base-v2", "princeton-nlp/sup-simcse-roberta-large",
-        #                  '-referential_similarity_measures', "synonym_similarity", "ne_similarity", "spacy_ne_similarity",
-        #                  '-lexical_similarity_measures', "similar_words_ratio", "similar_words_ratio_length",
-        #                  '-string_similarity_measures', "sequence_matching", "levenshtein",
-        #                  '-discrete_similarity_measures', "ne_similarity", "spacy_ne_similarity"])
+        subprocess.call(["python",
+                         "../../src/candidate_retrieval/retrieval.py",
+                         "../../data/"+data_name_queries+"/queries.tsv",
+                         "../../data/"+data_name_targets+"/corpus",
+                         data_name_cache,
+                         data_name,
+                         "braycurtis",
+                         "10",
+                         "--union_of_top_k_per_feature",
+                         "--gesis_unsup",
+                         # '-sentence_embedding_models', "sentence-transformers/sentence-t5-base", "all-mpnet-base-v2", "princeton-nlp/sup-simcse-roberta-large",
+                         # '-referential_similarity_measures', "synonym_similarity", "ne_similarity", "spacy_ne_similarity",
+                         # '-lexical_similarity_measures', "similar_words_ratio", "similar_words_ratio_length",
+                         # '-string_similarity_measures', "sequence_matching", "levenshtein",
+                         '-discrete_similarity_measures', "spacy_no_nr_ne_similarity"])
 
         subprocess.call(["python",
                          "../../src/re_ranking/re_ranking.py",
@@ -62,7 +64,7 @@ def run():
                          data_name_cache,
                          data_name,
                          "braycurtis",
-                         "10",
+                         "100",
                          "--gesis_unsup",
                          "--ranking_only",
                          "--union",
@@ -70,7 +72,7 @@ def run():
                          #'-referential_similarity_measures', "spacy_ne_similarity"
                          #'-lexical_similarity_measures', "similar_words_ratio", "similar_words_ratio_length",
                          #'-string_similarity_measures', "sequence_matching", "levenshtein",
-                         '-discrete_similarity_measures', "ne_similarity"
+                         '-discrete_similarity_measures', "spacy_no_nr_ne_similarity"
                          ])
 
 

@@ -310,7 +310,6 @@ def run():
         all_features.append(discrete_feature + "_count")
         stored_entities_queries = caching_directory + "/queries_" + str(discrete_feature)
         stored_entities_targets = caching_directory_targets + "/targets_" + str(discrete_feature)
-        discrete_feature = discrete_feature + "_count"
         stored_sim_scores = caching_directory + "/sim_scores_" + discrete_feature + "_count"
         if os.path.exists(stored_sim_scores + ".pickle" + ".zip"):
             sim_scores_to_store = load_pickled_object(decompress_file(stored_sim_scores+".pickle"+".zip"))
@@ -324,7 +323,7 @@ def run():
                 print('queries loaded')
             else:
                 print('compute queries')
-                if discrete_feature == "similar_words_ratio" or lex_feature == "similar_words_ratio_length":
+                if discrete_feature == "similar_words_ratio" or discrete_feature == "similar_words_ratio_length":
                     entities_queries = get_lexical_entities(queries, discrete_feature)
                 else:
                     entities_queries = get_sequence_entities(queries, discrete_feature)
@@ -336,7 +335,7 @@ def run():
                 print('targets loaded')
             else:
                 print('compute targets')
-                if discrete_feature == "similar_words_ratio" or lex_feature == "similar_words_ratio_length":
+                if discrete_feature == "similar_words_ratio" or discrete_feature == "similar_words_ratio_length":
                     entities_targets = get_lexical_entities(targets, discrete_feature)
                 else:
                     entities_targets = get_sequence_entities(targets, discrete_feature)

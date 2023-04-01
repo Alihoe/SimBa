@@ -403,8 +403,8 @@ def run():
                 print('queries loaded')
             else:
                 print('compute queries')
-                if discrete_feature == "similar_words_ratio" or lex_feature == "similar_words_ratio_length":
-                    entities_queries = get_lexical_entities(queries, lex_feature)
+                if discrete_feature == "similar_words_ratio" or discrete_feature == "similar_words_ratio_length":
+                    entities_queries = get_lexical_entities(queries, discrete_feature)
                 else:
                     entities_queries = get_sequence_entities(queries, discrete_feature)
                 pickle_object(stored_entities_queries, entities_queries)
@@ -416,7 +416,7 @@ def run():
                 entities_candidate_targets = {k: entities_targets[k] for k in candidate_target_ids}
             else:
                 print('compute targets')
-                if discrete_feature == "similar_words_ratio" or lex_feature == "similar_words_ratio_length":
+                if discrete_feature == "similar_words_ratio" or discrete_feature == "similar_words_ratio_length":
                     entities_candidate_targets = get_lexical_entities(candidate_targets, discrete_feature)
                 else:
                     entities_candidate_targets = get_sequence_entities(candidate_targets, discrete_feature)

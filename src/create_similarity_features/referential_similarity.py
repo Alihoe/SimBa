@@ -30,6 +30,12 @@ def get_named_spacy_entities_of_sentence(sentence, nlp):
     return [X.text for X in doc.ents]
 
 
+def get_named_spacy_entities_of_sentence_no_nr(sentence, nlp):
+    doc = nlp(sentence)
+    number_labels = ['CARDINAL', 'DATE', 'ORDINAL', 'QUANTITY', 'TIME']
+    return [X.text for X in doc.ents if X.label not in number_labels]
+
+
 def get_sequence_entities(sequence_dictionary, ref_feature):
     entity_dict = {}
     if ref_feature == "ne_similarity":
@@ -40,6 +46,10 @@ def get_sequence_entities(sequence_dictionary, ref_feature):
         nlp = en_core_web_sm.load()
         for id, text in sequence_dictionary.items():
             entity_dict[id] = get_named_spacy_entities_of_sentence(text, nlp)
+    elif ref_feature == "spacy_no_nr_ne_similarity":
+        nlp = en_core_web_sm.load()
+        for id, text in sequence_dictionary.items():
+            entity_dict[id] = get_named_spacy_entities_of_sentence_no_nr(text, nlp)
     elif ref_feature == "synonym_similarity":
         for id, text in sequence_dictionary.items():
             pp_text = set(word_tokenize(text))
