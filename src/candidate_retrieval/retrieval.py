@@ -22,6 +22,7 @@ import string_similarity
 sys.path.insert(0, os.path.join(base_path, ".."))
 import utils
 
+from feature_correlation import analyse_feature_correlation
 from utils import get_queries, get_targets, load_pickled_object, decompress_file, pickle_object, \
     compress_file, make_top_k_dictionary
 from sentence_encoder import encode_queries, encode_targets
@@ -359,6 +360,7 @@ def run():
     Evaluation step:
     Get mean and variance of all different similarity scores to better understand how to normalize them
     """
+    analyse_feature_correlation(all_features, all_sim_scores, args.data_name)
     all_sim_scores_df = pd.DataFrame.from_dict(all_sim_scores, orient='index', columns=all_features )
     for feature in all_features:
         print(feature)

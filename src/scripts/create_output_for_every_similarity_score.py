@@ -2,6 +2,10 @@ import os
 import subprocess
 from os.path import realpath, dirname
 
+import pandas as pd
+
+from evaluation.utils import get_map_5
+
 
 def run():
 
@@ -9,17 +13,46 @@ def run():
     dir_of_file = dirname(filepath)
     parent_dir_of_file = dirname(dir_of_file)
     parents_parent_dir_of_file = dirname(parent_dir_of_file)
+    repo_path = parents_parent_dir_of_file
 
-    data_names = ["nf", "trec_covid", "nq", "hotpot_qa", "fiqa","arguana", "touche",
-                  "quora", "dbpedia", "scidocs", "fever", "climate-fever", "scifact",
-                  "cqa_dupstack_android", "cqa_dupstack_english", "cqa_dupstack_gaming", "cqa_dupstack_gis",
-                  "cqa_dupstack_mathematica", "cqa_dupstack_physics", "cqa_dupstack_programmers",
-                  "cqa_dupstack_stats", "cqa_dupstack_tex", "cqa_dupstack_unix", "cqa_dupstack_webmasters",
-                  "cqa_dupstack_wordpress", "ms_marco"]
+    similarity_features = [('-sentence_embedding_models', "all-mpnet-base-v2"),
+                           ('-referential_similarity_measures', "synonym_similarity"),
+                           ('-referential_similarity_measures', "ne_similarity"),
+                           ('-lexical_similarity_measures', "similar_words_ratio"),
+                           ('-string_similarity_measures', "sequence_matching"),
+                           ('-string_similarity_measures', "levenshtein"),
+                           ('-string_similarity_measures', "jaccard_similarity")]
+
+    columns = ['Dataset', 'Number of Queries', 'Number of Targets', 'Average Query Length', 'Average Target Length']
+    for similarity_feature in similarity_features:
+        columns.append(similarity_feature[1])
+
+    comparison_df = pd.DataFrame(columns=columns)
+
+    data_names = ["nf", "scifact", "arguana", "clef_2020_checkthat_2_english", "clef_2021_checkthat_2a_english",
+                  "clef_2022_checkthat_2a_english", "cqa_dupstack_mathematica", "cqa_dupstack_webmasters",
+                  "clef_2021_checkthat_2b_english", "clef_2022_checkthat_2b_english", "cqa_dupstack_android"]
+                  # "scidocs", "cqa_dupstack_wordpress", "cqa_dupstack_programmers", "cqa_dupstack_gis",
+                  # "cqa_dupstack_physics", "cqa_dupstack_english", "cqa_dupstack_stats", "cqa_dupstack_gaming",
+                  # "cqa_dupstack_unix", "fiqa", "cqa_dupstack_tex", "trec_covid",  "touche",
+                  # "quora", "nq", "dbpedia", "hotpot_qa",  "fever", "climate-fever", "ms_marco"]
 
     for data_name in data_names:
 
         print(data_name)
+
+        dataset_path = repo_path + "/data/" + data_name
+        data_name_queries = dataset_path + "/queries.tsv"
+        data_name_targets = dataset_path + "/corpus"
+        data_name_gold = dataset_path + "/gold.tsv"
+
+        subprocess.call(["python", repo_path + "/evaluation/evaluate_datasets.py",
+                         data_name,
+                         data_name_queries,
+                         data_name_targets
+                         ])
+
+        dataset_features = pd.read_csv(repo_path + "/data/" + data_name + "/dataset_analysis.tsv", sep='\t')
 
         subprocess.call(["python",
                          repo_path + "/src/candidate_retrieval/retrieval.py",
@@ -31,46 +64,39 @@ def run():
                          "50",
                          '-sentence_embedding_models', "all-mpnet-base-v2",
                          '-referential_similarity_measures', "synonym_similarity", "ne_similarity",
-                         '-lexical_similarity_measures', "similar_words_ratio", "similar_words_ratio_length",
-                         '-string_similarity_measures', "sequence_matching", "levenshtein", "jaccard"])
+                         '-lexical_similarity_measures', "similar_words_ratio",
+                         '-string_similarity_measures', "sequence_matching", "levenshtein", "jaccard_similarity"])
 
-        similarity_features = [str('-sentence_embedding_models', "all-mpnet-base-v2"),
-                               str('-referential_similarity_measures', "synonym_similarity"), "ne_similarity",
-                               str('-referential_similarity_measures', "ne_similarity"),
-                               str('-lexical_similarity_measures', "similar_words_ratio"),
-                               str('-string_similarity_measures', "sequence_matching"),
-                               str('-string_similarity_measures', "levenshtein"),
-                               str('-string_similarity_measures', "jaccard")]
+        for similarity_feature in similarity_features:
 
-        for idx, similarity_feature in enumerate(similarity_features):
+            similarity_feature_category = similarity_feature[0]
+            similarity_feature_name = similarity_feature[1]
 
-            repo_path = parents_parent_dir_of_file
-            dataset_path = repo_path + "/data/" + data_name
-            data_name_queries = dataset_path + "/queries.tsv"
-            data_name_targets = dataset_path + "/corpus"
-            data_name_gold = dataset_path + "/gold.tsv"
-            data_name_pred = dataset_path + "/pred_qrels_" + str(idx)
+            data_name_pred = dataset_path + "/" + similarity_feature_name + "/pred_qrels.tsv"
 
             subprocess.call(["python",
                              repo_path + "/src/re_ranking/re_ranking.py",
                              data_name_queries,
                              data_name_targets,
                              data_name,
-                             data_name,
+                             data_name + "/" + similarity_feature_name,
                              "braycurtis",
-                             "5",
+                             "10",
                              '--ranking_only',
-                             similarity_feature])
+                             similarity_feature_category, similarity_feature_name])
 
-        print("Evaluation Scores for dataset " + data_name)
-        subprocess.call(["python", repo_path + "/evaluation/scorer/scorer_main.py",
-                         data_name_gold,
-                         data_name_pred])
+            print("Evaluation Scores for dataset " + data_name + "/" + similarity_feature_name)
+            subprocess.call(["python", repo_path + "/evaluation/scorer/evaluator.py",
+                             data_name + "/" + similarity_feature_name,
+                             data_name_gold,
+                             data_name_pred])
 
-        subprocess.call(["python", repo_path + "/evaluation/scorer/ndcg_evaluator.py",
-                         data_name_gold,
-                         data_name_pred])
+            dataset_features[similarity_feature_name] = get_map_5(repo_path + "/data/"+ data_name + "/" + similarity_feature_name)
 
+        comparison_df = pd.concat([comparison_df, dataset_features])
+
+        comparison_df = comparison_df.sort_values('Number of Targets')
+        comparison_df.to_csv("comparison.tsv", index=False, header=True, sep='\t')
 
 
 if __name__ == "__main__":

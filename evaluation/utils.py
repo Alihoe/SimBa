@@ -5,6 +5,7 @@ from src.create_similarity_features.referential_similarity import ne_sim, get_sy
 from src.create_similarity_features.sentence_encoder import encode_queries, encode_targets
 from src.create_similarity_features.string_similarity import match_sequences, jac_sim, levenshtein_sim
 import numpy as np
+import pandas as pd
 
 
 def get_sim_score(feature, query_text, target_text, similarity_measure):
@@ -59,3 +60,8 @@ def get_sim_score(feature, query_text, target_text, similarity_measure):
                                    metric=similarity_measure)[0][0])*100
 
     return sim_score
+
+
+def get_map_5(data_name):
+    results_df = pd.read_csv(data_name + "/results.tsv", sep='\t')
+    return results_df["MAP@5"]

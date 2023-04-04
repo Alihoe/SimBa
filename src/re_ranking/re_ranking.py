@@ -28,7 +28,6 @@ sys.path.insert(0, os.path.join(base_path, ".."))
 import utils
 import create_feature_set
 
-
 from utils import get_queries, get_targets, all_targets_as_query_candidates, load_pickled_object, \
     decompress_file, get_candidate_targets, pickle_object, compress_file, supervised_output_to_pred_qrels, \
     output_dict_to_pred_qrels

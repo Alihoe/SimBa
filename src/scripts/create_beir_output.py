@@ -59,19 +59,19 @@ def run():
         #                  ])
         #
         # print("Evaluation Scores for dataset " + data_name)
-        subprocess.call(["python", repo_path + "/evaluation/scorer/scorer_main.py",
-                         data_name_gold,
-                         data_name_pred])
+        # subprocess.call(["python", repo_path + "/evaluation/scorer/scorer_main.py",
+        #                  data_name_gold,
+        #                  data_name_pred])
+        #
+        # subprocess.call(["python", repo_path + "/evaluation/scorer/ndcg_evaluator.py",
+        #                  data_name_gold,
+        #                  data_name_pred])
 
-        subprocess.call(["python", repo_path + "/evaluation/scorer/ndcg_evaluator.py",
-                         data_name_gold,
-                         data_name_pred])
-
-        subprocess.call(["python", repo_path + "/evaluation/evaluate_datasets.py",
-                         data_name_queries,
-                         data_name_targets,
+        subprocess.call(["python", repo_path + "/evaluation/evaluate_datasets.py",#
                          data_name,
-                         "20"])
+                         data_name_queries,
+                         data_name_targets
+                         ])
 
 
 if __name__ == "__main__":

@@ -25,33 +25,26 @@ def run():
     queries_path = args.data_name_queries
     targets_path = args.data_name_targets
 
-    print(queries_path)
-
     queries = get_queries(queries_path)
     query_texts = list(queries.values())
     targets = get_targets(targets_path)
     target_texts = list(targets.values())
 
-    print(queries)
-
     query_lengths = [len(text) for text in query_texts]
-    avg_query_lengths = np.mean(query_lengths)
+    avg_query_lengths = round(np.mean(query_lengths), 0)
     target_lengths = [len(text) for text in target_texts]
-    avg_target_lengths = np.mean(target_lengths)
+    avg_target_lengths = round(np.mean(target_lengths), 0)
 
     columns = ['Dataset', 'Number of Queries', 'Number of Targets', 'Average Query Length', 'Average Target Length']
 
-    analysis_df = pd.DataFrame(names=columns, sep='\t', index_col=False)
+    data = {'Dataset': [args.data_name], 'Number of Queries': [str(len(query_texts))],
+               'Number of Targets': [str(len(target_texts))], 'Average Query Length': [str(avg_query_lengths)],
+               'Average Target Length': [str(avg_target_lengths)]}
 
-    print(analysis_df)
-
-    analysis_df['Dataset'] = args.data_name
-    analysis_df['Number of Queries'] = len(query_texts)
-    analysis_df['Number of Targets'] = len(target_texts)
-    analysis_df['Average Query Length'] = avg_query_lengths
-    analysis_df['Average Target Length'] = avg_target_lengths
-
-    print(analysis_df)
+    analysis_df = pd.DataFrame(data, columns=columns)
 
     analysis_df.to_csv(output_path, index=False, header=True, sep='\t')
     #df.to_latex()
+
+if __name__ == "__main__":
+    run()

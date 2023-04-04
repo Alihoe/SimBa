@@ -176,7 +176,7 @@ def supervised_output_to_pred_qrels(test_df, queries, k, output_data_name):
 
 def delete_first_line_of_tsv(csv_file_name):
     df = pd.read_csv(csv_file_name, sep='\t', dtype=str)
-    df.to_csv(csv_file_name, index=False, header=False, sep='\t', quoting=csv.QUOTE_NONE, escapechar=' ')
+    df.to_csv(csv_file_name, index=False, header=False, sep='\t', quoting=csv.QUOTE_NONE, escapechar='')
 
 
 def prepare_corpus_tsv(corpus_path):

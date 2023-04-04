@@ -37,7 +37,7 @@ def run():
 
     columns = ['Dataset', 'Number of Queries', 'Number of Targets', 'Average Query Length', 'Average Target Length']
 
-    analysis_df = pd.DataFrame(names=columns, sep='\t', index_col=False)
+    analysis_df = pd.DataFrame(columns=columns)
 
     analysis_df['Dataset'] = args.data_name
     analysis_df['Number of Queries'] = len(query_texts)
