@@ -8,8 +8,14 @@ from os.path import join, dirname, abspath
 
 import sys
 
-from claimlinking_simba.evaluation.format_checker.main import check_format
-from claimlinking_simba.evaluation.scorer.utils import print_single_metric, print_thresholded_metric
+base_path = os.path.abspath(os.path.dirname(__file__))
+sys.path.append(os.path.join(base_path, "../../evaluation/format_checker"))
+sys.path.append(os.path.join(base_path, "../../evaluation/scorer"))
+
+from main import check_format
+from scorer_utils import print_single_metric, print_thresholded_metric
+
+
 
 sys.path.append('.')
 """

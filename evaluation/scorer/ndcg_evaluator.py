@@ -16,7 +16,7 @@ sys.path.append(os.path.join(base_path, "../../src"))
 
 #from claimlinking_simba.evaluation import DATA_PATH
 from main import check_format
-from scorer_utils import print_single_metric
+from scorer_utils import print_single_metric, print_thresholded_metric
 from utils import load_pickled_object, decompress_file, candidates_dict_to_pred_qrels
 
 
@@ -49,14 +49,8 @@ def evaluate(gold_fpath, pred_fpath, thresholds=None):
     prediction = TrecRun(pred_fpath)
     results = TrecEval(prediction, gold_labels)
 
-    rel = results.get_relevant_documents()
-    rel_ret = results.get_relevant_retrieved_documents()
-    recall = rel_ret/rel
-
-    print('Number of relevant documents:' + str(rel))
-    print('Number of retrieved relevant documents:' + str(rel_ret))
-
-    return recall
+    ndcg = [results.get_ndcg(depth=i) for i in MAIN_THRESHOLDS]
+    return ndcg
 
 
 def validate_files(pred_file, gold_file):
@@ -79,26 +73,15 @@ def validate_files(pred_file, gold_file):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('data', type=str, default="sv_ident_val")
     parser.add_argument('gold', type=str, help='Path to goldfile.')
-    parser.add_argument('--after_re_ranking', action="store_true") #otherwise measure recall after retrieval
+    parser.add_argument('pred', type=str, help='Path to predfile.')
     args = parser.parse_args()
 
-    if args.after_re_ranking:
-        pred_file = DATA_PATH + args.data + "/pred_qrels.tsv"
-    else:
-        output_path = DATA_PATH + args.data
-        candidates = load_pickled_object(decompress_file(output_path + "/candidates.pickle.zip"))
-        candidates_dict_to_pred_qrels(candidates, output_path + "/candidates.tsv")
-        pred_file = output_path + "/candidates.tsv"
-
-    line_separator = '=' * 120
-
+    pred_file = args.pred
     gold_file = args.gold
 
     if validate_files(pred_file, gold_file):
         results = evaluate(gold_file, pred_file)
-        print_single_metric('RECALL:', results)
-    if os.path.exists(DATA_PATH+args.data+"/candidates.tsv"):
-        os.remove(DATA_PATH+args.data+"/candidates.tsv")
+        print_thresholded_metric('NDCG@N:', MAIN_THRESHOLDS, results)
+
 
