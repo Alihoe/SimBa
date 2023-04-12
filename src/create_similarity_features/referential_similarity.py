@@ -3,8 +3,8 @@ from nerd import nerd_client
 from nltk import word_tokenize
 from nltk.corpus import wordnet as wn
 
-nltk.download('wordnet')
-nltk.download('omw-1.4')
+#nltk.download('wordnet')
+#nltk.download('omw-1.4')
 import en_core_web_sm
 
 

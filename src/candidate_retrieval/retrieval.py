@@ -53,6 +53,8 @@ def run():
     parser.add_argument('--gesis_unsup', action="store_true", help = 'cache targets for gesis unsup')
     parser.add_argument('--corpus_sizes', action="store_true",
                         help='cache targets only (for the time measurement of different corpus sizes)')
+    parser.add_argument('--correlation_analysis', action="store_true",
+                        help='create correlation analysis document')
     parser.add_argument('-sentence_embedding_models', type=str, nargs='+', default=[],
                     help='Pass a list of sentence embedding models hosted by Huggingface or Tensorflow or simply pass "infersent" to use the infersent encoder.')
     parser.add_argument('-referential_similarity_measures', type=str, nargs='+', default=[])
@@ -360,8 +362,9 @@ def run():
     Evaluation step:
     Get mean and variance of all different similarity scores to better understand how to normalize them
     """
-    analyse_feature_correlation(all_features, all_sim_scores, args.data_name)
-    all_sim_scores_df = pd.DataFrame.from_dict(all_sim_scores, orient='index', columns=all_features )
+    all_sim_scores_df = pd.DataFrame.from_dict(all_sim_scores, orient='index', columns=all_features)
+    if args.correlation_analysis:
+        analyse_feature_correlation(all_features, all_sim_scores_df, args.data, args.k)
     for feature in all_features:
         print(feature)
         sim_scores = all_sim_scores_df[feature].to_numpy().flatten()

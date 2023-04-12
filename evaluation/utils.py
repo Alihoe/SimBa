@@ -64,4 +64,8 @@ def get_sim_score(feature, query_text, target_text, similarity_measure):
 
 def get_map_5(data_name):
     results_df = pd.read_csv(data_name + "/results.tsv", sep='\t')
-    return results_df["MAP@5"]
+    return round(results_df["MAP@5"], 3)
+
+def get_ndcg_10(data_name):
+    results_df = pd.read_csv(data_name + "/results.tsv", sep='\t')
+    return round(results_df["NDCG@10"], 3)

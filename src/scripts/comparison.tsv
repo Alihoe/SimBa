@@ -1,32 +1,5 @@
-Dataset	Number of Queries	Number of Targets	Average Query Length	Average Target Length	all-mpnet-base-v2	synonym_similarity	e	ne_similarity	similar_words_ratio	sequence_matching	levenshtein	jaccard
-nf	323	3632	21.76	1496.86	0	0	0	0	0	0	0	0
-scifact	300	5182	90.35	1401.01	0	0	0	0	0	0	0	0
-arguana	1406	8673	1192.72	1006.94	0	0	0	0	0	0	0	0
-clef_2020_checkthat_2_english	200	10375	184.48	149.07	0	0	0	0	0	0	0	0
-clef_2021_checkthat_2a_english	202	13825	231.79	157.63	0	0	0	0	0	0	0	0
-clef_2022_checkthat_2a_english	209	14231	242.15	158.29	0	0	0	0	0	0	0	0
-cqa_dupstack_mathematica	804	16704	48.91	1103.69	0	0	0	0	0	0	0	0
-cqa_dupstack_webmasters	506	17404	51.93	652.79	0	0	0	0	0	0	0	0
-clef_2021_checkthat_2b_english	79	19250	104.44	184.42	0	0	0	0	0	0	0	0
-clef_2022_checkthat_2b_english	65	19250	113.09	184.42	0	0	0	0	0	0	0	0
-cqa_dupstack_android	699	22997	51.77	541.39	0	0	0	0	0	0	0	0
-scidocs	1000	25656	71.63	1131.87	0	0	0	0	0	0	0	0
-cqa_dupstack_wordpress	541	30132	48.73	1069.21	0	0	0	0	0	0	0	0
-cqa_dupstack_programmers	876	32175	55.18	999.18	0	0	0	0	0	0	0	0
-cqa_dupstack_gis	885	37636	52.2	957.83	0	0	0	0	0	0	0	0
-cqa_dupstack_physics	1039	38315	53.36	764.15	0	0	0	0	0	0	0	0
-cqa_dupstack_english	1570	40220	48.33	433.24	0	0	0	0	0	0	0	0
-cqa_dupstack_stats	652	42268	56.32	997.73	0	0	0	0	0	0	0	0
-cqa_dupstack_gaming	1595	45300	48.77	438.73	0	0	0	0	0	0	0	0
-cqa_dupstack_unix	1072	47381	50.32	954.84	0	0	0	0	0	0	0	0
-fiqa	648	57637	62.7	767.22	0	0	0	0	0	0	0	0
-cqa_dupstack_tex	2906	68183	46.94	1249.4	0	0	0	0	0	0	0	0
-trec_covid	50	171331	69.24	1023.4	0	0	0	0	0	0	0	0
-touche	49	382544	43.43	1675.37	0	0	0	0	0	0	0	0
-quora	10000	522930	51.54	62.16	0	0	0	0	0	0	0	0
-nq	3452	2681467	48.18	472.11	0	0	0	0	0	0	0	0
-dbpedia	400	4635921	34.08	289.43	0	0	0	0	0	0	0	0
-hotpot_qa	7405	5233328	92.17	268.0	0	0	0	0	0	0	0	0
-fever	6666	5416567	49.61	518.72	0	0	0	0	0	0	0	0
-climate-fever	1535	5416592	123.4	518.73	0	0	0	0	0	0	0	0
-ms_marco	43	8841822	32.74	335.8	0	0	0	0	0	0	0	0
+Dataset	Number of Queries	Number of Targets	Average Query Length	Average Target Length	Score	all-mpnet-base-v2	synonym_similarity	similar_words_ratio	sequence_matching	levenshtein	jaccard_similarity
+cqa_dupstack_android	699	22997	52	541	0.482	0.503	0.084	0.186	0.038	0.028	0.113
+scidocs	1000	25656	72	1132	0.196	0.223	0.014	0.029	0.001	0.001	0.009
+cqa_dupstack_wordpress	541	30132	49	1069	0.321	0.341	0.038	0.097	0.008	0.005	0.064
+cqa_dupstack_programmers	876	32175	55	999	0.403	0.412	0.021	0.092	0.007	0.004	0.045

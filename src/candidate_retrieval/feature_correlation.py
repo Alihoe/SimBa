@@ -1,4 +1,7 @@
+import operator
 import os
+import numpy as np
+import torch
 
 from scipy.stats import spearmanr
 
@@ -6,8 +9,22 @@ base_path = os.path.abspath(os.path.dirname(__file__))
 DATA_PATH = os.path.join(base_path, "../../data/")
 
 
-def analyse_feature_correlation(all_features, feature_scores, data_name):
-    correlation, p_value = spearmanr(feature_scores, nan_policy='propagate')
+def analyse_feature_correlation(all_features, all_sim_scores_df, data_name, k):
+    feature_top_ks = {}
+    for feature in all_features:
+        this_feature_sim_scores = np.stack(all_sim_scores_df[feature])
+        sim_scores_top_k_values, sim_scores_top_k_idx = torch.topk(torch.tensor(this_feature_sim_scores), k=k,
+                                                                   dim=1, largest=True)
+        sim_scores_top_k_values = sim_scores_top_k_values.cpu().tolist()
+        feature_top_ks[feature] = sim_scores_top_k_values
+
+    feature_scores = np.array(list(feature_top_ks.values()))
+    a = feature_scores.shape[0]
+    b = feature_scores.shape[1]
+    c = feature_scores.shape[2]
+    feature_scores = feature_scores.reshape(a, b * c)
+
+    correlation, p_value = spearmanr(feature_scores, axis=1, nan_policy='propagate')
 
     with open(DATA_PATH + data_name + "/" + data_name + "_correlation.txt", 'w') as f:
         print(all_features, file=f)

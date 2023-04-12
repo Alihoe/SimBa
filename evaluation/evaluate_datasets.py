@@ -31,9 +31,9 @@ def run():
     target_texts = list(targets.values())
 
     query_lengths = [len(text) for text in query_texts]
-    avg_query_lengths = round(np.mean(query_lengths), 0)
+    avg_query_lengths = int(round(np.mean(query_lengths), 0))
     target_lengths = [len(text) for text in target_texts]
-    avg_target_lengths = round(np.mean(target_lengths), 0)
+    avg_target_lengths = int(round(np.mean(target_lengths), 0))
 
     columns = ['Dataset', 'Number of Queries', 'Number of Targets', 'Average Query Length', 'Average Target Length']
 
