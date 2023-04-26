@@ -16,6 +16,8 @@ def run():
     repo_path = parents_parent_dir_of_file
 
     similarity_features = [('-sentence_embedding_models', "all-mpnet-base-v2"),
+                           ('-sentence_embedding_models', "sentence-transformers/sentence-t5-base"),
+                           ('-sentence_embedding_models', "princeton-nlp/unsup-simcse-roberta-base"),
                            ('-referential_similarity_measures', "synonym_similarity"),
                            #('-referential_similarity_measures', "ne_similarity"),
                            ('-lexical_similarity_measures', "similar_words_ratio"),
@@ -30,12 +32,12 @@ def run():
     comparison_df = pd.DataFrame(columns=columns)
 
     data_names = [
-        # "nf", "scifact", "arguana", "clef_2020_checkthat_2_english", "clef_2021_checkthat_2a_english",
-        #           "clef_2022_checkthat_2a_english", "cqa_dupstack_mathematica", "cqa_dupstack_webmasters",
-        #           "clef_2021_checkthat_2b_english", "clef_2022_checkthat_2b_english",
-                  "cqa_dupstack_android",
-                  "scidocs", "cqa_dupstack_wordpress", "cqa_dupstack_programmers", "cqa_dupstack_gis",
-                  "cqa_dupstack_physics", "cqa_dupstack_english", "cqa_dupstack_stats", "cqa_dupstack_gaming",
+        "nf", "scifact", "arguana", "clef_2020_checkthat_2_english", "clef_2021_checkthat_2a_english",
+                  "clef_2022_checkthat_2a_english", "cqa_dupstack_mathematica", "cqa_dupstack_webmasters",
+                  "clef_2021_checkthat_2b_english", "clef_2022_checkthat_2b_english",
+               "cqa_dupstack_android", "scidocs", "cqa_dupstack_wordpress", "cqa_dupstack_programmers",
+                 "cqa_dupstack_gis", "cqa_dupstack_physics",
+                  "cqa_dupstack_english", "cqa_dupstack_stats", "cqa_dupstack_gaming",
                   "cqa_dupstack_unix", "fiqa", "cqa_dupstack_tex", "trec_covid",  "touche"]
                   # "quora", "nq", "dbpedia", "hotpot_qa",  "fever", "climate-fever", "ms_marco"]
 

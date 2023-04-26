@@ -3,14 +3,18 @@ from nerd import nerd_client
 from nltk import word_tokenize
 from nltk.corpus import wordnet as wn
 
+
 #nltk.download('wordnet')
 #nltk.download('omw-1.4')
 import en_core_web_sm
 
+from src.create_similarity_features import nerd_api_querying
 
-def get_named_entities_of_sentence(sentence, entity_fisher):
+
+def get_named_entities_of_sentence(sentence):
+    entity_fisher = nerd_api_querying.NerdClient()
     try:
-        entities = entity_fisher.disambiguate_text(sentence, language='en')[0]['entities']
+        entities = entity_fisher.disambiguate_text_changed_body(sentence, language='en')[0]['entities']
     except:
         print('Error occured for: ' + sentence)
         entities = []
@@ -39,9 +43,8 @@ def get_named_spacy_entities_of_sentence_no_nr(sentence, nlp):
 def get_sequence_entities(sequence_dictionary, ref_feature):
     entity_dict = {}
     if ref_feature == "ne_similarity":
-        entity_fisher = nerd_client.NerdClient()
         for id, text in sequence_dictionary.items():
-            entity_dict[id] = get_named_entities_of_sentence(text, entity_fisher)
+            entity_dict[id] = get_named_entities_of_sentence(text)
     elif ref_feature == "spacy_ne_similarity":
         nlp = en_core_web_sm.load()
         for id, text in sequence_dictionary.items():

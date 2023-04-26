@@ -1,7 +1,6 @@
 demoji==1.1.0
 gdown==4.6.4
 matplotlib==3.6.3
-nerd==1.0.0
 entity-fishing-client
 nltk==3.7
 numpy
