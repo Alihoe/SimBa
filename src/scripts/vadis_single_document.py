@@ -17,45 +17,40 @@ import subprocess
 
 def run():
 
+    # data_name_targets = "gesis_unsup_more_text_pp"
+    # new_data_name_targets = "gesis_unsup_more_text_pp_stop_words"
+    #
     # subprocess.call(["python",
     #                  "../../src/pre_processing/pre_processing_targets.py",
-    #                  "../../data/"+data_name_targets+"/corpus_all",
+    #                  "../../data/"+data_name_targets+"/corpus",
     #                  new_data_name_targets,
-    #                  '-fields', 'variable_label', 'variable_label_en', 'title', 'title_en', 'question_text', 'question_text_en'])
+    #                 '--stop_words'])
 
-    #numbers = ["11155", "33888", "35529", "44346", "74901", "79409","76005","79636", "75199", "77659","75302", "76981","74465","72164","73518", "44346","79197","75202","79639"]
-    #numbers = ["11155"]
     numbers = ["11155", "44346", "79409", "75302", "79639"]
 
     for number in numbers:
         print("Evaluating document number ")
         print(number)
-
-        # data_name_queries = '79628/79628_pp'
-        # data_name_cache = '79628_text'
-        # data_name_targets = 'gesis_unsup_text'
-        # data_name = '79628/79628_ne_spacy_count'
-
         data_name_queries = number+"/"+number+"_pp"
-        data_name_cache = number+"_labels"
-        data_name_targets = 'gesis_unsup_labels'
-        data_name = number+"/"+number+"_spacy_ne_count_no_nr"
+        data_name_cache = number+"_more_text_pp_stop_words"
+        data_name_targets = "gesis_unsup_more_text_pp_stop_words"
+        data_name = number+"/"+number+"_more_text_pp_stop_words_st5"
 
-        subprocess.call(["python",
-                         "../../src/candidate_retrieval/retrieval.py",
-                         "../../data/"+data_name_queries+"/queries.tsv",
-                         "../../data/"+data_name_targets+"/corpus",
-                         data_name_cache,
-                         data_name,
-                         "braycurtis",
-                         "10",
-                         "--union_of_top_k_per_feature",
-                         "--gesis_unsup",
-                         # '-sentence_embedding_models', "sentence-transformers/sentence-t5-base", "all-mpnet-base-v2", "princeton-nlp/sup-simcse-roberta-large",
-                         # '-referential_similarity_measures', "synonym_similarity", "ne_similarity", "spacy_ne_similarity",
-                         # '-lexical_similarity_measures', "similar_words_ratio", "similar_words_ratio_length",
-                         # '-string_similarity_measures', "sequence_matching", "levenshtein",
-                         '-discrete_similarity_measures', "spacy_no_nr_ne_similarity"])
+        # subprocess.call(["python",
+        #                  "../../src/candidate_retrieval/retrieval.py",
+        #                  "../../data/"+data_name_queries+"/queries.tsv",
+        #                  "../../data/"+data_name_targets+"/corpus",
+        #                  data_name_cache,
+        #                  data_name,
+        #                  "braycurtis",
+        #                  "10",
+        #                  "--union_of_top_k_per_feature",
+        #                  "--gesis_unsup",
+        #                  # '-sentence_embedding_models', "sentence-transformers/sentence-t5-base", "all-mpnet-base-v2", "princeton-nlp/sup-simcse-roberta-large",
+        #                  # '-referential_similarity_measures', "synonym_similarity", "ne_similarity", "spacy_ne_similarity",
+        #                  # '-lexical_similarity_measures', "similar_words_ratio", "similar_words_ratio_length",
+        #                  # '-string_similarity_measures', "sequence_matching", "levenshtein",
+        #                  '-discrete_similarity_measures', "spacy_no_nr_ne_similarity"])
 
         subprocess.call(["python",
                          "../../src/re_ranking/re_ranking.py",
@@ -68,15 +63,12 @@ def run():
                          "--gesis_unsup",
                          "--ranking_only",
                          "--union",
-                         #'-sentence_embedding_models', "sentence-transformers/sentence-t5-base", "all-mpnet-base-v2", "princeton-nlp/sup-simcse-roberta-large",#, "https://tfhub.dev/google/universal-sentence-encoder/4"])
+                         '-sentence_embedding_models', "sentence-transformers/sentence-t5-base"])#, "all-mpnet-base-v2", "princeton-nlp/sup-simcse-roberta-large",#, "https://tfhub.dev/google/universal-sentence-encoder/4"])
                          #'-referential_similarity_measures', "spacy_ne_similarity"
                          #'-lexical_similarity_measures', "similar_words_ratio", "similar_words_ratio_length",
                          #'-string_similarity_measures', "sequence_matching", "levenshtein",
-                         '-discrete_similarity_measures', "spacy_no_nr_ne_similarity"
-                         ])
-
-
-
+                         #'-discrete_similarity_measures', "spacy_no_nr_ne_similarity"
+                         #])
 
 if __name__ == "__main__":
     run()
