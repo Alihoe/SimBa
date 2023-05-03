@@ -19,11 +19,12 @@ def run():
                            ('-sentence_embedding_models', "sentence-transformers/sentence-t5-base"),
                            ('-sentence_embedding_models', "princeton-nlp/unsup-simcse-roberta-base"),
                            ('-referential_similarity_measures', "synonym_similarity"),
-                           #('-referential_similarity_measures', "ne_similarity"),
+                           ('-referential_similarity_measures', "ne_similarity"),
                            ('-lexical_similarity_measures', "similar_words_ratio"),
                            ('-string_similarity_measures', "sequence_matching"),
                            ('-string_similarity_measures', "levenshtein"),
-                           ('-string_similarity_measures', "jaccard_similarity")]
+                           #('-string_similarity_measures', "jaccard_similarity"
+                            ]
 
     columns = ['Dataset', 'Number of Queries', 'Number of Targets', 'Average Query Length', 'Average Target Length', 'Score']
     for similarity_feature in similarity_features:
@@ -38,8 +39,8 @@ def run():
                "cqa_dupstack_android", "scidocs", "cqa_dupstack_wordpress", "cqa_dupstack_programmers",
                  "cqa_dupstack_gis", "cqa_dupstack_physics",
                   "cqa_dupstack_english", "cqa_dupstack_stats", "cqa_dupstack_gaming",
-                  "cqa_dupstack_unix", "fiqa", "cqa_dupstack_tex", "trec_covid",  "touche"]
-                  # "quora", "nq", "dbpedia", "hotpot_qa",  "fever", "climate-fever", "ms_marco"]
+                  "cqa_dupstack_unix", "fiqa", "cqa_dupstack_tex", "trec_covid",  "touche", "quora"]
+                  #, "nq", "dbpedia", "hotpot_qa",  "fever", "climate-fever", "ms_marco"]
 
     for data_name in data_names:
 
@@ -70,9 +71,9 @@ def run():
                          "--correlation_analysis",
                          '-sentence_embedding_models', "all-mpnet-base-v2", "sentence-transformers/sentence-t5-base",
                          "princeton-nlp/unsup-simcse-roberta-base",
-                         '-referential_similarity_measures', "synonym_similarity", #"ne_similarity",
+                         '-referential_similarity_measures', "synonym_similarity", "ne_similarity",
                          '-lexical_similarity_measures', "similar_words_ratio",
-                         '-string_similarity_measures', "sequence_matching", "levenshtein", "jaccard_similarity"])
+                         '-string_similarity_measures', "sequence_matching", "levenshtein"])
 
         subprocess.call(["python",
                          repo_path + "/src/candidate_retrieval/retrieval.py",
