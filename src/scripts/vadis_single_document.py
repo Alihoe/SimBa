@@ -17,14 +17,15 @@ import subprocess
 
 def run():
 
-    # data_name_targets = "gesis_unsup_more_text_pp"
-    # new_data_name_targets = "gesis_unsup_more_text_pp_stop_words"
-    #
-    # subprocess.call(["python",
-    #                  "../../src/pre_processing/pre_processing_targets.py",
-    #                  "../../data/"+data_name_targets+"/corpus",
-    #                  new_data_name_targets,
-    #                 '--stop_words'])
+    data_name_targets = "gesis_unsup_labels"
+    new_data_name_targets = "gesis_unsup_labels_pp_stop_words"
+
+    subprocess.call(["python",
+                     "../../src/pre_processing/pre_processing_targets.py",
+                     "../../data/"+data_name_targets+"/corpus",
+                     new_data_name_targets,
+                    '--html_filtering',
+                    '--stop_words'])
 
     numbers = ["11155", "44346", "79409", "75302", "79639"]
 
@@ -32,9 +33,9 @@ def run():
         print("Evaluating document number ")
         print(number)
         data_name_queries = number+"/"+number+"_pp"
-        data_name_cache = number+"_more_text_pp_stop_words"
-        data_name_targets = "gesis_unsup_more_text_pp_stop_words"
-        data_name = number+"/"+number+"_more_text_pp_stop_words_st5"
+        data_name_cache = number+"_labels_pp_stop_words"
+        data_name_targets = "gesis_unsup_labels_pp_stop_words"
+        data_name = number+"/"+number+"_labels_pp_stop_words_st5"
 
         # subprocess.call(["python",
         #                  "../../src/candidate_retrieval/retrieval.py",
