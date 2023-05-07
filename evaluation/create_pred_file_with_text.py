@@ -106,7 +106,7 @@ for number in numbers:
 
     data_name_cache = number + "_labels_title"
     data_name_targets = 'gesis_unsup_labels_title'
-    data_name = number + "/" + number + "_labels_title"
+    data_name = number + "/" + number + "_labels_title_st5"
 
     create_pred_file_with_text(data_name_queries, data_name, data_name_targets, score_threshold=70)
 
