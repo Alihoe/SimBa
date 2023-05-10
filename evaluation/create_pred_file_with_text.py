@@ -65,14 +65,14 @@ for number in numbers:
     data_name_targets = 'gesis_unsup_more_text'
     data_name = number + "/" + number + "_more_text_pp_stop_words_st5"
 
-    create_pred_file_with_text_stop_words(data_name_queries, data_name, data_name_targets_stop_words, data_name_targets, score_threshold=70)
+    create_pred_file_with_text_stop_words(data_name_queries, data_name, data_name_targets_stop_words, data_name_targets, score_threshold=72)
 
     data_name_cache = number + "_text_pp_stop_words_st5"
     data_name_targets_stop_words = 'gesis_unsup_text_pp_stop_words'
     data_name_targets = 'gesis_unsup_text'
     data_name = number + "/" + number + "_text_pp_stop_words_st5"
 
-    create_pred_file_with_text_stop_words(data_name_queries, data_name, data_name_targets_stop_words, data_name_targets, score_threshold=70)
+    create_pred_file_with_text_stop_words(data_name_queries, data_name, data_name_targets_stop_words, data_name_targets, score_threshold=72)
 
 
     data_name_cache = number + "_labels_title_pp_stop_words_st5"
@@ -80,7 +80,7 @@ for number in numbers:
     data_name_targets = 'gesis_unsup_labels_title'
     data_name = number + "/" + number + "_labels_title_pp_stop_words_st5"
 
-    create_pred_file_with_text_stop_words(data_name_queries, data_name, data_name_targets_stop_words, data_name_targets, score_threshold=70)
+    create_pred_file_with_text_stop_words(data_name_queries, data_name, data_name_targets_stop_words, data_name_targets, score_threshold=72)
 
 
     data_name_cache = number + "_labels_pp_stop_words_st5"
@@ -88,34 +88,34 @@ for number in numbers:
     data_name_targets = 'gesis_unsup_labels'
     data_name = number + "/" + number + "_labels_pp_stop_words_st5"
 
-    create_pred_file_with_text_stop_words(data_name_queries, data_name, data_name_targets_stop_words, data_name_targets, score_threshold=70)
+    create_pred_file_with_text_stop_words(data_name_queries, data_name, data_name_targets_stop_words, data_name_targets, score_threshold=72)
 
     data_name_queries = number + "/" + number + "_pp"
     data_name_cache = number + "_more_text"
     data_name_targets = 'gesis_unsup_more_text'
     data_name = number + "/" + number + "_more_text_st5"
 
-    create_pred_file_with_text(data_name_queries, data_name, data_name_targets, score_threshold=70)
+    create_pred_file_with_text(data_name_queries, data_name, data_name_targets, score_threshold=72)
 
     data_name_cache = number + "_text_st5"
     data_name_targets = 'gesis_unsup_text'
     data_name = number + "/" + number + "_text_st5"
 
-    create_pred_file_with_text(data_name_queries, data_name,  data_name_targets, score_threshold=70)
+    create_pred_file_with_text(data_name_queries, data_name,  data_name_targets, score_threshold=72)
 
 
     data_name_cache = number + "_labels_title"
     data_name_targets = 'gesis_unsup_labels_title'
     data_name = number + "/" + number + "_labels_title_st5"
 
-    create_pred_file_with_text(data_name_queries, data_name, data_name_targets, score_threshold=70)
+    create_pred_file_with_text(data_name_queries, data_name, data_name_targets, score_threshold=72)
 
 
     data_name_cache = number + "_labels"
     data_name_targets = 'gesis_unsup_labels'
     data_name = number + "/" + number + "_labels_st5"
 
-    create_pred_file_with_text(data_name_queries, data_name, data_name_targets, score_threshold=70)
+    create_pred_file_with_text(data_name_queries, data_name, data_name_targets, score_threshold=72)
 
 
 
