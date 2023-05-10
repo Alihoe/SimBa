@@ -40,7 +40,8 @@ def run():
         #          "cqa_dupstack_gis", "cqa_dupstack_physics",
         #           "cqa_dupstack_english", "cqa_dupstack_stats", "cqa_dupstack_gaming",
         #          "cqa_dupstack_unix", "fiqa", "cqa_dupstack_tex",
-        "trec_covid",  "touche", "quora"]
+        #"trec_covid",
+        "touche", "quora"]
                   #, "nq", "dbpedia", "hotpot_qa",  "fever", "climate-fever", "ms_marco"]
 
     for data_name in data_names:
