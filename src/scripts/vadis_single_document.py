@@ -27,15 +27,17 @@ def run():
     #                 '--html_filtering',
     #                 '--stop_words'])
 
-    numbers = ["11155", "44346", "79409", "75302", "79639"]
+    #numbers = ["11155", "44346", "79409", "75302", "79639"]
+    numbers = ["gesis_unsup_more_text_pp"]
 
     for number in numbers:
         print("Evaluating document number ")
         print(number)
-        data_name_queries = number+"/"+number+"_pp"
-        data_name_cache = number+"_more_text"
-        data_name_targets = "gesis_unsup_more_text"
-        data_name = number+"/"+number+"_more_text_st5"
+        #data_name_queries = number+"/"+number+"_pp"
+        data_name_queries = "gesis_unsup_more_text_pp"
+        data_name_cache = "gesis_unsup_more_text_pp"
+        data_name_targets = "gesis_unsup_more_text_pp"
+        data_name = "gesis_unsup_more_text_pp"+"/"+"gesis_unsup_more_text_pp"+"_st5"
 
         # subprocess.call(["python",
         #                  "../../src/candidate_retrieval/retrieval.py",
@@ -60,13 +62,14 @@ def run():
                          data_name_cache,
                          data_name,
                          "braycurtis",
-                         "100",
+                         "5",
                          "--gesis_unsup",
                          "--ranking_only",
                          "--union",
                          '-sentence_embedding_models', "sentence-transformers/sentence-t5-base"])#, "all-mpnet-base-v2", "princeton-nlp/sup-simcse-roberta-large",#, "https://tfhub.dev/google/universal-sentence-encoder/4"])
                          #'-referential_similarity_measures', "spacy_ne_similarity"
-                         #'-lexical_similarity_measures', "similar_words_ratio", "similar_words_ratio_length",
+                         #'-lexical_similarity_measures', "similar_words_ratio",
+        # "similar_words_ratio_length",
                          #'-string_similarity_measures', "sequence_matching", "levenshtein",
                          #'-discrete_similarity_measures', "spacy_no_nr_ne_similarity"
                          #])

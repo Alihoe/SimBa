@@ -154,7 +154,7 @@ def run():
         for column in text_columns:
             targets_df[column].apply(collect_tokens, args=(tokens,))
         token_dict = count_token_occurences(tokens)
-        stop_words = filter_out_k_most_common_tokens(token_dict, 1000)
+        stop_words = filter_out_k_most_common_tokens(token_dict, 500)
         print(stop_words)
         print(len(stop_words))
         for column in text_columns:
