@@ -62,7 +62,7 @@ def run():
                          data_name_cache,
                          data_name,
                          "braycurtis",
-                         "5",
+                         "1",
                          "--gesis_unsup",
                          "--ranking_only",
                          "--union",

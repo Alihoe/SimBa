@@ -98,7 +98,7 @@ def run():
     """
     caching_directory = os.path.join(DATA_PATH, "cache", args.data_cache)
     if args.gesis_unsup:
-        caching_directory_targets = os.path.join(DATA_PATH, "cache/gesis_unsup_more_text_pp")
+        caching_directory_targets = os.path.join(DATA_PATH, "cache/gesis_unsup_text")
     elif args.corpus_sizes:
         caching_directory_targets = os.path.join(DATA_PATH, "cache/corpus_size_targets_"+args.data)
     else:
