@@ -137,23 +137,17 @@ def run():
     classifer_output_path = output_path + "/classifier.pkl"
     with open(classifer_output_path, 'wb') as classifer_output_file:
         pickle.dump(kmeans, classifer_output_file)
-    # print(kmeans.labels_)
-    # print(len(kmeans.labels_))
-    # all_clusters = {}
-    # for cluster in range(args.n_clusters):
-    #     all_clusters[cluster] = {}
-    # for i in range(len(targets)):
-    #     all_clusters[kmeans.labels_[i]][list(targets.keys())[i]] = list(targets.values())[i]
-    # for cluster in range(args.n_clusters):
-    #     this_cluster_df = pd.DataFrame(columns=['id', 'text'])
-    #     this_cluster_df['id'] = list(all_clusters[cluster].keys())
-    #     this_cluster_df['text'] = list(all_clusters[cluster].values())
-    #     print(cluster)
-    #     print(len(list(all_clusters[cluster].values())))
-    #     print(list(all_clusters[cluster].values())[:20])
-    #     this_output_path = output_path + "/cluster_"+str(cluster+1)+".tsv"
-    #     print(this_output_path)
-    #     this_cluster_df.to_csv(this_output_path, sep='\t', header=True, index=False)
+    all_clusters = {}
+    for cluster in range(args.n_clusters):
+        all_clusters[cluster] = {}
+    for i in range(len(targets)):
+        all_clusters[kmeans.labels_[i]][list(targets.keys())[i]] = list(targets.values())[i]
+    for cluster in range(args.n_clusters):
+        this_cluster_df = pd.DataFrame(columns=['id', 'text'])
+        this_cluster_df['id'] = list(all_clusters[cluster].keys())
+        this_cluster_df['text'] = list(all_clusters[cluster].values())
+        this_output_path = output_path + "/cluster_"+str(cluster+1)+".tsv"
+        this_cluster_df.to_csv(this_output_path, sep='\t', header=True, index=False)
 
 
 if __name__ == "__main__":

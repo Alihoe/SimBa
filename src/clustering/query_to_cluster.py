@@ -16,6 +16,8 @@ from tensorflow.python.framework.ops import EagerTensor
 from scipy.spatial.distance import cdist
 from pathlib import Path
 
+from src.clustering.predict_2_clusters import predict_n_closest_cluster
+
 base_path = os.path.abspath(os.path.dirname(__file__))
 DATA_PATH = os.path.join(base_path, "../../data/")
 sys.path.append(os.path.join(base_path, "../create_similarity_features"))
@@ -48,7 +50,8 @@ def run():
     #input
     parser.add_argument('queries', type=str, help='Input queries path as tsv file.')
     # parameters
-    parser.add_argument('data', type=str, help='Name under which the documents should be stored.')
+    parser.add_argument('data', type=str, help='Name under which the clusters should be stored.')
+    parser.add_argument('--second_cluster', action='store_true', help='Should second cluster be found?')
     parser.add_argument('-sentence_embedding_models', type=str, nargs='+',
                     default=[],
                     help='Pass a list of sentence embedding models hosted by Huggingface or Tensorflow or simply pass "infersent" to use the infersent encoder.')
@@ -129,28 +132,29 @@ def run():
     classifer_output_path = output_path + "/classifier.pkl"
     with open(classifer_output_path, 'rb') as classifer_output_file:
         kmeans = pickle.load(classifer_output_file)
-    predictions = kmeans.predict(np.array(list(embedded_queries.values())))
-    queries_clusters = dict(zip(list(queries.keys()), list(predictions)))
-
-    #cluster_themes = ["media", "politics", "feelings", "personal_inf", "job"]
-
+    if args.second_cluster:
+        predictions = predict_n_closest_cluster(np.array(list(embedded_queries.values())), kmeans, n=2)
+    else:
+        predictions = kmeans.predict(np.array(list(embedded_queries.values())))
 
     all_target_ids = []
-    print(kmeans.n_clusters)
     for cluster in range(kmeans.n_clusters):
         these_targets_path = output_path + "/cluster_"+str(cluster+1)+".tsv"
         these_targets = pd.read_csv(these_targets_path, sep='\t', dtype=str)
         all_target_ids.append(these_targets['id'].to_list())
-
-    print(output_path)
-    output_path = output_path+"/candidates"
 
     output = {}
     for idx, query_id in enumerate(list(queries.keys())):
         cluster_nr = predictions[idx]
         output[query_id] = all_target_ids[cluster_nr]
 
-
+    if args.second_cluster:
+        output_path = output_path + "/" + args.queries + "/second_cluster"
+        Path(output_path).mkdir(parents=True, exist_ok=True)
+    else:
+        output_path = output_path + "/" + args.queries
+        Path(output_path).mkdir(parents=True, exist_ok=True)
+    output_path = output_path + "/candidates"
 
     pickle_object(output_path, output)
     compress_file(output_path + ".pickle")

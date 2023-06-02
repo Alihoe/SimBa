@@ -122,6 +122,8 @@ def run():
         all_sim_scores[query_id] = []
     output_path = os.path.join(DATA_PATH, args.data, "pred_qrels.tsv")
     Path(os.path.join(DATA_PATH, args.data)).mkdir(parents=True, exist_ok=True)
+
+
     """
     0. Learning
     """
