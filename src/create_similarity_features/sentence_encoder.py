@@ -47,7 +47,7 @@ def encode_queries(query_dictionary, model_name):
 
 def encode_targets(target_dictionary, model_name):
     batch_size = 128
-    chunk_size = 50000
+    chunk_size = 5000
     targets = list(target_dictionary.values())
     target_ids = list(target_dictionary.keys())
     itr = range(0, len(targets), chunk_size)

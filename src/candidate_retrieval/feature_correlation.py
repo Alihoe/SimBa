@@ -2,6 +2,7 @@ import operator
 import os
 import numpy as np
 import torch
+import pandas as pd
 
 from scipy.stats import spearmanr
 
@@ -25,6 +26,10 @@ def analyse_feature_correlation(all_features, all_sim_scores_df, data_name, k):
     feature_scores = feature_scores.reshape(a, b * c)
 
     correlation, p_value = spearmanr(feature_scores, axis=1, nan_policy='propagate')
+
+
+    pd.DataFrame(correlation, columns=all_features).to_csv(DATA_PATH + data_name + "/" + data_name + "_correlation.tsv",
+                                                           index=False, header=True, sep='\t')
 
     with open(DATA_PATH + data_name + "/" + data_name + "_correlation.txt", 'w') as f:
         print(all_features, file=f)

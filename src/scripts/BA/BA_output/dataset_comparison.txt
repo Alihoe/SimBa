@@ -1,0 +1,30 @@
+\begin{table}[h]
+\caption{Comparison of Datasets}
+\label{table:comp_datasets}
+\begin{tabular}{c|c|c|c|c|c}
+$dataset$ & $\# queries$ & $\# targets$ & $avg. query length$ & $avg. target length$ & $score$ \\
+nf & 323 & 3632 & 22 & 1497 & 0.326 \\
+scifact & 300 & 5182 & 90 & 1401 & 0.643 \\
+arguana & 1406 & 8673 & 1193 & 1007 & 0.387 \\
+clef_2020_checkthat_2_english & 200 & 10375 & 162 & 149 & 0.966 \\
+clef_2021_checkthat_2a_english & 202 & 13825 & 232 & 158 & 0.954 \\
+clef_2022_checkthat_2a_english & 209 & 14231 & 242 & 158 & 0.935 \\
+cqa_dupstack_mathematica & 804 & 16704 & 49 & 1104 & 0.305 \\
+cqa_dupstack_webmasters & 506 & 17404 & 52 & 653 & 0.389 \\
+clef_2021_checkthat_2b_english & 79 & 19250 & 104 & 184 & 0.441 \\
+clef_2022_checkthat_2b_english & 65 & 19250 & 113 & 184 & 0.489 \\
+cqa_dupstack_android & 699 & 22997 & 52 & 541 & 0.482 \\
+scidocs & 1000 & 25656 & 72 & 1132 & 0.196 \\
+cqa_dupstack_wordpress & 541 & 30132 & 49 & 1069 & 0.321 \\
+cqa_dupstack_programmers & 876 & 32175 & 55 & 999 & 0.403 \\
+cqa_dupstack_gis & 885 & 37636 & 52 & 958 & 0.368 \\
+cqa_dupstack_physics & 1039 & 38315 & 53 & 764 & 0.418 \\
+cqa_dupstack_english & 1570 & 40220 & 48 & 433 & 0.428 \\
+cqa_dupstack_stats & 652 & 42268 & 56 & 998 & 0.327 \\
+cqa_dupstack_gaming & 1595 & 45300 & 49 & 439 & 0.528 \\
+cqa_dupstack_unix & 1072 & 47381 & 50 & 955 & 0.392 \\
+fiqa & 648 & 57637 & 63 & 767 & 0.426 \\
+cqa_dupstack_tex & 2906 & 68183 & 47 & 1249 & 0.295 \\
+\end{tabular}
+\end{table}
+

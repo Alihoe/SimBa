@@ -1,0 +1,6 @@
+similar_words_ratio
+{'scifact': 0.328, 'nf': 0.181}
+['all-mpnet-base-v2', 'multi-qa-mpnet-base-dot-v1']
+[0.5006683793712212, 0.5757735180160879]
+{'nf': {'all-mpnet-base-v2': 0.333, 'multi-qa-mpnet-base-dot-v1': 0.325}, 'scifact': {'all-mpnet-base-v2': 0.665, 'multi-qa-mpnet-base-dot-v1': 0.613}}
+[0.24450000000000002, 0.2145]

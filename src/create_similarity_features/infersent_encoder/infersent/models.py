@@ -204,7 +204,7 @@ class InferSent(nn.Module):
 
         # sort by decreasing length
         lengths, idx_sort = np.sort(lengths)[::-1], np.argsort(-lengths)
-        sentences = np.array(sentences)[idx_sort]
+        sentences = np.array(sentences, dtype="object")[idx_sort]
 
         return sentences, lengths, idx_sort
 
