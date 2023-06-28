@@ -1,0 +1,20 @@
+\begin{table}[h]
+\caption{Correlation of all-mpnet-base-v2 with other features.}
+\label{table:ensemble_all-mpnet-base-v2}
+\begin{tabular}{c|c}
+$Similarity Score$ & $Correlation$ & $Improvement$ \\
+multi-qa-mpnet-base-dot-v1 & 0.851 & 0.006 \\
+all-distilroberta-v1 & 0.886 & 0.018 \\
+sentence-transformers/sentence-t5-base & 0.683 & 0.015 \\
+princeton-nlp/unsup-simcse-roberta-base & 0.501 & -0.003 \\
+princeton-nlp/sup-simcse-roberta-large & 0.541 & 0.001 \\
+https://tfhub.dev/google/universal-sentence-encoder/4 & 0.545 & -0.009 \\
+infersent & 0.278 & -0.090 \\
+synonym_similarity & 0.195 & -0.020 \\
+ne_similarity & 0.342 & -0.072 \\
+similar_words_ratio & 0.430 & -0.013 \\
+sequence_matching & 0.353 & -0.156 \\
+levenshtein & 0.310 & -0.118 \\
+\end{tabular}
+\end{table}
+

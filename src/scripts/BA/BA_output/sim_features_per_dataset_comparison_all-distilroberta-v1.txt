@@ -1,0 +1,30 @@
+\begin{table}[h]
+\caption{Scores for Datasets produced by all-distilroberta-v1}
+\label{table:score_per_dataset_all-distilroberta-v1}
+\begin{tabular}{c|c}
+$Dataset$ & $Score$ \\
+clef_2020_checkthat_2_english & 0.943 \\
+clef_2022_checkthat_2a_english & 0.910 \\
+clef_2021_checkthat_2a_english & 0.845 \\
+scifact & 0.603 \\
+cqa_dupstack_gaming & 0.559 \\
+cqa_dupstack_android & 0.500 \\
+cqa_dupstack_english & 0.494 \\
+cqa_dupstack_physics & 0.458 \\
+cqa_dupstack_unix & 0.419 \\
+cqa_dupstack_webmasters & 0.399 \\
+cqa_dupstack_programmers & 0.399 \\
+cqa_dupstack_gis & 0.395 \\
+fiqa & 0.389 \\
+clef_2022_checkthat_2b_english & 0.386 \\
+arguana & 0.346 \\
+cqa_dupstack_stats & 0.340 \\
+clef_2021_checkthat_2b_english & 0.334 \\
+cqa_dupstack_wordpress & 0.320 \\
+cqa_dupstack_tex & 0.302 \\
+cqa_dupstack_mathematica & 0.290 \\
+nf & 0.280 \\
+scidocs & 0.201 \\
+\end{tabular}
+\end{table}
+

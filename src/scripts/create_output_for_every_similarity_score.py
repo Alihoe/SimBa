@@ -22,7 +22,7 @@ def run():
                            ('-referential_similarity_measures', "ne_similarity"),
                            ('-lexical_similarity_measures', "similar_words_ratio"),
                            ('-string_similarity_measures', "sequence_matching"),
-                           ('-string_similarity_measures', "levenshtein")                            ]
+                           ('-string_similarity_measures', "levenshtein")]
 
     columns = ['Dataset', 'Number of Queries', 'Number of Targets', 'Average Query Length', 'Average Target Length', 'Score']
     for similarity_feature in similarity_features:

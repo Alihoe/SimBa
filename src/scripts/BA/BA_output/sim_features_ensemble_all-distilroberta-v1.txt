@@ -1,0 +1,20 @@
+\begin{table}[h]
+\caption{Correlation of all-distilroberta-v1 with other features.}
+\label{table:ensemble_all-distilroberta-v1}
+\begin{tabular}{c|c|c}
+$Similarity Feature$ & $Correlation$ & $Improvement$ \\
+all-mpnet-base-v2 & 0.886 & 0.033 \\
+multi-qa-mpnet-base-dot-v1 & 0.808 & 0.029 \\
+sentence-transformers/sentence-t5-base & 0.684 & 0.019 \\
+princeton-nlp/unsup-simcse-roberta-base & 0.535 & -0.006 \\
+princeton-nlp/sup-simcse-roberta-large & 0.578 & 0.001 \\
+https://tfhub.dev/google/universal-sentence-encoder/4 & 0.569 & -0.008 \\
+infersent & 0.314 & -0.085 \\
+synonym_similarity & 0.213 & -0.017 \\
+ne_similarity & 0.359 & -0.072 \\
+similar_words_ratio & 0.449 & -0.016 \\
+sequence_matching & 0.362 & -0.146 \\
+levenshtein & 0.328 & -0.105 \\
+\end{tabular}
+\end{table}
+

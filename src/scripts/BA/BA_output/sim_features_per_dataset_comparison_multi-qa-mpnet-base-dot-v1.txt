@@ -1,0 +1,30 @@
+\begin{table}[h]
+\caption{Scores for Datasets produced by multi-qa-mpnet-base-dot-v1}
+\label{table:score_per_dataset_multi-qa-mpnet-base-dot-v1}
+\begin{tabular}{c|c}
+$Dataset$ & $Score$ \\
+clef_2020_checkthat_2_english & 0.946 \\
+clef_2021_checkthat_2a_english & 0.917 \\
+clef_2022_checkthat_2a_english & 0.917 \\
+scifact & 0.558 \\
+cqa_dupstack_gaming & 0.482 \\
+cqa_dupstack_android & 0.435 \\
+fiqa & 0.431 \\
+cqa_dupstack_english & 0.402 \\
+cqa_dupstack_physics & 0.378 \\
+cqa_dupstack_unix & 0.378 \\
+cqa_dupstack_programmers & 0.375 \\
+clef_2022_checkthat_2b_english & 0.368 \\
+cqa_dupstack_webmasters & 0.363 \\
+arguana & 0.361 \\
+cqa_dupstack_gis & 0.351 \\
+clef_2021_checkthat_2b_english & 0.318 \\
+nf & 0.312 \\
+cqa_dupstack_stats & 0.312 \\
+cqa_dupstack_wordpress & 0.298 \\
+cqa_dupstack_mathematica & 0.268 \\
+cqa_dupstack_tex & 0.261 \\
+scidocs & 0.138 \\
+\end{tabular}
+\end{table}
+
